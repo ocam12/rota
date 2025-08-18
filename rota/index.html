@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel = "stylesheet" href = "styles.css">
+    </head>
+
+    <body>
+        <nav>
+            <a class = "hamburger-button"><img src = "img/hamburger-menu.svg" width = "100%"></a>
+            <p>Rota Generator</p>
+            <div class = "nav-side-content">
+                <button class = "nav-button" id = "load">Load</button>
+                <button class = "nav-button" id = "new">New</button>
+            </div>
+        </nav>
+        <main>
+            <div id = "mainSection">
+                <div class = "new-staff hidden">
+                    <h3>Add Staff</h3>
+                    <input type = "text" class = "name-input">
+                    <input type = "number" min = "0" class = "hours-input">
+                    <button>Add Employee</button>
+                </div>
+                <div id = "rotaOptions">
+                    <select id = "staffSelect">
+                        <option value = "">Select Employee</option>
+                    </select>
+                    <div id = "holidayList">
+
+                    </div>
+                    <div class = "calendar-container hidden">
+                        <input type = "date" id = "startDate">
+                        <input type = "date" id = "endDate">
+                        <button class = "add-holiday-button">Add Holiday</button>
+                    </div>
+                    <select id = "shiftSelect">
+                        <option value = "" selected>Select Day</option>
+                        <option value = "Monday">Monday</option>
+                        <option value = "Tuesday">Tuesday</option>
+                        <option value = "Wednesday">Wednesday</option>
+                        <option value = "Thursday">Thursday</option>
+                        <option value = "Friday">Friday</option>
+                        <option value = "Saturday">Saturday</option>
+                        <option value = "Sunday">Sunday</option>
+                    </select>
+                    <div id = "shiftsList">
+
+                    </div>
+                    <div class = "time-container hidden">
+                        <input type = "time" id = "startTime">
+                        <input type = "time" id = "endTime">
+                        <button class = "add-shift-button">Add Shift</button>
+                    </div>
+                    <button id = "openStaffButton">Add Employee</button>
+                    <button id = "generateButton">Generate Current Week</button>
+                    <button id = "generateAllButton">Generate All</button>
+                </div>
+                <div class = "table-container">
+                    <div class = "next-prev-container">
+                        <button id = "prevRota">Prev</button>
+                        <p id = "currentWeek">Week 1</p>
+                        <button id = "nextRota">Next</button>
+                    </div>
+                    <div class = "new-group hidden">
+                        <h3>Add New Group</h3>
+                        <p>Group Name:</p>
+                        <input type = "text" id = "newGroupName">
+                        <p>Start Date:</p>
+                        <input type = "date" id = "newGroupDate">
+                        <p>Duration (Weeks):</p>
+                        <input type = "number" id = "newGroupDuration">
+                        <button>Create</button>
+                    </div>
+                    <div class = "load-group hidden">
+                        <h3>Load Group</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Early</th>
+                                <th>Mid</th>
+                                <th>Late</th>
+                            </tr>
+                        </thead>
+                        <tbody id = "rota-body"></tbody>
+                    </table>
+                </div>
+                
+            </div>
+            
+        </main>
+        
+
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+        <script type = "module" src = "main.js"></script>
+    </body>
+</html>
