@@ -14,7 +14,7 @@ export const shiftLength = (shift) => {
 export const overlappingShifts = (person, newShift) => {    //returns true if person is already working on day of newShift
     let overlap = false;
     person.assignedShifts.forEach(s => {
-        if (s === newShift.day){
+        if (s.day === newShift.day){
             overlap = true;
         }
     });
@@ -49,7 +49,6 @@ export const generateShifts = (startDate) => {
             });
         });
     }
-    console.log(shifts);
     return shifts;
 }
 
@@ -73,34 +72,43 @@ export const getDaysUnavailable = (person, startDate) => {
     return daysUnavialable;
 }
 
-export const setStaffPriority = (startDate) => {
+export const setStaffPriority = (startDate, week) => {
     currentStaff.forEach(person => {
         const daysUnavialable = getDaysUnavailable(person, startDate);
         const unvailableBonus = daysUnavialable * 10;
 
-        if (person.contractedHours > 0 && person.assignedHours < person.contractedHours){
-            person.priority = 1000 + unvailableBonus;
+        if (person.contractedHours > 0 && person.assignedHours[week] < person.contractedHours){
+            newPriority(person, 1000 + unvailableBonus, week);
         }
-        else if (person.contractedHours > 0 && person.assignedHours >= person.contractedHours){
-            person.priority = 0;
+        else if (person.contractedHours > 0 && person.assignedHours[week] >= person.contractedHours){
+            newPriority(person, 0, week);
         }
         else {
-            let priority = 100 - person.assignedHours;
-            let randomBonus = Math.floor(Math.random() * 11);
-            person.priority = priority + randomBonus;
+            let priority = 100 - person.assignedHours[week];
+            //let randomBonus = Math.floor(Math.random() * 2);
+            newPriority(person, priority, week);
         }
     });
 }
 
-export const orderStaffByPriority = (startDate) => {
-    setStaffPriority(startDate);
+const newPriority = (person, priorityAmount, week) => {
+    if(person.priority[week] !== undefined){
+        person.priority[week] = priorityAmount;
+    }
+    else{
+        person.priority.push(priorityAmount);
+    }
+}
+
+export const orderStaffByPriority = (startDate, week) => {
+    setStaffPriority(startDate, week);
     let orderedStaff = currentStaff;
     let n = orderedStaff.length;
     let swapped;
     do {
         swapped = false;
         for (let i = 0; i < n - 1; i++) {
-            if (orderedStaff[i].priority < orderedStaff[i + 1].priority || (orderedStaff[i].priority === orderedStaff[i + 1].priority && Math.random() < 0.5)) {
+            if (orderedStaff[i].priority[week] < orderedStaff[i + 1].priority[week] || (orderedStaff[i].priority[week] === orderedStaff[i + 1].priority[week] && Math.random() < 0.5)) {
                 //swap positions
                 [orderedStaff[i], orderedStaff[i + 1]] = [orderedStaff[i + 1], orderedStaff[i]];
                 swapped = true;
@@ -169,10 +177,16 @@ export const sortRandomShiftsByLength = (randomshifts) => {
     return randomshifts;
 }
 
-export const clearStaffShifts = () => {
+export const clearStaffShifts = (week) => {
     currentStaff.forEach(person => {
         person.assignedShifts = [];
-        person.assignedHours = 0;
+        if(person.assignedHours[week] !== undefined){
+            person.totalHours -= person.assignedHours[week];
+            person.assignedHours[week] = 0;
+        }
+        else{
+            person.assignedHours.push(0);
+        }
     });
 }
 

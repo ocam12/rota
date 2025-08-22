@@ -5,6 +5,7 @@ body{
 
 p{
     margin: 0;
+    padding: 0;
 }
 
 nav{
@@ -12,12 +13,14 @@ nav{
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: 1px solid grey;
+    background-color: rgb(20, 20, 20);
+    border-bottom: 1px solid rgb(255, 255, 255);
     height: 100px;
 }
 
 nav p{
     font-size: 35px;
+    color: white;
 }
 
 .hamburger-button{
@@ -26,26 +29,31 @@ nav p{
     left: 30px;
     top: 25%;
     cursor: pointer;
+    transition: 0.2s ease;
+}
+.hamburger-button:hover{
+    scale: 1.04;
 }
 
 .nav-side-content{
     position: absolute;
     right: 30px;
-    top: 25%;
 }
 
 .nav-button{
-    padding: 10px 20px;
+    padding: 5px 20px;
     font-size: 20px;
     background-color: transparent;
-    border: 2px solid black;
-    border-radius: 30px;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: white;
     cursor: pointer;
     margin-left: 20px;
+    transition: 0.4s ease;
 }
 
 .nav-button:hover{
-    scale: 102%;
+    border-bottom: 2px solid rgb(255, 255, 255);
 }
 
 .nav-button:active{
@@ -55,7 +63,7 @@ nav p{
 #mainSection{
     position: relative;
     display: flex;
-    gap: 20px;
+    height: calc(100vh - 100px);
 }
 
 .new-staff{
@@ -86,25 +94,113 @@ nav p{
     overflow: scroll;
     flex-shrink: 0;
     padding-top: 60px;
+    background-color: rgb(34, 34, 34);
+    color: white;
 }
 
 #rotaOptions select{
+    appearance: none;
+    padding: 5px;
     font-size: 20px;
     height: 50px;
-    width: 300px;
+    width: 200px;
     border: 1px solid black;
     background-color: white;
+}
+
+#holidayList{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 16px;
+}
+
+.holiday-container{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.delete-holiday-button{
+    font-size: 16px;
+    background-color: transparent;
+    color: rgb(255, 65, 65);
+    border: 1px solid transparent;
+    border-radius: 0px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.delete-holiday-button:hover{
+    border-bottom: 1px solid rgb(255, 65, 65);
+}
+
+.delete-shift-button{
+    background-color: transparent;
+    color: rgb(255, 65, 65);
+    border: 1px solid transparent;
+    border-radius: 0px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.delete-shift-button:hover{
+    border-bottom: 1px solid rgb(255, 65, 65);
+}
+
+.delete-employee-button{
+    font-size: 16px;
+    background-color: transparent;
+    color: rgb(255, 65, 65);
+    border: 1px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+.delete-employee-button:hover{
+    border: 1px solid rgb(255, 65, 65);
 }
 
 .calendar-container{
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 30px;
+    gap: 10px;
+    width: 100%;
+    border-bottom: 1px solid white;
+    padding-bottom: 20px;
 }
 
 .calendar-container-hidden{
     display: none;
+}
+
+.calendar-container input{
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    padding: 5px 8px;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+}
+
+.calendar-container button{
+    font-size: 16px;
+    border-radius: 0px;
+    border: none;
+    border-bottom: 1px solid transparent;
+    padding: 5px 2px;
+    background-color: rgba(255, 255, 255, 0);
+    color: white;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.calendar-container button:hover{
+    border-bottom: 1px solid white;
 }
 
 .time-container{
@@ -118,15 +214,41 @@ nav p{
     display: none;
 }
 
+.time-container input{
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    padding: 5px 8px;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+}
+
+.time-container button{
+    font-size: 16px;
+    border-radius: 0px;
+    border: none;
+    border-bottom: 1px solid transparent;
+    padding: 5px 2px;
+    background-color: rgba(255, 255, 255, 0);
+    color: white;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.time-container button:hover{
+    border-bottom: 1px solid white;
+}
+
 .table-container{
-    position: relative;
     flex: 3;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     border-left: 1px solid grey;
-    overflow: hidden;
+    overflow: scroll;
+    padding: 20px 0px;
 }
 
 .holiday-container{
@@ -139,11 +261,26 @@ nav p{
     gap: 20px;
 }
 
+#openStaffButton, #generateButton, #generateAllButton, #fillShifts{
+    font-size: 24px;
+    padding: 4px 10px;
+    border: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 0px;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+#openStaffButton:hover, #generateButton:hover, #generateAllButton:hover, #fillShifts:hover{
+    border-bottom: 2px solid white;
+}
+
 table{
-    margin-top: 60px;
     border: 1px solid black;
     border-collapse: collapse;
-    width: 80%;
+    width: 800px;
 }
 
 th{
@@ -152,22 +289,59 @@ th{
 }
 
 td{
-    padding: 15px;
+    padding: 5px;
     border: 1px solid black;
     vertical-align: top;
-    line-height: 35px;
+    line-height: 20px;
+}
+
+.new-staff-select{
+    appearance: none;
+    display: block;
+    font-size: 16px;
+    padding: 10px 10px;
 }
 
 .new-group{
     position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    font-size: 26px;
     background-color: white;
-    border: 1px solid black;
+    border: 3px solid rgb(24, 24, 24);
     border-radius: 20px;
     padding: 20px 60px;
+    z-index: 100;
+}
+
+.new-group input{
+    font-size: 16px;
+    border-radius: 0px;
+    border: none;
+    border-bottom: 1px solid black;
+    padding: 5px 8px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.new-group button{
+    font-size: 22px;
+    border-radius: 0px;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 2px 8px;
+    background-color: transparent;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.new-group button:hover{
+    border-bottom: 2px solid rgb(25, 25, 25);
 }
 
 .new-group-hidden{
@@ -176,18 +350,28 @@ td{
 
 .load-group{
     position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    font-size: 26px;
     background-color: white;
-    border: 1px solid black;
+    border: 3px solid rgb(24, 24, 24);
     border-radius: 20px;
     padding: 20px 60px;
+    z-index: 100;
 }
 
 .load-group p{
+    border-bottom: 2px solid transparent;
     cursor: pointer;
+    transition: 0.2s ease;
+}
+.load-group p:hover{
+    border-bottom: 2px solid rgb(25, 25, 25);
 }
 
 .hidden{
@@ -196,5 +380,44 @@ td{
 
 .next-prev-container{
     display: flex;
-    gap: 30px;
+    align-items: center;
+    gap: 150px;
+    margin-bottom: 20px;
+}
+
+.next-prev-container p{
+    font-size: 30px;
+}
+
+#nextRota, #prevRota{
+    font-size: 26px;
+    border-radius: 0px;
+    border: none;
+    border-bottom: 2px solid rgba(24, 24, 24, 0);
+    padding: 2px 2px;
+    background-color: rgba(255, 255, 255, 0);
+    color: rgb(24, 24, 24);
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+#nextRota:hover{
+    border-bottom: 2px solid rgb(24, 24, 24);
+}
+
+#prevRota:hover{
+    border-bottom: 2px solid rgb(24, 24, 24);
+}
+
+#currentStats{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#currentStats table{
+    width: 600px;
+}
+#currentStats table tbody td{
+    width: 100px;
 }

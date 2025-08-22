@@ -1,26 +1,28 @@
 import { assignStaff } from "./assignment.js";
+import { currentGroup } from "./main.js";
+import { render } from "./rotaHandler.js";
 import { orderStaffByName } from "./utils.js";
 
 export const staff = [
-    { id: 1, name: 'Alex K', contractedHours: 0, assignedHours: 0, totalHours: 0, holidays: [{id: 'test1', start: "2025-08-10", end: "2025-08-24"}], assignedShifts: [], priority: 0},
-    { id: 2, name: 'Alex VC', contractedHours: 15, assignedHours: 0, totalHours: 0, holidays: [{id: 'test2', start: "2025-06-02", end: "2025-06-06"}], assignedShifts: [], priority: 0},
-    { id: 3, name: 'Archie', contractedHours: 15, assignedHours: 0, totalHours: 0, holidays: [], assignedShifts: [], priority: 0},
-    { id: 4, name: 'Ben', contractedHours: 0, assignedHours: 0, totalHours: 0, holidays: [], assignedShifts: [], priority: 0},
-    { id: 5, name: 'Beth', contractedHours: 0, assignedHours: 0, totalHours: 0, holidays: [], assignedShifts: [], priority: 0},
-    { id: 6, name: 'Carol', contractedHours: 0, assignedHours: 0, totalHours: 0, holidays: [], assignedShifts: [], priority: 0},
-    { id: 7, name: 'Dylan', contractedHours: 15, assignedHours: 0, totalHours: 0, holidays: [], assignedShifts: [], priority: 0},
-    { id: 8, name: 'Eleni', contractedHours: 0, assignedHours: 0, totalHours: 0, holidays: [], assignedShifts: [], priority: 0},
-    { id: 9, name: 'Grace', contractedHours: 15, assignedHours: 0, totalHours: 0, holidays: [{id: 'test3', start: "2025-06-04", end: "2025-06-09"}], assignedShifts: [], priority: 0},
-    { id: 10, name: 'Izzy', contractedHours: 0, assignedHours: 0, totalHours: 0, holidays: [], assignedShifts: [], priority: 0},
-    { id: 11, name: 'Josh', contractedHours: 15, assignedHours: 0, totalHours: 0, holidays: [], assignedShifts: [], priority: 0},
-    { id: 12, name: 'Keira', contractedHours: 0, assignedHours: 0, totalHours: 0, holidays: [], assignedShifts: [], priority: 0},
-    { id: 13, name: 'Lauren', contractedHours: 0, assignedHours: 0, totalHours: 0, holidays: [], assignedShifts: [], priority: 0},
-    { id: 14, name: 'Nick', contractedHours: 15, assignedHours: 0, totalHours: 0, holidays: [], assignedShifts: [], priority: 0},
-    { id: 15, name: 'Richard', contractedHours: 0, assignedHours: 0, totalHours: 0, holidays: [], assignedShifts: [], priority: 0},
-    { id: 16, name: 'Sean', contractedHours: 0, assignedHours: 0, totalHours: 0, holidays: [], assignedShifts: [], priority: 0},
-    { id: 17, name: 'Thea', contractedHours: 0, assignedHours: 0, totalHours: 0, holidays: [], assignedShifts: [], priority: 0},
-    { id: 18, name: 'Tilly', contractedHours: 0, assignedHours: 0, totalHours: 0, holidays: [], assignedShifts: [], priority: 0},
-    { id: 19, name: 'Will', contractedHours: 0, assignedHours: 0, totalHours: 0, holidays: [], assignedShifts: [], priority: 0}
+    { id: 1, name: 'Alex K', contractedHours: 0, assignedHours: [], totalHours: 0, holidays: [{id: 'test1', start: "2025-05-19", end: "2025-05-19"}], assignedShifts: [], priority: []},
+    { id: 2, name: 'Alex VC', contractedHours: 15, assignedHours: [], totalHours: 0, holidays: [{id: 'test2', start: "2025-05-19", end: "2025-06-06"}], assignedShifts: [], priority: []},
+    { id: 3, name: 'Archie', contractedHours: 15, assignedHours: [], totalHours: 0, holidays: [{id: 'test1', start: "2025-05-19", end: "2025-05-19"}], assignedShifts: [], priority: []},
+    { id: 4, name: 'Ben', contractedHours: 0, assignedHours: [], totalHours: 0, holidays: [{id: 'test1', start: "2025-05-19", end: "2025-05-19"}], assignedShifts: [], priority: []},
+    { id: 5, name: 'Beth', contractedHours: 0, assignedHours: [], totalHours: 0, holidays: [{id: 'test1', start: "2025-05-19", end: "2025-05-19"}], assignedShifts: [], priority: []},
+    { id: 6, name: 'Carol', contractedHours: 0, assignedHours: [], totalHours: 0, holidays: [{id: 'test1', start: "2025-05-19", end: "2025-05-19"}], assignedShifts: [], priority: []},
+    { id: 7, name: 'Dylan', contractedHours: 15, assignedHours: [], totalHours: 0, holidays: [{id: 'test1', start: "2025-05-19", end: "2025-05-19"}], assignedShifts: [], priority: []},
+    { id: 8, name: 'Eleni', contractedHours: 0, assignedHours: [], totalHours: 0, holidays: [{id: 'test1', start: "2025-05-19", end: "2025-05-19"}], assignedShifts: [], priority: []},
+    { id: 9, name: 'Grace', contractedHours: 15, assignedHours: [], totalHours: 0, holidays: [{id: 'test3', start: "2025-06-04", end: "2025-06-09"}], assignedShifts: [], priority: []},
+    { id: 10, name: 'Izzy', contractedHours: 0, assignedHours: [], totalHours: 0, holidays: [{id: 'test1', start: "2025-05-19", end: "2025-05-19"}], assignedShifts: [], priority: []},
+    { id: 11, name: 'Josh', contractedHours: 15, assignedHours: [], totalHours: 0, holidays: [{id: 'test1', start: "2025-05-19", end: "2025-05-19"}], assignedShifts: [], priority: []},
+    { id: 12, name: 'Keira', contractedHours: 0, assignedHours: [], totalHours: 0, holidays: [{id: 'test1', start: "2025-05-19", end: "2025-05-19"}], assignedShifts: [], priority: []},
+    { id: 13, name: 'Lauren', contractedHours: 0, assignedHours: [], totalHours: 0, holidays: [{id: 'test1', start: "2025-05-19", end: "2025-05-19"}], assignedShifts: [], priority: []},
+    { id: 14, name: 'Nick', contractedHours: 15, assignedHours: [], totalHours: 0, holidays: [{id: 'test1', start: "2025-05-19", end: "2025-05-19"}], assignedShifts: [], priority: []},
+    { id: 15, name: 'Richard', contractedHours: 0, assignedHours: [], totalHours: 0, holidays: [{id: 'test1', start: "2025-05-19", end: "2025-05-19"}], assignedShifts: [], priority: []},
+    { id: 16, name: 'Sean', contractedHours: 0, assignedHours: [], totalHours: 0, holidays: [{id: 'test1', start: "2025-05-19", end: "2025-05-19"}], assignedShifts: [], priority: []},
+    { id: 17, name: 'Thea', contractedHours: 0, assignedHours: [], totalHours: 0, holidays: [{id: 'test1', start: "2025-05-19", end: "2025-05-19"}], assignedShifts: [], priority: []},
+    { id: 18, name: 'Tilly', contractedHours: 0, assignedHours: [], totalHours: 0, holidays: [], assignedShifts: [], priority: []},
+    { id: 19, name: 'Will', contractedHours: 0, assignedHours: [], totalHours: 0, holidays: [], assignedShifts: [], priority: []}
 ];
 
 export const shiftPatterns = {
@@ -65,7 +67,7 @@ export const shiftPatterns = {
     ],
     Sunday: [
         {id: 'sun1', start: '08:15', end: '13:00'},
-        {id: 'sun2', start: '8:45', end: '17:00'},
+        {id: 'sun2', start: '08:45', end: '17:00'},
         {id: 'sun3', start: '13:30', end: '18:45'},
     ]
 };
@@ -81,7 +83,7 @@ export const shiftTemplate = {
 };
 
 export const groups = [
-    {id: 1, name: 'COASP', staff: staff, rotas: [], shifts: shiftPatterns, startDate: "2025-05-19", duration: 18, currentRota: 0},
+    {id: 1, name: 'COASP', staff: staff, rotas: [], shifts: shiftPatterns, startDate: "2025-05-19", duration: 2, currentRota: 0},
     {id: 2, name: 'Freedom', staff: [], rotas: [], shifts: shiftTemplate, startDate: "2025-05-19", duration: 1, currentRota: 0}
 ];
 
@@ -102,7 +104,7 @@ export const deleteShift = (group, day, id) => {
 }
 
 export const addStaff = (group, pName, pHours) => {
-    const newEmployee = {id: `${Math.random().toString(36).substring(2, 9)}`, name: pName, contractedHours: pHours, assignedHours: 0, totalHours: 0, holidays: [], assignedShifts: [], priority: 0};
+    const newEmployee = {id: `${Math.random().toString(36).substring(2, 9)}`, name: pName, contractedHours: pHours, assignedHours: new Array(group.duration).fill(0), totalHours: 0, holidays: [], assignedShifts: [], priority: 0};
     group.staff.push(newEmployee);
     group.staff = orderStaffByName(group.staff);
 }

@@ -1,6 +1,8 @@
 import { currentGroup } from "./main.js";
 import { addEvent } from "./options.js";
 import { renderRota } from "./visualGenerator.js";
+import { displayCurrentStats } from "./stats.js";
+import { performErrorChecks } from "./rotaChecker.js";
 
 export const displayFirstRota = () => {
     if (currentGroup.rotas.length > 0){
@@ -10,7 +12,6 @@ export const displayFirstRota = () => {
 }
 
 export const nextRota = () => {
-    console.log(currentGroup.rotas.length);
     if (currentGroup.currentRota < currentGroup.rotas.length - 1){
         currentGroup.currentRota++;
         render(currentGroup.currentRota);
@@ -24,8 +25,10 @@ export const prevRota = () => {
     }
 }
 
-const render = (index) => {
+export const render = (index) => {
     renderRota(currentGroup.rotas[index], index);
+    displayCurrentStats();
+    performErrorChecks();
 }
 
 const nextRotaButton = document.getElementById('nextRota');

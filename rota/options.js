@@ -46,7 +46,7 @@ const staffSelected = (staffName) => {
         addEvent(addHolidayButton, 'click', addNewHoliday, [selectedPerson]);
         showCalendar();
 
-        const deleteStaffButton = createNewElement('button', {classes: [], text: 'Delete Employee'}, []);
+        const deleteStaffButton = createNewElement('button', {classes: ['delete-employee-button'], text: 'Delete Employee'}, []);
         addEvent(deleteStaffButton, 'click', deleteOldStaff, [selectedPerson]);
         holidayList.appendChild(deleteStaffButton);
     }
@@ -59,7 +59,7 @@ const addNewHoliday = (selectedPerson) => {
     const start = document.getElementById('startDate');
     const end = document.getElementById('endDate');
 
-    if (start.value && end.value && new Date(start.value) < new Date(end.value)){
+    if (start.value && end.value && new Date(start.value) <= new Date(end.value)){
         addHoliday(currentGroup, selectedPerson, start.value, end.value);
         staffSelected(selectedPerson.name);
     }
@@ -171,7 +171,6 @@ export const clearContainer = (container) => {      //shortcut for clearing inne
 }
 
 export const resetPage = () => {        //resets all options back to original when rotas selected
-    console.log(currentStaff);
     fillStaffSelect();
     fillShiftSelect();
     
@@ -187,12 +186,16 @@ export const resetPage = () => {        //resets all options back to original wh
 export const initialiseAddStaff = () => {
     const newStaffContainer = document.querySelector('.new-staff');
     const openNewStaffButton = document.getElementById('openStaffButton');
-    addEvent(openNewStaffButton, 'click', () => { showElement(newStaffContainer); });
+    const cloneOfNewButton = openNewStaffButton.cloneNode(true);
+    openNewStaffButton.replaceWith(cloneOfNewButton);
+    addEvent(cloneOfNewButton, 'click', () => { showElement(newStaffContainer); });
 
     const nameInput = newStaffContainer.querySelector('.name-input');
     const hoursInput = newStaffContainer.querySelector('.hours-input');
     const addEmployeeButton  = newStaffContainer.getElementsByTagName('button')[0];
-    addEvent(addEmployeeButton, 'click', addNewStaff, [nameInput, hoursInput, newStaffContainer]);
+    const cloneOfAddButton = openNewStaffButton.cloneNode(true);
+    addEmployeeButton.replaceWith(cloneOfAddButton);
+    addEvent(cloneOfAddButton, 'click', addNewStaff, [nameInput, hoursInput, newStaffContainer]);
 }
 
 export const addNewStaff = (nameInput, hoursInput, container) => {

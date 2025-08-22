@@ -6,7 +6,7 @@
 
     <body>
         <nav>
-            <a class = "hamburger-button"><img src = "img/hamburger-menu.svg" width = "100%"></a>
+            <a class = "hamburger-button"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 512 512"><path fill="#ffffff" d="M32 96v64h448V96H32zm0 128v64h448v-64H32zm0 128v64h448v-64H32z"/></svg></a>
             <p>Rota Generator</p>
             <div class = "nav-side-content">
                 <button class = "nav-button" id = "load">Load</button>
@@ -14,6 +14,19 @@
             </div>
         </nav>
         <main>
+            <div class = "new-group hidden">
+                <h3>Add New Group</h3>
+                <p>Group Name:</p>
+                <input type = "text" id = "newGroupName">
+                <p>Start Date:</p>
+                <input type = "date" id = "newGroupDate">
+                <p>Duration (Weeks):</p>
+                <input type = "number" id = "newGroupDuration">
+                <button>Create</button>
+            </div>
+            <div class = "load-group hidden">
+                <h3>Load Group:</h3>
+            </div>
             <div id = "mainSection">
                 <div class = "new-staff hidden">
                     <h3>Add Staff</h3>
@@ -53,26 +66,14 @@
                     </div>
                     <button id = "openStaffButton">Add Employee</button>
                     <button id = "generateButton">Generate Current Week</button>
-                    <button id = "generateAllButton">Generate All</button>
+                    <button id = "generateAllButton">Generate All Weeks</button>
+                    <button id = "fillShifts">Fill Remaining Shifts</button>
                 </div>
                 <div class = "table-container">
                     <div class = "next-prev-container">
-                        <button id = "prevRota">Prev</button>
+                        <button id = "prevRota">←Prev</button>
                         <p id = "currentWeek">Week 1</p>
-                        <button id = "nextRota">Next</button>
-                    </div>
-                    <div class = "new-group hidden">
-                        <h3>Add New Group</h3>
-                        <p>Group Name:</p>
-                        <input type = "text" id = "newGroupName">
-                        <p>Start Date:</p>
-                        <input type = "date" id = "newGroupDate">
-                        <p>Duration (Weeks):</p>
-                        <input type = "number" id = "newGroupDuration">
-                        <button>Create</button>
-                    </div>
-                    <div class = "load-group hidden">
-                        <h3>Load Group</h3>
+                        <button id = "nextRota">Next→</button>
                     </div>
                     <table>
                         <thead>
@@ -87,6 +88,22 @@
                     </table>
                 </div>
                 
+            </div>
+            <div id = "currentStats">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>Contracted Hours</th>
+                            <th>Current Week Hours</th>
+                            <th>Total Hours</th>
+                        </tr>
+                    </thead>
+                    <tbody id = "statsBody"></tbody>
+                </table>
+            </div>
+            <div id = "totalStats">
+
             </div>
             
         </main>

@@ -1,4 +1,5 @@
-import { currentGroup, currentStaff, updateShifts } from "./main.js";
+import { currentGroup, currentStaff, swapShifts } from "./main.js";
+import { initialiseSelects } from "./rotaEditing.js";
 import { addNumberOfDays, addNumberOfWeeks } from "./utils.js";
 
 export const renderRota = (shifts, currentRota) => {
@@ -15,16 +16,31 @@ export const renderRota = (shifts, currentRota) => {
     tbody.innerHTML = "";
 
     shiftsByDay.forEach(shift => {
+        const early = [];
+        const mid = [];
+        const late = [];
+        shift.daysShifts.forEach(s => {
+            if (s.end <= '13:00'){
+                early.push(s);
+            }else if (s.start >= '13:30' && s.end > '18:00'){
+                late.push(s);
+            }
+            else{
+                mid.push(s);
+            }
+        });
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
         <td><strong>${shift.day + ' ' + shift.date.slice(8, 10) + '/' + shift.date.slice(5, 7)}</strong></td>
-        <td>${shift.daysShifts.filter(s => s.start <= '09:00').map(s => '<div id = "' + s.id + '">' + s.start + ' - ' + s.end + ': <span class = "sortable-container"><p class = "draggable">' + s.assignedTo + '</p></span></div>').join('<br>')}</td>
-        <td>${shift.daysShifts.filter(s => s.start > '09:00' && s.start < '13:00').map(s => '<div id = "' + s.id + '">' + s.start + ' - ' + s.end + ': <span class = "sortable-container"><p class = "draggable">' + s.assignedTo + '</p></span>').join('<br>')}</td>
-        <td>${shift.daysShifts.filter(s => s.start >= '13:00').map(s => '<div id = "' + s.id + '">' + s.start + ' - ' + s.end + ': <span class = "sortable-container"><p class = "draggable">' + s.assignedTo + '</p></span>').join('<br>')}</td>
+        <td>${early.map(s => '<div id = "' + s.id + '">' + s.start + ' - ' + s.end + `: <span class = "sortable-container"><p class = "${s.assignedTo === 'unassigned' ? 'unassigned' : ''} draggable selectable">` + s.assignedTo + '</p></span></div>').join('<br>')}</td>
+        <td>${mid.map(s => '<div id = "' + s.id + '">' + s.start + ' - ' + s.end + `: <span class = "sortable-container"><p class = "${s.assignedTo === 'unassigned' ? 'unassigned' : ''} draggable selectable">` + s.assignedTo + '</p></span></div>').join('<br>')}</td>
+        <td>${late.map(s => '<div id = "' + s.id + '">' + s.start + ' - ' + s.end + `: <span class = "sortable-container"><p class = "${s.assignedTo === 'unassigned' ? 'unassigned' : ''} draggable selectable">` + s.assignedTo + '</p></span></div>').join('<br>')}</td>
         `;
         tbody.appendChild(tr);
     });
-
+    
+    initialiseSelects();
     setTitle();
 
     const container = document.querySelectorAll("td span.sortable-container");
@@ -34,7 +50,15 @@ export const renderRota = (shifts, currentRota) => {
             animation: 150,
             ghostClass: 'sortable-ghost',
             group: 'shifts',
-            filter: 'br',
+            filter: '.unassigned, br',
+            onMove: (evt) => {      //cannot move names into shift is shift is unassigned
+                const targetContainer = evt.to;
+                const hasUnassigned = Array.from(targetContainer.children).some(c =>
+                    c.classList?.contains("unassigned")
+                );
+
+                if (hasUnassigned) return false;
+            },
             onEnd: (evt) => {
                 const movedEl = evt.item;
                 const toContainer = evt.to;
@@ -46,7 +70,7 @@ export const renderRota = (shifts, currentRota) => {
                     const oldEl = existing[0];
                     toContainer.replaceChild(movedEl, oldEl);
                     fromContainer.appendChild(oldEl);
-                    updateShifts(toContainer.parentElement.id, movedEl.innerText, fromContainer.parentElement.id, oldEl.innerText);
+                    swapShifts(toContainer.parentElement.id, movedEl.innerText, fromContainer.parentElement.id, oldEl.innerText);
                 }
             }
         });
