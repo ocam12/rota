@@ -1,7 +1,8 @@
 import { assignStaff } from "./assignment.js";
 import { currentGroup } from "./main.js";
+import { performErrorChecks } from "./rotaChecker.js";
 import { render } from "./rotaHandler.js";
-import { orderStaffByName } from "./utils.js";
+import { orderStaffByName, shiftLength } from "./utils.js";
 
 export const staff = [
     { id: 1, name: 'Alex K', contractedHours: 0, assignedHours: [], totalHours: 0, holidays: [{id: 'test1', start: "2025-05-19", end: "2025-05-19"}], assignedShifts: [], priority: []},
@@ -83,28 +84,63 @@ export const shiftTemplate = {
 };
 
 export const groups = [
-    {id: 1, name: 'COASP', staff: staff, rotas: [], shifts: shiftPatterns, startDate: "2025-05-19", duration: 2, currentRota: 0},
+    {id: 1, name: 'COASP', staff: staff, rotas: [], shifts: [structuredClone(shiftPatterns)], startDate: "2025-05-19", duration: 2, currentRota: 0},
     {id: 2, name: 'Freedom', staff: [], rotas: [], shifts: shiftTemplate, startDate: "2025-05-19", duration: 1, currentRota: 0}
 ];
 
-export const addHoliday = (group, person, start, end) => {
-    group.staff.find(p => p.name === person.name).holidays.push({id: `${person.name}-${Math.random().toString(36).substring(2, 9)}`, start: start, end: end})  //gives holiday unique, random id to be able to grab it later
+export const addHoliday = (group, person, start, end) => {      //adds new holiday to chosen person of chosen group via start and end dates
+    const holidays = group.staff.find(p => p.name === person.name).holidays;
+    if(checkHolidayInBetween(holidays, start, end)){return;}        //checks if new holiday between or before/after
+    if(checkHolidayBeforeAfter(holidays, start, end)){return;}
+    holidays.push({id: `${person.name}-${Math.random().toString(36).substring(2, 9)}`, start: start, end: end})  //gives holiday unique, random id to be able to grab it later
+    performErrorChecks();       //re-performs error checks
+}
+
+const checkHolidayInBetween = (holidays, start, end) => {        //prevents adding holiday if already coverd on both ends
+    let inBetween = false;
+    holidays.forEach(h => {
+        if (start >= h.start && end <= h.end){inBetween = true;}
+    });
+    return inBetween;
+}
+
+const checkHolidayBeforeAfter = (holidays, start, end) => {      //edits holidays if new holiday contains part or all of old holiday
+    let eitherEnd = false;
+    holidays.forEach(h => {
+        if(start <= h.start && end >= h.start ){
+            h.start = start;
+            eitherEnd = true;
+        }
+        if(end >= h.end && start <= h.end){
+            h.end = end;
+            eitherEnd = true;
+        }
+    });
+    return eitherEnd;
 }
 
 export const deleteHoliday = (group, person, id) => {
     group.staff.find(p => p.name === person.name).holidays = person.holidays.filter(h => h.id !== id);
+    performErrorChecks();
 }
 
 export const addShift = (group, day, start, end) => {
-    group.shifts[day].push({id: `${day}-${Math.random().toString(36).substring(2, 9)}`, start: start, end: end});  //gives shift unique, random id to be able to grab it later
+    if(!group.shifts[group.currentRota]){group.shifts.push(shiftTemplate);}
+    group.shifts[group.currentRota][day].push({id: `${day}-${Math.random().toString(36).substring(2, 9)}`, start: start, end: end});  //gives shift unique, random id to be able to grab it later
+    console.log(group.shifts);
 }
 
 export const deleteShift = (group, day, id) => {
-    group.shifts[day] = group.shifts[day].filter(s => s.id !== id);
+    group.shifts[group.currentRota][day] = group.shifts[group.currentRota][day].filter(s => s.id !== id);
+    const personName = group.rotas[group.currentRota].filter(s => s.patternId === id)[0].assignedTo;
+
+    removeShiftFromStaff(group, personName, group.rotas[group.currentRota].filter(s => s.patternId === id)[0]);
+    group.rotas[group.currentRota] = group.rotas[group.currentRota].filter(s => s.patternId !== id);
+    render(group.currentRota);
 }
 
 export const addStaff = (group, pName, pHours) => {
-    const newEmployee = {id: `${Math.random().toString(36).substring(2, 9)}`, name: pName, contractedHours: pHours, assignedHours: new Array(group.duration).fill(0), totalHours: 0, holidays: [], assignedShifts: [], priority: 0};
+    const newEmployee = {id: `${Math.random().toString(36).substring(2, 9)}`, name: pName, contractedHours: pHours, assignedHours: [], totalHours: 0, holidays: [], assignedShifts: [], priority: []};
     group.staff.push(newEmployee);
     group.staff = orderStaffByName(group.staff);
 }
@@ -116,4 +152,11 @@ export const deleteStaff = (group, pID) => {
 
 export const createGroup = (groupName, groupDate, groupDuration) => {
     groups.push({id: `${Math.random().toString(36).substring(2, 9)}`, name: groupName.value, staff: [], rotas: [], shifts: shiftTemplate, startDate: groupDate.value, duration: groupDuration.value, currentRota: 0});
+}
+
+const removeShiftFromStaff = (group, personName, shift) => {
+    const person = group.staff.find(s => s.name === personName);
+    person.assignedHours[group.currentRota] -= shiftLength(shift);
+    person.totalHours -= shiftLength(shift);
+    person.assignedShifts[group.currentRota] = person.assignedShifts[group.currentRota].filter(s => s.patternId !== shift.patternId);
 }

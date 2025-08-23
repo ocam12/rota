@@ -35,17 +35,20 @@
                     <button>Add Employee</button>
                 </div>
                 <div id = "rotaOptions">
-                    <select id = "staffSelect">
-                        <option value = "">Select Employee</option>
-                    </select>
-                    <div id = "holidayList">
+                    <div id = "staffOptions">
+                        <select id = "staffSelect">
+                            <option value = "">Select Employee</option>
+                        </select>
+                        <div id = "holidayList">
 
+                        </div>
+                        <div class = "calendar-container hidden">
+                            <input type = "date" id = "startDate">
+                            <input type = "date" id = "endDate">
+                            <button class = "add-holiday-button">Add Holiday</button>
+                        </div>
                     </div>
-                    <div class = "calendar-container hidden">
-                        <input type = "date" id = "startDate">
-                        <input type = "date" id = "endDate">
-                        <button class = "add-holiday-button">Add Holiday</button>
-                    </div>
+                    
                     <select id = "shiftSelect">
                         <option value = "" selected>Select Day</option>
                         <option value = "Monday">Monday</option>
@@ -68,6 +71,7 @@
                     <button id = "generateButton">Generate Current Week</button>
                     <button id = "generateAllButton">Generate All Weeks</button>
                     <button id = "fillShifts">Fill Remaining Shifts</button>
+                    <button id = "printToPDF">Print To PDF</button>
                 </div>
                 <div class = "table-container">
                     <div class = "next-prev-container">
@@ -75,7 +79,7 @@
                         <p id = "currentWeek">Week 1</p>
                         <button id = "nextRota">Next→</button>
                     </div>
-                    <table>
+                    <table id = "rotaTable">
                         <thead>
                             <tr>
                                 <th>Day</th>
@@ -87,24 +91,24 @@
                         <tbody id = "rota-body"></tbody>
                     </table>
                 </div>
-                
-            </div>
-            <div id = "currentStats">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Employee</th>
-                            <th>Contracted Hours</th>
-                            <th>Current Week Hours</th>
-                            <th>Total Hours</th>
-                        </tr>
-                    </thead>
-                    <tbody id = "statsBody"></tbody>
-                </table>
-            </div>
-            <div id = "totalStats">
+                <div id = "currentStats">
+                    <table id = "statsTable">
+                        <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>Contracted Hours</th>
+                                <th>Current Week Hours</th>
+                                <th>Total Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody id = "statsBody"></tbody>
+                    </table>
+                </div>
+                <div id = "totalStats">
 
+                </div>
             </div>
+            
             
         </main>
         

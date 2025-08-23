@@ -8,7 +8,7 @@ import { reorganiseShifts } from "./utils.js";
 
 export const assign = (person, shift, week) => {
     shift.assignedTo = person.name;
-    person.assignedShifts.push(shift);
+    person.assignedShifts[week].push(shift);
     person.assignedHours[week] = person.assignedHours[week] + shiftLength(shift);
     person.totalHours = person.totalHours + shiftLength(shift);
 }
@@ -21,7 +21,7 @@ export const assignStaff = (shifts, startDate, week) => {
     randomShifts.forEach(shift => {
         for (let person of orderedStaff){
             shift.assignedTo = unassignedValue;
-            if (!overlappingShifts(person, shift) && !isOnHoliday(person, shift)){
+            if (!overlappingShifts(person, shift, week) && !isOnHoliday(person, shift)){
                 assign(person, shift, week);
                 orderedStaff = orderStaffByPriority(startDate, week);
                 break;

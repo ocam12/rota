@@ -13,7 +13,7 @@ nav{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(20, 20, 20);
+    background-color: rgb(34, 34, 34);
     border-bottom: 1px solid rgb(255, 255, 255);
     height: 100px;
 }
@@ -90,7 +90,7 @@ nav p{
     justify-content: start;
     align-items: center;
     gap: 40px;
-    width: 350px;
+    width: 380px;
     overflow: scroll;
     flex-shrink: 0;
     padding-top: 60px;
@@ -108,11 +108,18 @@ nav p{
     background-color: white;
 }
 
-#holidayList{
+#staffOptions{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    border-bottom: 1px solid white;
+    gap: 30px;
+    padding-bottom: 20px;
+    width: 100%;
+}
+
+#holidayList{
     gap: 5px;
     font-size: 16px;
 }
@@ -138,6 +145,9 @@ nav p{
 }
 
 .delete-shift-button{
+    position: relative;
+    top: -4px;
+    font-size: 16px;
     background-color: transparent;
     color: rgb(255, 65, 65);
     border: 1px solid transparent;
@@ -169,7 +179,6 @@ nav p{
     align-items: center;
     gap: 10px;
     width: 100%;
-    border-bottom: 1px solid white;
     padding-bottom: 20px;
 }
 
@@ -241,7 +250,7 @@ nav p{
 }
 
 .table-container{
-    flex: 3;
+    flex: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -261,7 +270,7 @@ nav p{
     gap: 20px;
 }
 
-#openStaffButton, #generateButton, #generateAllButton, #fillShifts{
+#openStaffButton, #generateButton, #generateAllButton, #fillShifts, #printToPDF{
     font-size: 24px;
     padding: 4px 10px;
     border: none;
@@ -273,14 +282,14 @@ nav p{
     transition: 0.3s ease;
 }
 
-#openStaffButton:hover, #generateButton:hover, #generateAllButton:hover, #fillShifts:hover{
+#openStaffButton:hover, #generateButton:hover, #generateAllButton:hover, #fillShifts:hover, #printToPDF:hover{
     border-bottom: 2px solid white;
 }
 
 table{
     border: 1px solid black;
     border-collapse: collapse;
-    width: 800px;
+    width: 700px;
 }
 
 th{
@@ -288,11 +297,12 @@ th{
     border: 1px solid black;
 }
 
-td{
+#rotaTable td{
     padding: 5px;
     border: 1px solid black;
     vertical-align: top;
     line-height: 20px;
+    height: 100px;
 }
 
 .new-staff-select{
@@ -410,14 +420,29 @@ td{
 }
 
 #currentStats{
+    flex: 2;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: start;
+    padding-top: 75px;
 }
 
-#currentStats table{
-    width: 600px;
+#statsTable{
+    width: 400px;
 }
-#currentStats table tbody td{
+
+#statsTable td{
+    padding: 5px;
+    border: 1px solid black;
+    vertical-align: top;
+    line-height: 20px;
     width: 100px;
+}
+
+#statsTable td:first-child{
+    width: 200px;
+}
+
+@media (max-width: 1400px){
+
 }

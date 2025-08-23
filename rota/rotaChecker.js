@@ -27,7 +27,6 @@ const checkHolidays = () => {
 
 const checkClash = () => {
     const shifts = currentGroup.rotas[currentGroup.currentRota];
-    console.log(shifts);
     const majorClash = [shifts.length];     //tracks if major clash already occured as that takes priority
     for(let i = 0; i < shifts.length; i++){
         for(let j = i + 1; j < shifts.length; j++){

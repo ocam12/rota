@@ -1,5 +1,5 @@
-import { currentGroup } from "./main.js";
-import { addEvent } from "./options.js";
+import { currentGroup} from "./main.js";
+import { addEvent, fillShiftSelect } from "./options.js";
 import { renderRota } from "./visualGenerator.js";
 import { displayCurrentStats } from "./stats.js";
 import { performErrorChecks } from "./rotaChecker.js";
@@ -29,6 +29,7 @@ export const render = (index) => {
     renderRota(currentGroup.rotas[index], index);
     displayCurrentStats();
     performErrorChecks();
+    fillShiftSelect();
 }
 
 const nextRotaButton = document.getElementById('nextRota');

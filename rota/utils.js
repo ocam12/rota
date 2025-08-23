@@ -1,6 +1,6 @@
 //import { shiftPatterns } from "./data.js";
 //import { staff } from "./data.js";
-import { currentStaff, currentShiftPatterns, currentGroup } from "./main.js";
+import { currentStaff, currentGroup } from "./main.js";
 
 export const timeToHours = (t) => {
     const [h, m] = t.split(':').map(Number);    //takes the hour and minutes of time, puts each into array and converts both to a Number
@@ -11,9 +11,9 @@ export const shiftLength = (shift) => {
     return (timeToHours(shift.end) - timeToHours(shift.start));     //converts shift end and shift start to numbers and finds difference to get shift length
 }
 
-export const overlappingShifts = (person, newShift) => {    //returns true if person is already working on day of newShift
+export const overlappingShifts = (person, newShift, week) => {    //returns true if person is already working on day of newShift
     let overlap = false;
-    person.assignedShifts.forEach(s => {
+    person.assignedShifts[week].forEach(s => {
         if (s.day === newShift.day){
             overlap = true;
         }
@@ -30,13 +30,14 @@ export const isOnHoliday = (person, shift) => {
     });
 }
 
-export const generateShifts = (startDate) => {
+export const generateShifts = (startDate, week) => {
     const shifts = [];
     for (let i = 0; i < 7; i++){
         const dateObj = new Date(startDate);    //rota starts from start date
         dateObj.setDate(dateObj.getDate() + i);     //gets date i days from start date
         const dayName = dateObj.toLocaleDateString('en-GB', {weekday: "long"});
-        const dayPattern = currentShiftPatterns[dayName];      //gets the shift patterns for that day
+        if(!currentGroup.shifts[week]){return shifts;}
+        const dayPattern = currentGroup.shifts[week][dayName];      //gets the shift patterns for that day
 
         dayPattern.forEach((shift, index) => {
             shifts.push({
@@ -45,7 +46,8 @@ export const generateShifts = (startDate) => {
                 day: dayName,
                 start: shift.start,
                 end: shift.end,
-                assignedTo: null
+                assignedTo: null,
+                patternId: shift.id
             });
         });
     }
@@ -179,13 +181,15 @@ export const sortRandomShiftsByLength = (randomshifts) => {
 
 export const clearStaffShifts = (week) => {
     currentStaff.forEach(person => {
-        person.assignedShifts = [];
         if(person.assignedHours[week] !== undefined){
             person.totalHours -= person.assignedHours[week];
             person.assignedHours[week] = 0;
+
+            person.assignedShifts[week] = [];
         }
         else{
             person.assignedHours.push(0);
+            person.assignedShifts.push([]);
         }
     });
 }
@@ -204,4 +208,30 @@ export const addNumberOfDays = (date, days) => {
     const newDate = new Date(date);
     newDate.setDate(newDate.getDate() + (days));
     return newDate.toISOString().slice(0, 10);
+}
+
+export const orderHolidays = (holidays) => {
+    let holidaysOrdered = structuredClone(holidays);
+    let n = holidays.length;
+    let swapped;
+    do {
+        swapped = false;
+        for (let i = 0; i < n - 1; i++) {
+            if (holidaysOrdered[i].start > holidaysOrdered[i + 1].start){       
+                //swap positions
+                [holidaysOrdered[i], holidaysOrdered[i + 1]] = [holidaysOrdered[i + 1], holidaysOrdered[i]];
+                swapped = true;
+            }
+        }
+    } while (swapped);
+    return holidaysOrdered;
+}
+
+export const convertHolidayText = (holidayText) => {
+    const year = holidayText.slice(0, 4);
+    const month = holidayText.slice(5, 7);
+    const day = holidayText.slice(8, 10);
+    const dayName = new Date(holidayText).toLocaleDateString('en-GB', { weekday: 'short'});
+
+    return `${dayName} ${day} / ${month} / ${year}`;
 }
