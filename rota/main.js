@@ -1,20 +1,19 @@
-import { addNumberOfWeeks, clearRotas, generateShifts, orderStaffByName, shiftLength } from "./utils.js";
-import { groups } from "./data.js";
-import { assignStaff } from "./assignment.js";
-import { orderStaffByPriority } from "./utils.js";
-import { renderRota } from "./visualGenerator.js";
+import { addNumberOfWeeks } from "./utils.js";
+import { clearRotas, generateShifts, orderStaffByName, shiftLength, orderStaffByPriority, clearStaffShifts } from "./rotaUtils.js";
+import { groups, loadGroups } from "./data.js";
+import { assignShifts } from "./assignment.js";
+import { hideRota, renderRota } from "./visualGenerator.js";
 import { render } from "./rotaHandler.js";
 import { addNewStaff, fillStaffSelect, initialiseAddStaff, resetPage } from "./options.js";
-import { fillShiftSelect } from "./options.js";
-import { clearStaffShifts } from "./utils.js";
 import { addEvent } from "./options.js";
-import { addEventToCreateButton, openLoadMenu, openNewMenu } from "./groupHandler.js";
+import { addEventToCreateButton, openLoadMenu, openNewMenu, showElement } from "./groupHandler.js";
 import { displayFirstRota } from "./rotaHandler.js";
-import { displayCurrentStats } from "./stats.js";
+import { unassignedValue } from "./constants.js";
+
+loadGroups();
 
 export let currentGroup;
 export let currentStaff;
-export const unassignedValue = `unassigned`;
 
 export const updateCurrentStaff = (newCurrentStaff) => {
     currentStaff = newCurrentStaff;
@@ -24,9 +23,19 @@ export const updateCurrentStaff = (newCurrentStaff) => {
 export const loadGroup = (id) => {
     currentGroup = groups.find(r => r.id === id);
     currentStaff = currentGroup.staff;
+    hideRota();
     resetPage();
     initialiseAddStaff();
-    generateRotaForAllWeeks();
+    if(currentGroup.rotas.length > 0){
+        render(currentGroup.currentRota);
+    }
+}
+
+export const unloadGroup = () => {
+    currentGroup = null;
+    hideRota();
+    resetPage();
+    hideHamburgerMenu();
 }
 
 const loadButton = document.getElementById('load');
@@ -37,11 +46,11 @@ addEvent(newButton, 'click', openNewMenu, [newButton])
 
 export let myShifts;
 
-const generateRota = () => {
+export const generateRota = () => {
     clearStaffShifts(currentGroup.currentRota);
     const currentWeek = addNumberOfWeeks(currentGroup.startDate, currentGroup.currentRota);
     myShifts = generateShifts(currentWeek, currentGroup.currentRota);
-    const assignment = assignStaff(myShifts, currentWeek, currentGroup.currentRota);
+    const assignment = assignShifts(myShifts, currentWeek, currentGroup.currentRota);
     currentGroup.rotas[currentGroup.currentRota] = assignment;
 
     render(currentGroup.currentRota);
@@ -53,7 +62,7 @@ const generateRotaForAllWeeks = () => {
         clearStaffShifts(i);
         const startDate = addNumberOfWeeks(currentGroup.startDate, i);
         myShifts = generateShifts(startDate, i);
-        const assignment = assignStaff(myShifts, startDate, i);
+        const assignment = assignShifts(myShifts, startDate, i);
 
         currentGroup.rotas.push(assignment);
     }
@@ -61,20 +70,50 @@ const generateRotaForAllWeeks = () => {
     displayFirstRota();
 }
 
-const fillRemainingShifts = () => {
-    const assignedShifts = currentGroup.rotas[currentGroup.currentRota];
-    const currentWeek = addNumberOfWeeks(currentGroup.startDate, currentGroup.currentRota);
-    const unassignedShifts = generateShifts(currentWeek);       //generate all shifts again so we can compare which ones are assigned
-    
-    const assignedShiftIDs = new Set(assignedShifts.map(s => s.patternId));     //create set of all shift IDs where the shift is assigned
-    const newShifts = unassignedShifts.filter(s => !assignedShiftIDs.has(s.patternId));     //get all shifts that are unassigned by comparing IDs to assigned shifts
-    const newAssignment = assignStaff(newShifts, currentWeek, currentGroup.currentRota);      //assign each new shift same as always
-    
-    newAssignment.forEach(a => currentGroup.rotas[currentGroup.currentRota].push(a));   //push each new assignment to final rota
+export const fillRemainingShifts = () => {
+    for (let i = 0; i < currentGroup.duration; i++){
+        const assignedShifts = currentGroup.rotas[i];       //grab all shifts that have been assigned already
 
+        if(!assignedShifts){continue;}      //if week has no shifts, then don't bother checking for unassigned ones and continue to next week
+        const currentWeek = addNumberOfWeeks(currentGroup.startDate, i);
+        const unassignedShifts = generateShifts(currentWeek, i);       //generate all shifts again so we can compare which ones are assigned
+        
+        const assignedShiftIDs = new Set(assignedShifts.filter(s => s.assignedTo !== unassignedValue).map(s => s.patternId));     //create set of all shift IDs where the shift is assigned
+        const newShifts = unassignedShifts.filter(s => !assignedShiftIDs.has(s.patternId));     //get all shifts that are unassigned by comparing IDs to assigned shifts
+        
+        const newAssignment = assignShifts(newShifts, currentWeek, i);      //assign each new shift same as always
+        for (let i = newAssignment.length - 1; i >= 0; i--){
+            const s = newAssignment[i];
+            const match = assignedShifts.find(a => a.patternId === s.patternId);
+            if (match){
+                match.assignedTo = s.assignedTo;
+                newAssignment.splice(i, 1);     //remove from new assignments as have now been assigned
+            }
+        }
+        
+        newAssignment.forEach(a => currentGroup.rotas[i].push(a));   //push each new assignment that is not assigned to final rota
+    }
     render(currentGroup.currentRota); //re-render rota with new shift
 }
 
+const hideHamburgerMenu = () => {
+    const rotaOptions = document.getElementById('rotaOptions');
+    if(!currentGroup){
+        rotaOptions.classList.add('hidden');
+    }
+}
+
+hideHamburgerMenu();
+document.querySelector('.hamburger-button').addEventListener('click', () => {
+    if(currentGroup){
+        if(rotaOptions.classList.contains('hidden')){
+            rotaOptions.classList.remove('hidden');
+        }
+        else{
+            rotaOptions.classList.add('hidden');
+        }
+    }
+});
 document.getElementById('generateButton').addEventListener('click', () => {
     generateRota();
 });
@@ -92,35 +131,41 @@ addEventToCreateButton();
 
 export const swapShifts = (newShift, newStaffName, oldShift, oldStaffName) => {
     const newShiftObject = currentGroup.rotas[currentGroup.currentRota].find(s => s.id === newShift);
-    newShiftObject.assignedTo = newStaffName;
+    newShiftObject.assignedTo = newStaffName.trim();
     const oldShiftObject = currentGroup.rotas[currentGroup.currentRota].find(s => s.id === oldShift);
-    oldShiftObject.assignedTo = oldStaffName;
+    oldShiftObject.assignedTo = oldStaffName.trim();
 
     //update staff values
-    const newStaff = currentStaff.find(s => s.name === newStaffName);
+    const newStaff = currentStaff.find(s => s.name === newStaffName.trim());
     newStaff.assignedShifts[currentGroup.currentRota].push(newShiftObject);
     newStaff.assignedShifts[currentGroup.currentRota] = newStaff.assignedShifts[currentGroup.currentRota].filter(s => s.patternId !== oldShiftObject.patternId);
     newStaff.assignedHours[currentGroup.currentRota] = (newStaff.assignedHours[currentGroup.currentRota] - shiftLength(oldShiftObject) + shiftLength(newShiftObject));
     newStaff.totalHours = (newStaff.totalHours - shiftLength(oldShiftObject) + shiftLength(newShiftObject));
-    const oldStaff = currentStaff.find(s => s.name === oldStaffName);
-    oldStaff.assignedHours[currentGroup.currentRota] = (oldStaff.assignedHours[currentGroup.currentRota] - shiftLength(newShiftObject) + shiftLength(oldShiftObject));
-    oldStaff.assignedShifts[currentGroup.currentRota].push(oldShiftObject);
-    oldStaff.assignedShifts[currentGroup.currentRota] = oldStaff.assignedShifts[currentGroup.currentRota].filter(s => s.patternId !== newShiftObject.patternId);
-    oldStaff.totalHours = (oldStaff.totalHours - shiftLength(newShiftObject) + shiftLength(oldShiftObject));
 
-    displayCurrentStats();
+    if(oldStaffName !== unassignedValue){
+        const oldStaff = currentStaff.find(s => s.name === oldStaffName.trim());
+        oldStaff.assignedHours[currentGroup.currentRota] = (oldStaff.assignedHours[currentGroup.currentRota] - shiftLength(newShiftObject) + shiftLength(oldShiftObject));
+        oldStaff.assignedShifts[currentGroup.currentRota].push(oldShiftObject);
+        oldStaff.assignedShifts[currentGroup.currentRota] = oldStaff.assignedShifts[currentGroup.currentRota].filter(s => s.patternId !== newShiftObject.patternId);
+        oldStaff.totalHours = (oldStaff.totalHours - shiftLength(newShiftObject) + shiftLength(oldShiftObject));
+    }
+
     render(currentGroup.currentRota);
 }
 
 export const changeShifts = (shift, oldStaffName, newStaffName) => {
     const shiftObject = currentGroup.rotas[currentGroup.currentRota].find(s => s.id === shift);
+    const oldStaff = currentStaff.find(s => s.name === oldStaffName);
 
     if(newStaffName === unassignedValue){
         shiftObject.assignedTo = unassignedValue;
+        oldStaff.assignedShifts[currentGroup.currentRota] = oldStaff.assignedShifts[currentGroup.currentRota].filter(s => s.patternId !== shiftObject.patternId);
+        oldStaff.assignedHours[currentGroup.currentRota] = (oldStaff.assignedHours[currentGroup.currentRota] - shiftLength(shiftObject));
+        oldStaff.totalHours = (oldStaff.totalHours - shiftLength(shiftObject));
+        render(currentGroup.currentRota);
         return;
     }
     if(oldStaffName !== unassignedValue){
-        const oldStaff = currentStaff.find(s => s.name === oldStaffName);
         oldStaff.assignedShifts[currentGroup.currentRota] = oldStaff.assignedShifts[currentGroup.currentRota].filter(s => s.patternId !== shiftObject.patternId);
         oldStaff.assignedHours[currentGroup.currentRota] = (oldStaff.assignedHours[currentGroup.currentRota] - shiftLength(shiftObject));
         oldStaff.totalHours = (oldStaff.totalHours - shiftLength(shiftObject));
@@ -131,7 +176,6 @@ export const changeShifts = (shift, oldStaffName, newStaffName) => {
     newStaff.assignedHours[currentGroup.currentRota] = (newStaff.assignedHours[currentGroup.currentRota] + shiftLength(shiftObject));
     newStaff.totalHours = (newStaff.totalHours + shiftLength(shiftObject));
 
-    displayCurrentStats();
     render(currentGroup.currentRota);
 }
 

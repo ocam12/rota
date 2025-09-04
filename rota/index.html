@@ -15,14 +15,42 @@
         </nav>
         <main>
             <div class = "new-group hidden">
-                <h3>Add New Group</h3>
-                <p>Group Name:</p>
-                <input type = "text" id = "newGroupName">
-                <p>Start Date:</p>
-                <input type = "date" id = "newGroupDate">
-                <p>Duration (Weeks):</p>
-                <input type = "number" id = "newGroupDuration">
-                <button>Create</button>
+                <div class = "new-group-content">
+                    <div class = "left-container">
+                        <h3>Add New Group</h3>
+                        <p>Group Name:</p>
+                        <input type = "text" id = "newGroupName">
+                        <p>Start Date:</p>
+                        <input type = "date" id = "newGroupDate">
+                        <p>Duration (Weeks):</p>
+                        <input title = "hello" type = "number" id = "newGroupDuration">
+                    </div>
+                    <div class = "right-container">
+                        <p>Shift Types (Early, Late, etc):</p>
+                        <div class = "shift-type-container">
+                            <input type = "text" id = "shiftTypeInput" maxlength = "10">
+                            <button id = "shiftTypeButton">Add Shift Type</button>
+                        </div>
+                        <div class = "added-shift-types">
+                            <table id = "exampleTable">
+                                <thead>
+                                    <tr id = "exampleHeaderRow">
+                                        <th>Day</th>
+                                        <th>Early</th>
+                                        <th>Mid</th>
+                                        <th>Late</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Mon</td></tr>
+                                    <tr><td>Tue</td></tr>
+                                    <tr><td>...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <button id = "createGroupButton">Create</button>
             </div>
             <div class = "load-group hidden">
                 <h3>Load Group:</h3>
@@ -30,8 +58,8 @@
             <div id = "mainSection">
                 <div class = "new-staff hidden">
                     <h3>Add Staff</h3>
-                    <input type = "text" class = "name-input">
-                    <input type = "number" min = "0" class = "hours-input">
+                    <input type = "text" class = "name-input" placeholder = "Employee Name" required>
+                    <input type = "number" min = "0" class = "hours-input" placeholder = "Contracted Hours" required>
                     <button>Add Employee</button>
                 </div>
                 <div id = "rotaOptions">
@@ -48,64 +76,75 @@
                             <button class = "add-holiday-button">Add Holiday</button>
                         </div>
                     </div>
+                    <div id = "shiftOptions">
+                        <select id = "shiftSelect">
+                            <option value = "" selected>Select Day</option>
+                            <option value = "Monday">Monday</option>
+                            <option value = "Tuesday">Tuesday</option>
+                            <option value = "Wednesday">Wednesday</option>
+                            <option value = "Thursday">Thursday</option>
+                            <option value = "Friday">Friday</option>
+                            <option value = "Saturday">Saturday</option>
+                            <option value = "Sunday">Sunday</option>
+                        </select>
+                        <div id = "shiftsList">
+
+                        </div>
+                        <div class = "time-container hidden">
+                            <input type = "time" id = "startTime">
+                            <input type = "time" id = "endTime">
+                            <select id = "shiftTypeSelect">
+
+                            </select>
+                            <div class = "add-shift-container">
+                                <button class = "add-shift-button">Add Shift</button>
+                                <button class = "add-shift-all-button">Add (All Weeks)</button>
+                            </div>
+                            
+                        </div>
+                    </div>
                     
-                    <select id = "shiftSelect">
-                        <option value = "" selected>Select Day</option>
-                        <option value = "Monday">Monday</option>
-                        <option value = "Tuesday">Tuesday</option>
-                        <option value = "Wednesday">Wednesday</option>
-                        <option value = "Thursday">Thursday</option>
-                        <option value = "Friday">Friday</option>
-                        <option value = "Saturday">Saturday</option>
-                        <option value = "Sunday">Sunday</option>
-                    </select>
-                    <div id = "shiftsList">
+                    <button id = "openStaffButton">Add Employee +</button>
+                    <button id = "generateButton">Generate Current Week ↻</button>
+                    <button id = "generateAllButton">Generate All Weeks ↻</button>
+                    <button id = "fillShifts">Fill Remaining Shifts ↻</button>
+                    <button id = "printToPDF">Print To PDF ↓</button>
+                </div>
+                <div class = "table-section hidden">
+                    <div class = "table-container">
+                        <div class = "next-prev-container">
+                            <button id = "prevRota">←Prev</button>
+                            <p id = "currentWeek">Week 1</p>
+                            <button id = "nextRota">Next→</button>
+                        </div>
+                        <table id = "rotaTable">
+                            <thead>
+                                <tr id = "rota-header">
+                                    <th>Day</th>
+                                    <th>Early</th>
+                                    <th>Mid</th>
+                                    <th>Late</th>
+                                </tr>
+                            </thead>
+                            <tbody id = "rota-body"></tbody>
+                        </table>
+                    </div>
+                    <div id = "currentStats">
+                        <table id = "statsTable">
+                            <thead>
+                                <tr>
+                                    <th>Employee</th>
+                                    <th>Contracted Hours</th>
+                                    <th>Current Week Hours</th>
+                                    <th>Total Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody id = "statsBody"></tbody>
+                        </table>
+                    </div>
+                    <div id = "totalStats">
 
                     </div>
-                    <div class = "time-container hidden">
-                        <input type = "time" id = "startTime">
-                        <input type = "time" id = "endTime">
-                        <button class = "add-shift-button">Add Shift</button>
-                    </div>
-                    <button id = "openStaffButton">Add Employee</button>
-                    <button id = "generateButton">Generate Current Week</button>
-                    <button id = "generateAllButton">Generate All Weeks</button>
-                    <button id = "fillShifts">Fill Remaining Shifts</button>
-                    <button id = "printToPDF">Print To PDF</button>
-                </div>
-                <div class = "table-container">
-                    <div class = "next-prev-container">
-                        <button id = "prevRota">←Prev</button>
-                        <p id = "currentWeek">Week 1</p>
-                        <button id = "nextRota">Next→</button>
-                    </div>
-                    <table id = "rotaTable">
-                        <thead>
-                            <tr>
-                                <th>Day</th>
-                                <th>Early</th>
-                                <th>Mid</th>
-                                <th>Late</th>
-                            </tr>
-                        </thead>
-                        <tbody id = "rota-body"></tbody>
-                    </table>
-                </div>
-                <div id = "currentStats">
-                    <table id = "statsTable">
-                        <thead>
-                            <tr>
-                                <th>Employee</th>
-                                <th>Contracted Hours</th>
-                                <th>Current Week Hours</th>
-                                <th>Total Hours</th>
-                            </tr>
-                        </thead>
-                        <tbody id = "statsBody"></tbody>
-                    </table>
-                </div>
-                <div id = "totalStats">
-
                 </div>
             </div>
             

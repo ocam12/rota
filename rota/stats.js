@@ -1,20 +1,20 @@
+import { colorHolidayError } from "./constants.js";
 import { currentGroup, currentStaff } from "./main.js";
-import { orderStaffByName } from "./utils.js";
+import { orderStaffByName } from "./rotaUtils.js";
 
 export const displayCurrentStats = () => {
     const orderedStaff = orderStaffByName(currentStaff);
     const statsBody = getStatsTable();
+    let statsInnerHTML = ``;
 
     orderedStaff.forEach(person => {
-        statsBody.innerHTML += `<td id="${person.id}-statsName">${person.name}</td>
-                                <td id="${person.id}-statsContract">${person.contractedHours}</td>
-                                <td id="${person.id}-statsAssigned">${person.assignedHours[currentGroup.currentRota]}</td>
-                                <td id="${person.id}-statsTotal">${person.totalHours}</td>`;
-        if(person.assignedHours[currentGroup.currentRota] < person.contractedHours){
-            const assigned = document.getElementById(`${person.id}-statsAssigned`);
-            assigned.style.backgroundColor = '#ff8f8fff';
-        }
+        const highlight = person.assignedHours[currentGroup.currentRota] < person.contractedHours ? 'background-color: rgba(255, 119, 119, 1);' : '';
+        statsInnerHTML += `<tr><td id="${person.id}-statsName">${person.name}</td>
+                            <td id="${person.id}-statsContract">${person.contractedHours}</td>
+                            <td id="${person.id}-statsAssigned" style="${highlight}">${person.assignedHours[currentGroup.currentRota]}</td>
+                            <td id="${person.id}-statsTotal">${person.totalHours}</td></tr>`;
     });
+    statsBody.innerHTML = statsInnerHTML;
 }
 
 const getStatsTable = () => {

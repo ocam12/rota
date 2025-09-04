@@ -1,9 +1,8 @@
-//import { staff } from "./data.js";
-//import { shiftPatterns } from "./data.js";
-import { currentGroup, currentStaff, updateCurrentStaff } from "./main.js";
-import { addHoliday, addShift, addStaff, deleteHoliday, deleteShift, deleteStaff } from "./data.js";
+import { currentGroup, currentStaff, fillRemainingShifts, updateCurrentStaff } from "./main.js";
+import { addHoliday, addShift, addStaff, changeContract, deleteHoliday, deleteShift, deleteStaff } from "./data.js";
 import { showElement } from "./groupHandler.js";
-import { convertHolidayText, orderHolidays } from "./utils.js";
+import { convertHolidayText } from "./utils.js";
+import { orderHolidays } from "./rotaUtils.js";
 
 //---Staff Options---
 export const fillStaffSelect = () => {
@@ -55,6 +54,14 @@ const staffSelected = (staffName) => {
         const deleteStaffButton = createNewElement('button', {classes: ['delete-employee-button'], text: 'Delete Employee'}, []);
         addEvent(deleteStaffButton, 'click', deleteOldStaff, [selectedPerson, deleteStaffButton]);
         staffOptions.appendChild(deleteStaffButton);
+
+        const changeInput = document.querySelector('.change-contract-input');
+        if (changeInput) {
+            changeInput.remove();
+        }
+        const changeStaffContract = createNewElement('input', {classes: ['change-contract-input'], text: ''}, [])
+        addEvent(changeStaffContract, 'change', changeContract, [currentGroup, selectedPerson.id, changeStaffContract]);
+        staffOptions.appendChild(changeStaffContract);
     }
     else{
         removeCalendar();
@@ -94,6 +101,7 @@ export const fillShiftSelect = () => {
 }
 
 const shiftSelected = (selectedDay) => {
+    if(!currentGroup){return; }
     const shiftsList = document.getElementById('shiftsList');
     clearContainer(shiftsList);
     if (selectedDay) {
@@ -111,10 +119,17 @@ const shiftSelected = (selectedDay) => {
             }
         }
 
+        //add shift button
         const addShiftButtonTemp = document.querySelector('.add-shift-button');
         const addShiftButton = addShiftButtonTemp.cloneNode(true);
         addShiftButtonTemp.parentNode.replaceChild(addShiftButton, addShiftButtonTemp);
         addEvent(addShiftButton, 'click', addNewShift, [selectedDay]);
+
+        //add shift all weeks button
+        const addShiftAllButtonTemp = document.querySelector('.add-shift-all-button');
+        const addShiftAllButton = addShiftAllButtonTemp.cloneNode(true);
+        addShiftAllButtonTemp.parentNode.replaceChild(addShiftAllButton, addShiftAllButtonTemp);
+        addEvent(addShiftAllButton, 'click', addNewShiftToAllWeeks, [selectedDay]);
         showTime();
     }
     else{
@@ -136,15 +151,41 @@ const showTime = () => {
         timeContainer.classList.remove('hidden');
         timeContainer.childNodes.forEach(child => child.value = child.defaultValue);     //resets times back to default values
     }
+
+    const shiftTypeSelect = document.getElementById('shiftTypeSelect');
+    shiftTypeSelect.innerHTML = '';
+    const options = currentGroup.shiftTypes;
+    options.forEach(option => {
+        const optionElem = createNewElement('option', {}, []);
+        optionElem.value = option;
+        optionElem.textContent = option;
+        shiftTypeSelect.appendChild(optionElem);
+    });
 }
 
 const addNewShift = (selectedDay) => {
     const start = document.getElementById('startTime');
     const end = document.getElementById('endTime');
+    const shiftTypeSelect = document.getElementById('shiftTypeSelect');
 
-    if (start.value && end.value && start.value < end.value){
-        addShift(currentGroup, selectedDay, start.value, end.value);
+    if (start.value && end.value && start.value < end.value && shiftTypeSelect){
+        addShift(currentGroup, currentGroup.currentRota, selectedDay, start.value, end.value, shiftTypeSelect.value);
         shiftSelected(selectedDay);
+        fillRemainingShifts();
+    }
+}
+
+const addNewShiftToAllWeeks = (selectedDay) => {
+    const start = document.getElementById('startTime');
+    const end = document.getElementById('endTime');
+    const shiftTypeSelect = document.getElementById('shiftTypeSelect');
+
+    if (start.value && end.value && start.value < end.value && shiftTypeSelect){
+        for (let i = 0; i < currentGroup.duration; i++){
+            addShift(currentGroup, i, selectedDay, start.value, end.value, shiftTypeSelect.value);
+        }
+        shiftSelected(selectedDay);
+        fillRemainingShifts();
     }
 }
 
@@ -201,15 +242,19 @@ export const initialiseAddStaff = () => {
     const nameInput = newStaffContainer.querySelector('.name-input');
     const hoursInput = newStaffContainer.querySelector('.hours-input');
     const addEmployeeButton  = newStaffContainer.getElementsByTagName('button')[0];
-    const cloneOfAddButton = openNewStaffButton.cloneNode(true);
+    const cloneOfAddButton = addEmployeeButton.cloneNode(true);
     addEmployeeButton.replaceWith(cloneOfAddButton);
     addEvent(cloneOfAddButton, 'click', addNewStaff, [nameInput, hoursInput, newStaffContainer]);
 }
 
 export const addNewStaff = (nameInput, hoursInput, container) => {
     if (nameInput.value && hoursInput.value){
+        console.log(nameInput.value);
+        if(currentGroup.staff.some(s => (s.name).toUpperCase() === (nameInput.value).toUpperCase())){return;}
         addStaff(currentGroup, nameInput.value, hoursInput.value);
         resetPage();
+        nameInput.value = '';
+        hoursInput.value = '';
         container.classList.add('hidden');
     }
 }

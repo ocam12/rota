@@ -8,6 +8,13 @@ p{
     padding: 0;
 }
 
+h3{
+    margin: 0;  
+    padding: 0;
+}
+
+/*Nav*/
+
 nav{
     position: sticky;
     display: flex;
@@ -15,7 +22,7 @@ nav{
     align-items: center;
     background-color: rgb(34, 34, 34);
     border-bottom: 1px solid rgb(255, 255, 255);
-    height: 100px;
+    height: 100px
 }
 
 nav p{
@@ -25,6 +32,7 @@ nav p{
 
 .hamburger-button{
     position: absolute;
+    display: none;
     width: 50px;
     left: 30px;
     top: 25%;
@@ -60,13 +68,119 @@ nav p{
     scale: 98%;
 }
 
-#mainSection{
+.new-group{
     position: relative;
     display: flex;
-    height: calc(100vh - 100px);
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    font-size: 22px;
+    background-color: white;
+    color: rgb(31, 31, 31);
+    border: none;
+    border-bottom: 3px solid rgb(35, 35, 35);
+    height: 100%;
+    width: 100vw;
+    padding: 40px 0px;
+    z-index: 100;
 }
 
-.new-staff{
+.new-group-content{
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    gap: 00px;
+    width: 100%;
+}
+
+.left-container{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+}
+.right-container{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 30px;
+}
+
+.new-group input{
+    font-size: 16px;
+    border-radius: 0px;
+    border: none;
+    border-bottom: 1px solid rgb(35, 35, 35);
+    padding: 5px 8px;
+    width: 200px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.new-group input:focus{
+    outline: 2px solid rgb(35, 35, 35);
+}
+
+.new-group button{
+    font-size: 22px;
+    border-radius: 0px;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 2px 8px;
+    color: rgb(35, 35, 35);
+    background-color: transparent;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.new-group button:hover{
+    border-bottom: 2px solid rgb(35, 35, 35);
+}
+
+.new-group-hidden{display: none;}
+
+#createGroupButton{
+    font-size: 30px;
+    width: 150px;
+}
+
+.shift-type-container{
+    display: flex; 
+    gap: 30px;
+}
+
+.shift-type-container input{
+    width: 200px !important;
+}
+
+.shift-type-container button{
+    font-size: 20px;
+}
+
+#exampleTable{
+    width: 100%;
+    max-width: 600px;
+    font-size: 16px;
+    margin-top: 30px;
+    table-layout: fixed;
+}
+
+#exampleTable td{
+    width: 30px;
+    height: 40px;
+    padding: 5px;
+    border: 1px solid black;
+    vertical-align: top;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.load-group{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -74,27 +188,73 @@ nav p{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
-    background-color: white;
-    border: 1px solid black;
+    justify-content: center;
+    font-size: 26px;
+    color: white;
+    background-color: rgb(34, 34, 34);
+    border: 3px solid rgb(255, 255, 255);
     border-radius: 20px;
-    padding: 10px 30px;
+    height: min(300px, 80vh);
+    width: min(300px, 80vw);
     z-index: 100;
+    padding-top: 50px;
+    overflow: scroll;
 }
 
-.new-staff-hidden{display: none;}
+.group-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin-top: 20px;
+}
+
+.group-container p{
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.group-container p:hover{
+    border-bottom: 2px solid rgb(255, 255, 255);
+}
+
+.delete-group-button{
+    color: red;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.delete-group-button:hover{
+    border-bottom: 2px solid rgb(255, 0, 0);
+}
+
+/*Main Section*/
+
+#mainSection{
+    position: relative;
+    display: flex;
+    height: calc(100vh - 100px);
+}
+
+/*Options Section*/
 
 #rotaOptions{
+    position: absolute;
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: center;
     gap: 40px;
-    width: 380px;
+    width: 400px;
+    height: 100%;
     overflow: scroll;
     flex-shrink: 0;
     padding-top: 60px;
-    background-color: rgb(34, 34, 34);
+    background-color: rgb(35, 35, 35);
     color: white;
 }
 
@@ -107,6 +267,8 @@ nav p{
     border: 1px solid black;
     background-color: white;
 }
+
+/*Staff Options*/
 
 #staffOptions{
     display: flex;
@@ -130,6 +292,11 @@ nav p{
     gap: 20px;
 }
 
+.holiday-container{
+    display: flex;
+    gap: 20px;
+}
+
 .delete-holiday-button{
     font-size: 16px;
     background-color: transparent;
@@ -142,35 +309,6 @@ nav p{
 
 .delete-holiday-button:hover{
     border-bottom: 1px solid rgb(255, 65, 65);
-}
-
-.delete-shift-button{
-    position: relative;
-    top: -4px;
-    font-size: 16px;
-    background-color: transparent;
-    color: rgb(255, 65, 65);
-    border: 1px solid transparent;
-    border-radius: 0px;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-
-.delete-shift-button:hover{
-    border-bottom: 1px solid rgb(255, 65, 65);
-}
-
-.delete-employee-button{
-    font-size: 16px;
-    background-color: transparent;
-    color: rgb(255, 65, 65);
-    border: 1px solid transparent;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-.delete-employee-button:hover{
-    border: 1px solid rgb(255, 65, 65);
 }
 
 .calendar-container{
@@ -212,11 +350,59 @@ nav p{
     border-bottom: 1px solid white;
 }
 
+.delete-employee-button{
+    font-size: 16px;
+    background-color: transparent;
+    color: rgb(255, 65, 65);
+    border: 1px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.delete-employee-button:hover{
+    border: 1px solid rgb(255, 65, 65);
+}
+
+/*Shift Options*/
+
+#shiftOptions{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid white;
+    gap: 30px;
+    padding-bottom: 20px;
+    width: 100%;
+}
+
+.shift-container{
+    display: flex;
+    gap: 20px;
+}
+
+.delete-shift-button{
+    position: relative;
+    top: -4px;
+    font-size: 16px;
+    background-color: transparent;
+    color: rgb(255, 65, 65);
+    border: 1px solid transparent;
+    border-radius: 0px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.delete-shift-button:hover{
+    border-bottom: 1px solid rgb(255, 65, 65);
+}
+
 .time-container{
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 30px;
+    gap: 15px;
 }
 
 .time-container-hidden{
@@ -249,25 +435,61 @@ nav p{
     border-bottom: 1px solid white;
 }
 
-.table-container{
-    flex: 2;
+.add-shift-container{
+    display: flex;
+    flex-direction: column;
+}
+
+#shiftTypeSelect{
+    font-size: 14px !important;
+    height: 30px !important;
+    width: 80px !important;
+}
+
+/*Other Side Options*/
+
+.new-staff{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    border-left: 1px solid grey;
-    overflow: scroll;
-    padding: 20px 0px;
+    gap: 20px;
+    font-size: 26px;
+    background-color: white;
+    border: 3px solid rgb(24, 24, 24);
+    border-radius: 20px;
+    padding: 20px 60px;
+    z-index: 100;
 }
 
-.holiday-container{
-    display: flex;
-    gap: 20px;
+.new-staff-hidden{display: none;}
+
+.new-staff input{
+    font-size: 16px;
+    border-radius: 0px;
+    border: none;
+    border-bottom: 1px solid black;
+    padding: 5px 8px;
+    background-color: transparent;
+    cursor: pointer;
 }
 
-.shift-container{
-    display: flex;
-    gap: 20px;
+.new-staff button{
+    font-size: 22px;
+    border-radius: 0px;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 2px 8px;
+    background-color: transparent;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.new-staff button:hover{
+    border-bottom: 2px solid rgb(25, 25, 25);
 }
 
 #openStaffButton, #generateButton, #generateAllButton, #fillShifts, #printToPDF{
@@ -284,6 +506,61 @@ nav p{
 
 #openStaffButton:hover, #generateButton:hover, #generateAllButton:hover, #fillShifts:hover, #printToPDF:hover{
     border-bottom: 2px solid white;
+}
+
+/*Tables Sections*/
+
+.table-section{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    overflow: scroll;
+    padding: 50px;
+    padding-left: 350px;
+    gap: min(3vw, 100px);
+}
+
+.next-prev-container{
+    display: flex;
+    align-items: center;
+    gap: 150px;
+}
+
+.next-prev-container p{
+    font-size: 30px;
+}
+
+#nextRota, #prevRota{
+    font-size: 26px;
+    border-radius: 0px;
+    border: none;
+    border-bottom: 2px solid rgba(24, 24, 24, 0);
+    padding: 2px 2px;
+    background-color: rgba(255, 255, 255, 0);
+    color: rgb(24, 24, 24);
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+#nextRota:hover{
+    border-bottom: 2px solid rgb(24, 24, 24);
+}
+
+#prevRota:hover{
+    border-bottom: 2px solid rgb(24, 24, 24);
+}
+
+/*Rota Table*/
+
+.table-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    overflow: scroll;
+    flex-shrink: 0;
 }
 
 table{
@@ -312,119 +589,14 @@ th{
     padding: 10px 10px;
 }
 
-.new-group{
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    font-size: 26px;
-    background-color: white;
-    border: 3px solid rgb(24, 24, 24);
-    border-radius: 20px;
-    padding: 20px 60px;
-    z-index: 100;
-}
 
-.new-group input{
-    font-size: 16px;
-    border-radius: 0px;
-    border: none;
-    border-bottom: 1px solid black;
-    padding: 5px 8px;
-    background-color: transparent;
-    cursor: pointer;
-}
-
-.new-group button{
-    font-size: 22px;
-    border-radius: 0px;
-    border: none;
-    border-bottom: 2px solid transparent;
-    padding: 2px 8px;
-    background-color: transparent;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-.new-group button:hover{
-    border-bottom: 2px solid rgb(25, 25, 25);
-}
-
-.new-group-hidden{
-    display: none;
-}
-
-.load-group{
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    font-size: 26px;
-    background-color: white;
-    border: 3px solid rgb(24, 24, 24);
-    border-radius: 20px;
-    padding: 20px 60px;
-    z-index: 100;
-}
-
-.load-group p{
-    border-bottom: 2px solid transparent;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-.load-group p:hover{
-    border-bottom: 2px solid rgb(25, 25, 25);
-}
-
-.hidden{
-    display: none;
-}
-
-.next-prev-container{
-    display: flex;
-    align-items: center;
-    gap: 150px;
-    margin-bottom: 20px;
-}
-
-.next-prev-container p{
-    font-size: 30px;
-}
-
-#nextRota, #prevRota{
-    font-size: 26px;
-    border-radius: 0px;
-    border: none;
-    border-bottom: 2px solid rgba(24, 24, 24, 0);
-    padding: 2px 2px;
-    background-color: rgba(255, 255, 255, 0);
-    color: rgb(24, 24, 24);
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-
-#nextRota:hover{
-    border-bottom: 2px solid rgb(24, 24, 24);
-}
-
-#prevRota:hover{
-    border-bottom: 2px solid rgb(24, 24, 24);
-}
+/*Stats Table*/
 
 #currentStats{
-    flex: 2;
     display: flex;
     justify-content: center;
     align-items: start;
-    padding-top: 75px;
+    padding-top: 55px;
 }
 
 #statsTable{
@@ -443,6 +615,58 @@ th{
     width: 200px;
 }
 
-@media (max-width: 1400px){
+.hidden{
+    display: none !important;
+}
 
+@media (min-width: 1921px) {
+    #rotaOptions{
+        display: flex;
+    }
+}
+
+@media (max-width: 1920px){
+    .table-section{
+        padding-left: 50px;
+    }
+
+    .hamburger-button{
+        display: block;
+    }
+}
+
+@media (max-width: 1600px){
+    .table-section{
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 0px;
+    }
+
+    .next-prev-container{
+        gap: 10vw;
+        margin-bottom: 0px;
+    }
+}
+
+@media (max-width: 750px){
+    nav p{
+        display: none;
+    }
+
+    table{
+        margin-top: -150px;
+        transform: scale(0.55);
+        z-index: -10;
+    }
+
+    #currentStats{
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        padding-top: 0px;
+        margin-top: -100px;
+        transform: scale(1.2);
+        z-index: -10;
+    }
 }

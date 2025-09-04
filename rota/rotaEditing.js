@@ -1,11 +1,10 @@
-import { changeShifts, currentGroup, currentStaff, unassignedValue } from "./main.js"
+import { changeShifts, currentGroup, currentStaff } from "./main.js"
+import { unassignedValue } from "./constants.js";
 import { addEvent } from "./options.js";
 import { createNewElement } from "./options.js";
 import { render } from "./rotaHandler.js";
 
 export const initialiseSelects = () => {
-    //const person = currentStaff.filter(s => s.id === staffID)[0];
-    //console.log(person.name);
     addClickEvent();
 }
 
@@ -49,7 +48,7 @@ const createUnassignedOption = (selectElem) => {
 
 const addChangeEvent = (selectElem, shiftID, oldStaff) => {
     selectElem.addEventListener('input', () => {
-        changeName(selectElem, selectElem.value, shiftID, oldStaff)
+        changeName(selectElem, selectElem.value, shiftID, oldStaff.trim())
     });
 }
 
@@ -57,13 +56,13 @@ const changeName = (selectElem, newStaff, shiftID, oldStaff) => {
     if(newStaff === unassignedValue){
         const pReplacement = createNewElement('p', {classes: ['selectable'], text: `${unassignedValue}`}, []);
         selectElem.replaceWith(pReplacement);
-        changeShifts(shiftID, oldStaff, unassignedValue);
+        changeShifts(shiftID, oldStaff.trim(), unassignedValue);
         return;
     }
     const person = currentStaff.filter(s => s.name === newStaff)[0];
     const pReplacement = createNewElement('p', {classes: ['draggable', 'selectable'], text: `${person.name}`}, []);
     selectElem.replaceWith(pReplacement);
-    changeShifts(shiftID, oldStaff, newStaff);
+    changeShifts(shiftID, oldStaff.trim(), newStaff.trim());
 }
 
 const changeOnClick = (select, staffName) => {

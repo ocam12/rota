@@ -1,48 +1,44 @@
-import { assign } from "./assignment.js";
-import { currentGroup, currentStaff, unassignedValue } from "./main.js"
+import { currentGroup, currentStaff } from "./main.js"
+import { unassignedValue } from "./constants.js";
 import { addClashMajorError, addClashMinorError, addHolidayError, addNoCoverError } from "./rotaErrorDisplay.js";
-import { shiftLength } from "./utils.js";
 
-export const performErrorChecks = () => {
-    checkHolidays();
+export const runErrorChecks = () => {
     checkClash();
     checkShiftsCovered();
+    checkHolidays();
 }
 
 const checkHolidays = () => {
     const shifts = currentGroup.rotas[currentGroup.currentRota];
     shifts.forEach(shift => {
-        if (shift.assignedTo !== unassignedValue){
-            const person = currentStaff.find(s => s.name === shift.assignedTo);
-            const shiftDate = shift.date;
-
-            person.holidays.forEach(h => {
-                if(new Date(shiftDate) <= new Date(h.end) && new Date(shiftDate) >= new Date(h.start)){     //found overlap with holiday
-                    addHolidayError(shift.id);
-                }
-            });
+        if (shift.assignedTo === unassignedValue){return;}
+        const person = currentStaff.find(s => s.name === shift.assignedTo);
+        if (!person){return;}
+        const shiftDate = new Date(shift.date);
+        if (person.holidays.some(h => shiftDate <= new Date(h.end) && shiftDate >= new Date(h.start))){     //found overlap with holiday
+            addError('holiday', shift.id);
         }
     });
 }
 
 const checkClash = () => {
     const shifts = currentGroup.rotas[currentGroup.currentRota];
-    const majorClash = [shifts.length];     //tracks if major clash already occured as that takes priority
+    const majorClashes = [shifts.length];     //tracks if major clash already occured as that takes priority
     for(let i = 0; i < shifts.length; i++){
         for(let j = i + 1; j < shifts.length; j++){
             if(shifts[i].assignedTo === unassignedValue || shifts[j].assignedTo === unassignedValue){continue;}
             if(shifts[i].id === shifts[j].id || shifts[i].day !== shifts[j].day){continue;}
             if(shifts[i].assignedTo !== shifts[j].assignedTo){continue;}    //if passes here then there is a clash
             if((shifts[i].start < shifts[j].end) && (shifts[i].end > shifts[j].start)){
-                addClashMajorError(shifts[i].id, shifts[j].id);
-                majorClash[i] = true;
-                majorClash[j] = true;
+                addError('clashMajor', shifts[i].id, shifts[j].id);
+                majorClashes[i] = true;
+                majorClashes[j] = true;
             }
-            if(majorClash[i] && !majorClash[j]){addClashMinorError(shifts[j].id)}
-            else if(!majorClash[i] && majorClash[j]){addClashMinorError(shifts[i].id)}
-            else if(!majorClash[i] && !majorClash[j]){
-                addClashMinorError(shifts[i].id);
-                addClashMinorError(shifts[j].id);
+            if(majorClashes[i] && !majorClashes[j]){addError('clashMinor', shifts[j].id);}
+            else if(!majorClashes[i] && majorClashes[j]){addError('clashMinor', shifts[i].id);}
+            else if(!majorClashes[i] && !majorClashes[j]){
+                addError('clashMinor', shifts[i].id);
+                addError('clashMinor', shifts[j].id);
             }
 
         }
@@ -51,7 +47,14 @@ const checkClash = () => {
 
 const checkShiftsCovered = () => {
     const shifts = currentGroup.rotas[currentGroup.currentRota];
-    shifts.forEach(shift => {
-        if(shift.assignedTo === unassignedValue){addNoCoverError(shift.id);}
-    });
+    shifts.filter(shift => shift.assignedTo === unassignedValue).forEach(s => addError('noCover', s.id));
+}
+
+const addError = (type, ...params) => {
+    switch (type) {
+        case 'holiday': return addHolidayError(...params);
+        case 'clashMinor': return addClashMinorError(...params);
+        case 'clashMajor': return addClashMajorError(...params);
+        case 'noCover': return addNoCoverError(...params);
+    }
 }

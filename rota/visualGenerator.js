@@ -1,42 +1,55 @@
-import { currentGroup, currentStaff, swapShifts } from "./main.js";
+import { currentGroup, swapShifts } from "./main.js";
+import { unassignedValue } from "./constants.js";
 import { initialiseSelects } from "./rotaEditing.js";
 import { addNumberOfDays, addNumberOfWeeks } from "./utils.js";
 
+export const hideRota = () => {
+    const tableSection = document.querySelector('.table-section');
+    tableSection.classList.add('hidden');        //hide tables
+}
+
 export const renderRota = (shifts, currentRota) => {
+    const tableSection = document.querySelector('.table-section');
+    tableSection.classList.remove('hidden');        //show tables
+    const firstDate = addNumberOfWeeks(currentGroup.startDate, currentRota);
+    const firstDay = getDay(firstDate);
     const shiftsByDay = [
-        {day: 'Monday', date: addNumberOfDays(addNumberOfWeeks(currentGroup.startDate, currentRota), 0), daysShifts: shifts.filter(s => s.day === 'Monday')},
-        {day: 'Tuesday', date: addNumberOfDays(addNumberOfWeeks(currentGroup.startDate, currentRota), 1), daysShifts: shifts.filter(s => s.day === 'Tuesday')},
-        {day: 'Wednesday', date: addNumberOfDays(addNumberOfWeeks(currentGroup.startDate, currentRota), 2), daysShifts: shifts.filter(s => s.day === 'Wednesday')},
-        {day: 'Thursday', date: addNumberOfDays(addNumberOfWeeks(currentGroup.startDate, currentRota), 3), daysShifts: shifts.filter(s => s.day === 'Thursday')},
-        {day: 'Friday', date: addNumberOfDays(addNumberOfWeeks(currentGroup.startDate, currentRota), 4), daysShifts: shifts.filter(s => s.day === 'Friday')},
-        {day: 'Saturday', date: addNumberOfDays(addNumberOfWeeks(currentGroup.startDate, currentRota), 5), daysShifts: shifts.filter(s => s.day === 'Saturday')},
-        {day: 'Sunday', date: addNumberOfDays(addNumberOfWeeks(currentGroup.startDate, currentRota), 6), daysShifts: shifts.filter(s => s.day === 'Sunday')}
+        {day: firstDay, date: addNumberOfDays(addNumberOfWeeks(currentGroup.startDate, currentRota), 0), daysShifts: shifts.filter(s => s.day === firstDay)},
+        {day: addDayToFirst(firstDate, 1), date: addNumberOfDays(addNumberOfWeeks(currentGroup.startDate, currentRota), 1), daysShifts: shifts.filter(s => s.day === addDayToFirst(firstDate, 1))},
+        {day: addDayToFirst(firstDate, 2), date: addNumberOfDays(addNumberOfWeeks(currentGroup.startDate, currentRota), 2), daysShifts: shifts.filter(s => s.day === addDayToFirst(firstDate, 2))},
+        {day: addDayToFirst(firstDate, 3), date: addNumberOfDays(addNumberOfWeeks(currentGroup.startDate, currentRota), 3), daysShifts: shifts.filter(s => s.day === addDayToFirst(firstDate, 3))},
+        {day: addDayToFirst(firstDate, 4), date: addNumberOfDays(addNumberOfWeeks(currentGroup.startDate, currentRota), 4), daysShifts: shifts.filter(s => s.day === addDayToFirst(firstDate, 4))},
+        {day: addDayToFirst(firstDate, 5), date: addNumberOfDays(addNumberOfWeeks(currentGroup.startDate, currentRota), 5), daysShifts: shifts.filter(s => s.day === addDayToFirst(firstDate, 5))},
+        {day: addDayToFirst(firstDate, 6), date: addNumberOfDays(addNumberOfWeeks(currentGroup.startDate, currentRota), 6), daysShifts: shifts.filter(s => s.day === addDayToFirst(firstDate, 6))}
     ];
+
+    const thead = document.getElementById("rota-header");
+    thead.innerHTML = '';
     const tbody = document.getElementById("rota-body");
-    tbody.innerHTML = "";
+    tbody.innerHTML = '';
+
+    const shiftTypes = currentGroup.shiftTypes;
+    let headerHTML = '<th>Day</th>';
+    shiftTypes.forEach(st => {
+        headerHTML = headerHTML + `<th>${st}</th>`;
+    });
+    thead.innerHTML = headerHTML;
 
     shiftsByDay.forEach(shift => {
-        const early = [];
-        const mid = [];
-        const late = [];
-        shift.daysShifts.forEach(s => {
-            if (s.end <= '13:00'){
-                early.push(s);
-            }else if (s.start >= '13:30' && s.end > '18:00'){
-                late.push(s);
-            }
-            else{
-                mid.push(s);
-            }
-        });
+        let rowHTML = `<td><strong>${shift.day + ' ' + shift.date.slice(8, 10) + '/' + shift.date.slice(5, 7)}</strong></td>`;
+
+        for(let i = 0; i < shiftTypes.length; i++){
+            let newColumnHTML = `<td>`;
+            shift.daysShifts.forEach(s => {
+                if (s.shiftType === shiftTypes[i]){
+                    newColumnHTML = newColumnHTML + `${'<div id = "' + s.id + '">&nbsp;' + s.start + ' - ' + s.end + `: <span class = "sortable-container"><p class = "${s.assignedTo === 'unassigned' ? 'unassigned' : ''} draggable selectable">&nbsp;` + s.assignedTo + '</p></span></div><br>'}`;
+                }
+            });
+            rowHTML = rowHTML + newColumnHTML + '</td>';
+        }
 
         const tr = document.createElement('tr');
-        tr.innerHTML = `
-        <td><strong>${shift.day + ' ' + shift.date.slice(8, 10) + '/' + shift.date.slice(5, 7)}</strong></td>
-        <td>${early.map(s => '<div id = "' + s.id + '">' + s.start + ' - ' + s.end + `: <span class = "sortable-container"><p class = "${s.assignedTo === 'unassigned' ? 'unassigned' : ''} draggable selectable">` + s.assignedTo + '</p></span></div>').join('<br>')}</td>
-        <td>${mid.map(s => '<div id = "' + s.id + '">' + s.start + ' - ' + s.end + `: <span class = "sortable-container"><p class = "${s.assignedTo === 'unassigned' ? 'unassigned' : ''} draggable selectable">` + s.assignedTo + '</p></span></div>').join('<br>')}</td>
-        <td>${late.map(s => '<div id = "' + s.id + '">' + s.start + ' - ' + s.end + `: <span class = "sortable-container"><p class = "${s.assignedTo === 'unassigned' ? 'unassigned' : ''} draggable selectable">` + s.assignedTo + '</p></span></div>').join('<br>')}</td>
-        `;
+        tr.innerHTML = rowHTML;
         tbody.appendChild(tr);
     });
     
@@ -54,7 +67,7 @@ export const renderRota = (shifts, currentRota) => {
             onMove: (evt) => {      //cannot move names into shift is shift is unassigned
                 const targetContainer = evt.to;
                 const hasUnassigned = Array.from(targetContainer.children).some(c =>
-                    c.classList?.contains("unassigned")
+                    c.classList?.contains(unassignedValue)
                 );
 
                 if (hasUnassigned) return false;
@@ -70,14 +83,22 @@ export const renderRota = (shifts, currentRota) => {
                     const oldEl = existing[0];
                     toContainer.replaceChild(movedEl, oldEl);
                     fromContainer.appendChild(oldEl);
-                    swapShifts(toContainer.parentElement.id, movedEl.innerText, fromContainer.parentElement.id, oldEl.innerText);
+                    swapShifts(toContainer.parentElement.id, movedEl.innerText.trim(), fromContainer.parentElement.id, oldEl.innerText.trim());
                 }
             }
         });
     });
 }
 
-const setTitle = (week) => {
+const setTitle = () => {
     const currentWeek = document.getElementById('currentWeek');
     currentWeek.innerText = `Week ${currentGroup.currentRota + 1}`;
+}
+
+const getDay = (date) => {
+    return (new Date(date)).toLocaleDateString('en-GB', {weekday: 'long'});
+}
+
+const addDayToFirst = (date, days) => {
+    return getDay(addNumberOfDays(date, days));
 }
