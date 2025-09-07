@@ -15,19 +15,19 @@ h3{
 
 /*Nav*/
 
-nav{
+#mainNav{
     position: sticky;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(34, 34, 34);
-    border-bottom: 1px solid rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255);
+    border-bottom: 1px solid rgb(220, 220, 220);
     height: 100px
 }
 
-nav p{
+#mainNav p{
     font-size: 35px;
-    color: white;
+    color: rgb(20, 20, 20);
 }
 
 .hamburger-button{
@@ -49,19 +49,19 @@ nav p{
 }
 
 .nav-button{
-    padding: 5px 20px;
+    padding: 8px 24px;
     font-size: 20px;
-    background-color: transparent;
+    background-color: rgb(61, 151, 255);
+    border-radius: 6px;
     border: none;
-    border-bottom: 2px solid transparent;
-    color: white;
+    color: rgb(255, 255, 255);
     cursor: pointer;
     margin-left: 20px;
     transition: 0.4s ease;
 }
 
 .nav-button:hover{
-    border-bottom: 2px solid rgb(255, 255, 255);
+    background-color: rgba(61, 152, 255, 0.8);
 }
 
 .nav-button:active{
@@ -398,6 +398,16 @@ nav p{
     border-bottom: 1px solid rgb(255, 65, 65);
 }
 
+.shift-type-select{
+    position: relative;
+    top: -4px;
+    font-size: 16px !important;
+    width: 80px !important;
+    height: 25px !important;
+    padding: 0px !important;
+    padding-left: 4px !important;
+}
+
 .time-container{
     display: flex;
     justify-content: center;
@@ -511,14 +521,72 @@ nav p{
 /*Tables Sections*/
 
 .table-section{
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: flex-start;
     width: 100%;
     overflow: scroll;
-    padding: 50px;
-    padding-left: 350px;
+    padding: 20px;
     gap: min(3vw, 100px);
+}
+
+#groupOptionsNav{
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgb(220, 220, 220);
+    padding: 0px 40px;
+    padding-bottom: 30px;
+}
+
+#groupOptionsNav h1{
+    padding-left: 4px;
+}
+
+#groupOptions{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#groupOptions button{
+    height: 50px;
+    padding: 8px 12px;
+    font-size: 20px;
+    background-color: rgb(245, 245, 245);
+    border: none;
+    border-radius: 8px;
+    transition: 0.4s ease;
+    cursor: pointer;
+}
+
+#groupOptions button:hover{
+    position: sticky;
+    background-color: rgb(61, 151, 255);
+    color: white;
+}
+
+#autofill{
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    height: 140px;
+    width: 140px;
+    border: none;
+    border-radius: 50%;
+    font-size: 32px;
+    background-color: rgb(61, 151, 255);
+    color: white;
+    cursor: pointer;
+    transition: 0.4s ease;
+}
+
+#autofill:hover{
+    background-color: rgba(61, 152, 255, 0.8);
+    scale: 0.98;
+}
+
+#autofill:active{
+    scale: 0.95;
 }
 
 .next-prev-container{

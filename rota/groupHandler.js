@@ -1,5 +1,5 @@
 import { addHideOnClickOutside, hideOnClickOutside, toggle } from "./clickOutside.js";
-import { groups, staff, shiftPatterns, createGroup, deleteGroup } from "./data.js";
+import { groups, staff, shiftPatterns, createGroup, deleteGroup, generateID } from "./data.js";
 import { loadGroup } from "./main.js";
 import { addEvent, clearContainer, createNewElement } from "./options.js";
 
@@ -99,9 +99,11 @@ export const showElement = (element) => {
 
 export const createNewGroup = (groupName, groupDate, groupDuration) => {
     if (groupName.value && groupDate.value && groupDuration.value && shiftTypesArray.length > 0){
-        createGroup(groupName.value, groupDate.value, groupDuration.value, shiftTypesArray);
+        const groupID = generateID(groupName.value);
+        createGroup(groupID, groupName.value, groupDate.value, groupDuration.value, shiftTypesArray);
         resetNewGroup();
         closeNewMenu();
+        loadGroup(groupID);
     }
 }
 

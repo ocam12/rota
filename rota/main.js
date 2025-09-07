@@ -26,9 +26,11 @@ export const loadGroup = (id) => {
     hideRota();
     resetPage();
     initialiseAddStaff();
-    if(currentGroup.rotas.length > 0){
-        render(currentGroup.currentRota);
+    setTitle();
+    if(currentGroup.rotas.length <= 0){
+        generateRota();
     }
+    render(currentGroup.currentRota);
 }
 
 export const unloadGroup = () => {
@@ -36,6 +38,14 @@ export const unloadGroup = () => {
     hideRota();
     resetPage();
     hideHamburgerMenu();
+}
+
+export const setTitle = () => {
+    getTitleObject().innerText = currentGroup.name;
+}
+
+const getTitleObject = () => {
+    return document.getElementById('group-title');
 }
 
 const loadButton = document.getElementById('load');
@@ -114,7 +124,7 @@ document.querySelector('.hamburger-button').addEventListener('click', () => {
         }
     }
 });
-document.getElementById('generateButton').addEventListener('click', () => {
+document.getElementById('autofill').addEventListener('click', () => {
     generateRota();
 });
 document.getElementById('generateAllButton').addEventListener('click', () => {

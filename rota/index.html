@@ -5,12 +5,12 @@
     </head>
 
     <body>
-        <nav>
-            <a class = "hamburger-button"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 512 512"><path fill="#ffffff" d="M32 96v64h448V96H32zm0 128v64h448v-64H32zm0 128v64h448v-64H32z"/></svg></a>
+        <nav id = "mainNav">
+            <a class = "hamburger-button"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 512 512"><path fill="#141414" d="M32 96v64h448V96H32zm0 128v64h448v-64H32zm0 128v64h448v-64H32z"/></svg></a>
             <p>Rota Generator</p>
             <div class = "nav-side-content">
-                <button class = "nav-button" id = "load">Load</button>
-                <button class = "nav-button" id = "new">New</button>
+                <button class = "nav-button" id = "load">📄 Load</button>
+                <button class = "nav-button" id = "new">➕ New</button>
             </div>
         </nav>
         <main>
@@ -64,6 +64,7 @@
                 </div>
                 <div id = "rotaOptions">
                     <div id = "staffOptions">
+                        <h2>Staff Options</h2>
                         <select id = "staffSelect">
                             <option value = "">Select Employee</option>
                         </select>
@@ -77,6 +78,7 @@
                         </div>
                     </div>
                     <div id = "shiftOptions">
+                        <h2>Shift Options</h2>
                         <select id = "shiftSelect">
                             <option value = "" selected>Select Day</option>
                             <option value = "Monday">Monday</option>
@@ -111,7 +113,17 @@
                     <button id = "printToPDF">Print To PDF ↓</button>
                 </div>
                 <div class = "table-section hidden">
+                    <nav id = "groupOptionsNav">
+                        <h1 id = "group-title">COASP</h1>
+                        <div id = "groupOptions">
+                            <button>👤 Employees</button>
+                            <button>💼 Shifts</button>
+                            <button>📊 Show Employee Stats</button>
+                            <button>🖨 Print To PDF</button>
+                        </div>
+                    </nav>
                     <div class = "table-container">
+                        <button id = "autofill">Autofill ↻</button>
                         <div class = "next-prev-container">
                             <button id = "prevRota">←Prev</button>
                             <p id = "currentWeek">Week 1</p>

@@ -1,5 +1,5 @@
 import { currentGroup, currentStaff, fillRemainingShifts, updateCurrentStaff } from "./main.js";
-import { addHoliday, addShift, addStaff, changeContract, deleteHoliday, deleteShift, deleteStaff } from "./data.js";
+import { addHoliday, addShift, addStaff, changeContract, changeShiftType, deleteHoliday, deleteShift, deleteStaff } from "./data.js";
 import { showElement } from "./groupHandler.js";
 import { convertHolidayText } from "./utils.js";
 import { orderHolidays } from "./rotaUtils.js";
@@ -105,15 +105,26 @@ const shiftSelected = (selectedDay) => {
     const shiftsList = document.getElementById('shiftsList');
     clearContainer(shiftsList);
     if (selectedDay) {
-        if(currentGroup.shifts[currentGroup.currentRota]){
+        if (currentGroup.shifts[currentGroup.currentRota]){
             const day = currentGroup.shifts[currentGroup.currentRota][selectedDay];
             if (day.length > 0){
                 day.forEach(d => {
                     const shiftText = createNewElement('p', {classes: [], text: `${d.start} - ${d.end}`}, []);
+
+                    const shiftTypeSelect = createNewElement('select', {classes: ['shift-type-select'], text: ''}, []);
+                    currentGroup.shiftTypes.forEach(st => {
+                        const optionElem = createNewElement('option', {}, []);
+                        optionElem.value = st;
+                        optionElem.textContent = st;
+                        shiftTypeSelect.appendChild(optionElem);
+                        if (d.shiftType === st){shiftTypeSelect.value = st;}
+                    });
+                    addEvent(shiftTypeSelect, 'change', changeShiftTypeEvent, [selectedDay, d.id, shiftTypeSelect]);
+
                     const shiftButton = createNewElement('button', {classes: ['delete-shift-button'], text: 'Delete'}, []);
                     addEvent(shiftButton, 'click', deleteShift, [currentGroup, selectedDay, d.id]);
                     addEvent(shiftButton, 'click', shiftSelected, [selectedDay]);
-                    const shiftContainer = createNewElement('div', {classes: ['shift-container'], text: ''}, [shiftText, shiftButton]);
+                    const shiftContainer = createNewElement('div', {classes: ['shift-container'], text: ''}, [shiftText, shiftTypeSelect, shiftButton]);
                     shiftsList.appendChild(shiftContainer);
                 });
             }
@@ -264,4 +275,8 @@ export const deleteOldStaff = (person, button) => {
     deleteStaff(currentGroup, person.id);
     updateCurrentStaff(currentGroup.staff);
     resetPage();
+}
+
+const changeShiftTypeEvent = (day, shiftID, shiftTypeInput) => {
+    changeShiftType(currentGroup, day, shiftID, shiftTypeInput.value);
 }

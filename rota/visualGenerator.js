@@ -34,7 +34,7 @@ export const renderRota = (shifts, currentRota) => {
         headerHTML = headerHTML + `<th>${st}</th>`;
     });
     thead.innerHTML = headerHTML;
-
+    console.log(shiftsByDay);
     shiftsByDay.forEach(shift => {
         let rowHTML = `<td><strong>${shift.day + ' ' + shift.date.slice(8, 10) + '/' + shift.date.slice(5, 7)}</strong></td>`;
 

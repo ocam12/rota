@@ -1,9 +1,7 @@
 import { currentGroup, unloadGroup } from "./main.js";
 import { render } from "./rotaHandler.js";
 import { orderStaffByName, shiftLength } from "./rotaUtils.js";
-import { unassignedValue } from "./constants.js";
-
-const groupSaveKey = 'groups';
+import { unassignedValue, groupSaveKey } from "./constants.js";
 
 const createStaff = (id, name, contractedHours = 0, holidays = [], assignedHours = [], totalHours = 0, assignedShifts = [], priority = []) => ({
     id,
@@ -63,6 +61,11 @@ export const shiftPatterns = {
         {id: 'wed3', start: '10:30', end: '17:00', shiftType: 'Mid'},
         {id: 'wed4', start: '13:30', end: '22:00', shiftType: 'Late'},
         {id: 'wed5', start: '19:00', end: '22:00', shiftType: 'Late'},
+        {id: 'wed6', start: '06:30', end: '13:00', shiftType: 'Early'},
+        {id: 'wed7', start: '09:00', end: '12:30', shiftType: 'Early'},
+        {id: 'wed8', start: '10:30', end: '17:00', shiftType: 'Early'},
+        {id: 'wed9', start: '13:30', end: '22:00', shiftType: 'Early'},
+        {id: 'wed10', start: '19:00', end: '22:00', shiftType: 'Early'},
     ],
     Thursday: [
         {id: 'thur1', start: '06:30', end: '13:00', shiftType: 'Early'},
@@ -134,7 +137,7 @@ export const shiftTemplate = {
 };
 
 export let groups = [
-    {id: 'test_1', name: 'COASP', staff: staff, rotas: [], shifts: [structuredClone(shiftPatterns)], startDate: "2025-09-15", duration: 1, currentRota: 0, shiftTypes: ['Early', 'Mid', 'Late']},
+    {id: 'test_1', name: 'COASP', staff: staff, rotas: [], shifts: [structuredClone(shiftPatterns)], startDate: "2025-09-15", duration: 3, currentRota: 0, shiftTypes: ['Early', 'Mid', 'Late']},
     {id: 'test_2', name: 'COASP - DMs', staff: dmStaff, rotas: [], shifts: [structuredClone(dmShiftPatterns)], startDate: "2025-09-15", duration: 1, currentRota: 0, shiftTypes: ['Early', 'Late']}
 ];
 
@@ -183,6 +186,14 @@ export const deleteShift = (group, day, patternID) => {
     render(group.currentRota);
 }
 
+export const changeShiftType = (group, day, shiftID, newType) => {
+    console.log(shiftID);
+    console.log(group.rotas[group.currentRota]);
+    group.shifts[group.currentRota][day].find(s => s.id === shiftID).shiftType = newType;
+    group.rotas[group.currentRota].find(s => s.patternId === shiftID).shiftType = newType;
+    render(group.currentRota);
+}
+
 export const addStaff = (group, personName, pHours) => {
     const newStaff = createStaff(generateID(personName), personName, pHours, [], Array.from({ length: group.duration }, () => 0), 0, Array.from({ length: group.duration }, () => []), Array.from({ length: group.duration }, () => 0));
     group.staff.push(newStaff);
@@ -209,9 +220,8 @@ export const changeContract = (group, personID, newHoursInput) => {
     person.contractedHours = newHoursInput.value;
 }
 
-export const createGroup = (groupName, groupDate, groupDuration, shiftTypes) => {
-    groups.push({id: generateID(groupName), name: groupName, staff: [], rotas: [], shifts: Array.from({ length: groupDuration }, () => structuredClone(shiftTemplate)), startDate: groupDate, duration: groupDuration, currentRota: 0, shiftTypes: shiftTypes});
-    console.log(groups);
+export const createGroup = (groupID, groupName, groupDate, groupDuration, shiftTypes) => {
+    groups.push({id: groupID, name: groupName, staff: [], rotas: [], shifts: Array.from({ length: groupDuration }, () => structuredClone(shiftTemplate)), startDate: groupDate, duration: groupDuration, currentRota: 0, shiftTypes: shiftTypes});
     saveGroups();
 }
 
@@ -236,10 +246,10 @@ export const saveGroups = () => {
 export const loadGroups = () => {
     const loadedGroups = localStorage.getItem(groupSaveKey);
     if (loadedGroups){
-        groups = JSON.parse(loadedGroups);
+       // groups = JSON.parse(loadedGroups);
     }
 }
 
-const generateID = (prefix) => {
+export const generateID = (prefix) => {
     return `${prefix}-${Math.random().toString(36).substring(2, 9)}`
 }
