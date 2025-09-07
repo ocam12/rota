@@ -1,9 +1,9 @@
 import { colorHolidayError } from "./constants.js";
-import { currentGroup, currentStaff } from "./main.js";
+import { currentGroup } from "./main.js";
 import { orderStaffByName } from "./rotaUtils.js";
 
 export const displayCurrentStats = () => {
-    const orderedStaff = orderStaffByName(currentStaff);
+    const orderedStaff = orderStaffByName(currentGroup.staff);
     const statsBody = getStatsTable();
     let statsInnerHTML = ``;
 

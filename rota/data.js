@@ -216,7 +216,6 @@ export const deleteStaff = (group, personID) => {
 
 export const changeContract = (group, personID, newHoursInput) => {
     const person = group.staff.find(s => s.id === personID);
-    console.log(person.contractedHours);
     person.contractedHours = newHoursInput.value;
 }
 

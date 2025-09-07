@@ -1,4 +1,4 @@
-import { currentStaff, currentGroup} from "./main.js";
+import { currentGroup} from "./main.js";
 import { unassignedValue } from "./constants.js";
 import { timeToHours, addNumberOfWeeks, addNumberOfDays, convertHolidayText } from "./utils.js";
 
@@ -70,7 +70,7 @@ export const getDaysUnavailable = (person, startDate) => {
 }
 
 export const setStaffPriority = (startDate, week) => {
-    currentStaff.forEach(person => {
+    currentGroup.staff.forEach(person => {
         const daysUnavialable = getDaysUnavailable(person, startDate);
         const unvailableBonus = daysUnavialable * 10;
 
@@ -99,7 +99,7 @@ const newPriority = (person, priorityAmount, week) => {
 
 export const orderStaffByPriority = (startDate, week) => {
     setStaffPriority(startDate, week);
-    let orderedStaff = currentStaff;
+    let orderedStaff = structuredClone(currentGroup.staff);
     let n = orderedStaff.length;
     let swapped;
     do {
@@ -117,9 +117,7 @@ export const orderStaffByPriority = (startDate, week) => {
 }
 
 export const orderStaffByName = (staff) => {
-
-    let orderedStaff = structuredClone(staff);
-    return [...orderedStaff].sort((a, b) => a.name.localeCompare(b.name));
+    return [...staff].sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export const randomiseShifts = (randomshifts) => {
@@ -151,7 +149,7 @@ export const sortRandomShiftsByLength = (randomshifts) => {
 }
 
 export const clearStaffShifts = (week) => {
-    currentStaff.forEach(person => {
+    currentGroup.staff.forEach(person => {
         if(person.assignedHours[week] !== undefined){
             person.totalHours -= person.assignedHours[week];
             person.assignedHours[week] = 0;

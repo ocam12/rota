@@ -1,4 +1,4 @@
-import { changeShifts, currentGroup, currentStaff } from "./main.js"
+import { changeShifts, currentGroup } from "./main.js"
 import { unassignedValue } from "./constants.js";
 import { addEvent } from "./options.js";
 import { createNewElement } from "./options.js";
@@ -28,7 +28,7 @@ const turnToSelect = (element, name) => {
 
 const fillSelectWithStaff = (selectElem) => {
     selectElem.innerHTML = `<option value = "">Select Staff</option>`;
-    const options = currentStaff.map(s => s.name);
+    const options = currentGroup.staff.map(s => s.name);
     options.forEach(option => {
         const optionElem = createNewElement('option', {}, []);
         optionElem.value = option;
@@ -59,7 +59,7 @@ const changeName = (selectElem, newStaff, shiftID, oldStaff) => {
         changeShifts(shiftID, oldStaff.trim(), unassignedValue);
         return;
     }
-    const person = currentStaff.filter(s => s.name === newStaff)[0];
+    const person = currentGroup.staff.filter(s => s.name === newStaff)[0];
     const pReplacement = createNewElement('p', {classes: ['draggable', 'selectable'], text: `${person.name}`}, []);
     selectElem.replaceWith(pReplacement);
     changeShifts(shiftID, oldStaff.trim(), newStaff.trim());

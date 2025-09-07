@@ -9,20 +9,15 @@ import { addEvent } from "./options.js";
 import { addEventToCreateButton, openLoadMenu, openNewMenu, showElement } from "./groupHandler.js";
 import { displayFirstRota } from "./rotaHandler.js";
 import { unassignedValue } from "./constants.js";
+import { initialiseGroupOptionButtons } from "./groupOptions.js";
 
 loadGroups();
 
 export let currentGroup;
-export let currentStaff;
 
-export const updateCurrentStaff = (newCurrentStaff) => {
-    currentStaff = newCurrentStaff;
-    currentStaff = orderStaffByName(currentStaff);
-}
 
 export const loadGroup = (id) => {
     currentGroup = groups.find(r => r.id === id);
-    currentStaff = currentGroup.staff;
     hideRota();
     resetPage();
     initialiseAddStaff();
@@ -63,6 +58,7 @@ export const generateRota = () => {
     const assignment = assignShifts(myShifts, currentWeek, currentGroup.currentRota);
     currentGroup.rotas[currentGroup.currentRota] = assignment;
 
+    console.log(orderStaffByName(currentGroup.staff));
     render(currentGroup.currentRota);
 }
 
@@ -106,35 +102,11 @@ export const fillRemainingShifts = () => {
     render(currentGroup.currentRota); //re-render rota with new shift
 }
 
-const hideHamburgerMenu = () => {
-    const rotaOptions = document.getElementById('rotaOptions');
-    if(!currentGroup){
-        rotaOptions.classList.add('hidden');
-    }
-}
-
-hideHamburgerMenu();
-document.querySelector('.hamburger-button').addEventListener('click', () => {
-    if(currentGroup){
-        if(rotaOptions.classList.contains('hidden')){
-            rotaOptions.classList.remove('hidden');
-        }
-        else{
-            rotaOptions.classList.add('hidden');
-        }
-    }
-});
-document.getElementById('autofill').addEventListener('click', () => {
+document.getElementById('remake').addEventListener('click', () => {
     generateRota();
 });
-document.getElementById('generateAllButton').addEventListener('click', () => {
-    generateRotaForAllWeeks();
-});
-document.getElementById('fillShifts').addEventListener('click', () => {
+document.getElementById('autofill').addEventListener('click', () => {
     fillRemainingShifts();
-});
-document.getElementById('printToPDF').addEventListener('click', () => {
-    printToPDF();
 });
 
 addEventToCreateButton();
@@ -146,14 +118,14 @@ export const swapShifts = (newShift, newStaffName, oldShift, oldStaffName) => {
     oldShiftObject.assignedTo = oldStaffName.trim();
 
     //update staff values
-    const newStaff = currentStaff.find(s => s.name === newStaffName.trim());
+    const newStaff = currentGroup.staff.find(s => s.name === newStaffName.trim());
     newStaff.assignedShifts[currentGroup.currentRota].push(newShiftObject);
     newStaff.assignedShifts[currentGroup.currentRota] = newStaff.assignedShifts[currentGroup.currentRota].filter(s => s.patternId !== oldShiftObject.patternId);
     newStaff.assignedHours[currentGroup.currentRota] = (newStaff.assignedHours[currentGroup.currentRota] - shiftLength(oldShiftObject) + shiftLength(newShiftObject));
     newStaff.totalHours = (newStaff.totalHours - shiftLength(oldShiftObject) + shiftLength(newShiftObject));
 
     if(oldStaffName !== unassignedValue){
-        const oldStaff = currentStaff.find(s => s.name === oldStaffName.trim());
+        const oldStaff = currentGroup.staff.find(s => s.name === oldStaffName.trim());
         oldStaff.assignedHours[currentGroup.currentRota] = (oldStaff.assignedHours[currentGroup.currentRota] - shiftLength(newShiftObject) + shiftLength(oldShiftObject));
         oldStaff.assignedShifts[currentGroup.currentRota].push(oldShiftObject);
         oldStaff.assignedShifts[currentGroup.currentRota] = oldStaff.assignedShifts[currentGroup.currentRota].filter(s => s.patternId !== newShiftObject.patternId);
@@ -165,7 +137,7 @@ export const swapShifts = (newShift, newStaffName, oldShift, oldStaffName) => {
 
 export const changeShifts = (shift, oldStaffName, newStaffName) => {
     const shiftObject = currentGroup.rotas[currentGroup.currentRota].find(s => s.id === shift);
-    const oldStaff = currentStaff.find(s => s.name === oldStaffName);
+    const oldStaff = currentGroup.staff.find(s => s.name === oldStaffName);
 
     if(newStaffName === unassignedValue){
         shiftObject.assignedTo = unassignedValue;
@@ -181,7 +153,7 @@ export const changeShifts = (shift, oldStaffName, newStaffName) => {
         oldStaff.totalHours = (oldStaff.totalHours - shiftLength(shiftObject));
     }
     shiftObject.assignedTo = newStaffName;
-    const newStaff = currentStaff.find(s => s.name === newStaffName);
+    const newStaff = currentGroup.staff.find(s => s.name === newStaffName);
     newStaff.assignedShifts[currentGroup.currentRota].push(shiftObject);
     newStaff.assignedHours[currentGroup.currentRota] = (newStaff.assignedHours[currentGroup.currentRota] + shiftLength(shiftObject));
     newStaff.totalHours = (newStaff.totalHours + shiftLength(shiftObject));
@@ -195,6 +167,8 @@ export const printToPDF = () => {
     newWindow.document.writeln('<html><head><title>Print</title><link rel="stylesheet" href="styles.css"></head><body>');
     newWindow.document.writeln(tableElement.outerHTML);
     newWindow.document.writeln("</body></html>");
-    newWindow.document.close();
     newWindow.print(); // user can then "Save as PDF"
+    newWindow.document.close();
 }
+
+initialiseGroupOptionButtons();

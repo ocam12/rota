@@ -13,6 +13,11 @@ h3{
     padding: 0;
 }
 
+h4{
+    margin: 0;  
+    padding: 0;
+}
+
 /*Nav*/
 
 #mainNav{
@@ -240,7 +245,7 @@ h3{
     height: calc(100vh - 100px);
 }
 
-/*Options Section*/
+/*Options Section
 
 #rotaOptions{
     position: absolute;
@@ -267,37 +272,163 @@ h3{
     border: 1px solid black;
     background-color: white;
 }
-
+*/
 /*Staff Options*/
 
-#staffOptions{
+.staff-shift-options{
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     justify-content: center;
-    border-bottom: 1px solid white;
     gap: 30px;
-    padding-bottom: 20px;
+    padding: 20px 50px;
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 15px;
+}
+
+#shiftSelect{
+    font-size: 20px;
+}
+
+#openStaffButton{
+    font-size: 16px;
+    padding: 5px 10px;
+    background-color: rgb(61, 151, 255);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.4s ease;
+}
+
+#openStaffButton:hover{
+    background-color: rgba(61, 151, 255, 0.8);
+}
+
+.staff-options-main-left{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.staff-options-main-info{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
     width: 100%;
 }
 
-#holidayList{
+.staff-options-other-info{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    height: 100%;
+    padding-top: 20px;
+    border-top: 1px solid rgb(230, 230, 230);
+    border-bottom: 1px solid rgb(230, 230, 230);
+}
+
+.staff-options-left{
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
     gap: 5px;
+    height: 200px;
+    border-right: 1px solid rgb(230, 230, 230);
+}
+
+.staff-options-right{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    height: 200px;
+}
+
+.other-info-container{
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+.contract-info-container{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap: 10px;
+}
+
+.contract-info-container button{
+    background-color: rgb(61, 151, 255);
+    color: white;
+    width: 60px;
+    height: 26px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.4s ease;
+}
+
+.contract-info-container button:hover{
+    background-color: rgba(61, 152, 255, 0.8);
+}
+
+.current-contract{
+    display: flex;
+    gap: 5px;
+}
+
+.new-contract{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.change-contract-input{
+    width: 50px;
+    height: 20px;
     font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid grey;
+    padding: 2px 4px;
+}
+
+#holidayList{
+    gap: 10px;
+    padding-left: 20px;
+    padding-top: 10px;
+    font-size: 16px;
+    height: 100px;
+    width: 90%;
+    background-color: rgb(245, 245, 245);
+    border-radius: 10px;
+    overflow-y: scroll;
+}
+
+#holidayList::-webkit-scrollbar {
+    width: 6px;
+}
+
+#holidayList::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 6px;
 }
 
 .holiday-container{
     display: flex;
     align-items: center;
-    gap: 20px;
-}
-
-.holiday-container{
-    display: flex;
-    gap: 20px;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 .delete-holiday-button{
+    font-weight: bold;
     font-size: 16px;
     background-color: transparent;
     color: rgb(255, 65, 65);
@@ -313,24 +444,20 @@ h3{
 
 .calendar-container{
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     gap: 10px;
-    width: 100%;
+    padding-left: 20px;
     padding-bottom: 20px;
 }
 
-.calendar-container-hidden{
-    display: none;
-}
-
 .calendar-container input{
+    padding: 2px 5px;
     font-size: 16px;
     border-radius: 10px;
     border: none;
-    padding: 5px 8px;
-    background-color: transparent;
-    color: white;
+    background-color: rgb(245, 245, 245);
+    color: rgb(20, 20, 20);
     cursor: pointer;
 }
 
@@ -341,17 +468,18 @@ h3{
     border-bottom: 1px solid transparent;
     padding: 5px 2px;
     background-color: rgba(255, 255, 255, 0);
-    color: white;
+    color: rgb(0, 0, 0);
     cursor: pointer;
     transition: 0.3s ease;
 }
 
 .calendar-container button:hover{
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid rgb(20, 20, 20);
 }
 
 .delete-employee-button{
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: bold;
     background-color: transparent;
     color: rgb(255, 65, 65);
     border: 1px solid transparent;
@@ -369,12 +497,35 @@ h3{
 #shiftOptions{
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     justify-content: center;
-    border-bottom: 1px solid white;
     gap: 30px;
     padding-bottom: 20px;
+}
+
+.shift-options-main-info{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 20px;
     width: 100%;
+    padding: 3px 0px;
+}
+
+#shiftSelect{
+    font-size: 20px;
+}
+
+.shift-options-other-info{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    gap: 20px;
+    height: 100%;
+    width: 100%;
+    padding-top: 20px;
+    border-top: 1px solid rgb(230, 230, 230);
 }
 
 .shift-container{
@@ -382,10 +533,32 @@ h3{
     gap: 20px;
 }
 
+#shiftsList{
+    gap: 10px;
+    padding-left: 20px;
+    padding-top: 10px;
+    font-size: 16px;
+    height: 100px;
+    width: 100%;
+    background-color: rgb(245, 245, 245);
+    border-radius: 10px;
+    overflow-y: scroll;
+}
+
+#shiftsList::-webkit-scrollbar {
+    width: 6px;
+}
+
+#shiftsList::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 6px;
+}
+
 .delete-shift-button{
     position: relative;
     top: -4px;
     font-size: 16px;
+    font-weight: bold;
     background-color: transparent;
     color: rgb(255, 65, 65);
     border: 1px solid transparent;
@@ -415,17 +588,13 @@ h3{
     gap: 15px;
 }
 
-.time-container-hidden{
-    display: none;
-}
-
 .time-container input{
+    padding: 2px 5px;
     font-size: 16px;
     border-radius: 10px;
     border: none;
-    padding: 5px 8px;
-    background-color: transparent;
-    color: white;
+    background-color: rgb(245, 245, 245);
+    color: rgb(20, 20, 20);
     cursor: pointer;
 }
 
@@ -435,19 +604,19 @@ h3{
     border: none;
     border-bottom: 1px solid transparent;
     padding: 5px 2px;
-    background-color: rgba(255, 255, 255, 0);
-    color: white;
+    background-color: transparent;
+    color: rgb(20, 20, 20);
     cursor: pointer;
     transition: 0.3s ease;
 }
 
 .time-container button:hover{
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid rgb(20, 20, 20);
 }
 
 .add-shift-container{
     display: flex;
-    flex-direction: column;
+    gap: 20px;
 }
 
 #shiftTypeSelect{
@@ -475,8 +644,6 @@ h3{
     z-index: 100;
 }
 
-.new-staff-hidden{display: none;}
-
 .new-staff input{
     font-size: 16px;
     border-radius: 0px;
@@ -502,7 +669,8 @@ h3{
     border-bottom: 2px solid rgb(25, 25, 25);
 }
 
-#openStaffButton, #generateButton, #generateAllButton, #fillShifts, #printToPDF{
+/*
+#generateButton, #generateAllButton, #fillShifts{
     font-size: 24px;
     padding: 4px 10px;
     border: none;
@@ -514,9 +682,9 @@ h3{
     transition: 0.3s ease;
 }
 
-#openStaffButton:hover, #generateButton:hover, #generateAllButton:hover, #fillShifts:hover, #printToPDF:hover{
+#generateButton:hover, #generateAllButton:hover, #fillShifts:hover{
     border-bottom: 2px solid white;
-}
+}*/
 
 /*Tables Sections*/
 
@@ -532,10 +700,9 @@ h3{
 }
 
 #groupOptionsNav{
-    margin-bottom: 30px;
-    border-bottom: 1px solid rgb(220, 220, 220);
+    /*border-bottom: 1px solid rgb(190, 190, 190);*/
     padding: 0px 40px;
-    padding-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 #groupOptionsNav h1{
@@ -545,6 +712,7 @@ h3{
 #groupOptions{
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 20px;
 }
 
@@ -561,11 +729,11 @@ h3{
 
 #groupOptions button:hover{
     position: sticky;
-    background-color: rgb(61, 151, 255);
-    color: white;
+    background-color: rgb(61, 151, 255) !important;
+    color: white !important;
 }
 
-#autofill{
+#remake{
     position: fixed;
     bottom: 50px;
     right: 50px;
@@ -580,8 +748,32 @@ h3{
     transition: 0.4s ease;
 }
 
-#autofill:hover{
+#remake:hover{
     background-color: rgba(61, 152, 255, 0.8);
+    scale: 0.98;
+}
+
+#remake:active{
+    scale: 0.95;
+}
+
+#autofill{
+    position: fixed;
+    bottom: 220px;
+    right: 50px;
+    height: 60px;
+    width: 140px;
+    border: none;
+    border-radius: 20px;
+    font-size: 24px;
+    background-color: rgb(225, 225, 225);
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    transition: 0.4s ease;
+}
+
+#autofill:hover{
+    background-color: rgb(235, 235, 235);
     scale: 0.98;
 }
 

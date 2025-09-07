@@ -62,68 +62,93 @@
                     <input type = "number" min = "0" class = "hours-input" placeholder = "Contracted Hours" required>
                     <button>Add Employee</button>
                 </div>
-                <div id = "rotaOptions">
-                    <div id = "staffOptions">
-                        <h2>Staff Options</h2>
-                        <select id = "staffSelect">
-                            <option value = "">Select Employee</option>
-                        </select>
-                        <div id = "holidayList">
-
-                        </div>
-                        <div class = "calendar-container hidden">
-                            <input type = "date" id = "startDate">
-                            <input type = "date" id = "endDate">
-                            <button class = "add-holiday-button">Add Holiday</button>
-                        </div>
-                    </div>
-                    <div id = "shiftOptions">
-                        <h2>Shift Options</h2>
-                        <select id = "shiftSelect">
-                            <option value = "" selected>Select Day</option>
-                            <option value = "Monday">Monday</option>
-                            <option value = "Tuesday">Tuesday</option>
-                            <option value = "Wednesday">Wednesday</option>
-                            <option value = "Thursday">Thursday</option>
-                            <option value = "Friday">Friday</option>
-                            <option value = "Saturday">Saturday</option>
-                            <option value = "Sunday">Sunday</option>
-                        </select>
-                        <div id = "shiftsList">
-
-                        </div>
-                        <div class = "time-container hidden">
-                            <input type = "time" id = "startTime">
-                            <input type = "time" id = "endTime">
-                            <select id = "shiftTypeSelect">
-
-                            </select>
-                            <div class = "add-shift-container">
-                                <button class = "add-shift-button">Add Shift</button>
-                                <button class = "add-shift-all-button">Add (All Weeks)</button>
-                            </div>
-                            
-                        </div>
-                    </div>
-                    
-                    <button id = "openStaffButton">Add Employee +</button>
-                    <button id = "generateButton">Generate Current Week ↻</button>
-                    <button id = "generateAllButton">Generate All Weeks ↻</button>
-                    <button id = "fillShifts">Fill Remaining Shifts ↻</button>
-                    <button id = "printToPDF">Print To PDF ↓</button>
-                </div>
                 <div class = "table-section hidden">
                     <nav id = "groupOptionsNav">
                         <h1 id = "group-title">COASP</h1>
                         <div id = "groupOptions">
-                            <button>👤 Employees</button>
-                            <button>💼 Shifts</button>
-                            <button>📊 Show Employee Stats</button>
-                            <button>🖨 Print To PDF</button>
+                            <button id = "staffOptionsButton">👤 Employees</button>
+                            <button id = "shiftOptionsButton">💼 Shifts</button>
+                            <button id = "switchTableViewButton">📊 Show Employee Stats</button>
+                            <button id = "printToPDF">🖨 Print To PDF</button>
+                        </div>
+                        <div id = "staffOptions" class = "staff-shift-options">
+                            <div id = "staffOptionsMainInfo" class = "staff-options-main-info">
+                                <div class = "staff-options-main-left">
+                                    <h3>Staff Options</h3>
+                                    <select id = "staffSelect">
+                                        <option value = "">Select Employee</option>
+                                    </select>
+                                </div>
+                                <button id = "openStaffButton">Add Employee +</button>
+                            </div>
+                            <div id = "staffOptionsOtherInfo" class = "staff-options-other-info hidden">
+                                <div class = "staff-options-left">
+                                    <h4>Holidays:</h4>
+                                    <div id = "holidayList">
+
+                                    </div>
+                                    <h4>Add Holiday:</h4>
+                                    <div class = "calendar-container">
+                                        <input type = "date" id = "startDate">
+                                        <input type = "date" id = "endDate">
+                                        <button class = "add-holiday-button">➕ Add</button>
+                                    </div>
+                                </div>
+                                <div class = "staff-options-right">
+                                    <h4>Other Info:</h4>
+                                    <div class = "other-info-container">
+                                        <div class = "contract-info-container">
+                                            <div class = "current-contract">
+                                                <p>Current Contracted Hours: </p>
+                                                <p id = "staffContract">10</p><br>
+                                            </div>
+                                            <div class = "new-contract">
+                                                <p>Change Contract?: </p>
+                                                <input class = "change-contract-input">
+                                                <button class = "change-contract-button">Change</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id = "shiftOptions" class = "staff-shift-options">
+                            <div id = "shiftOptionsMainInfo" class = "shift-options-main-info">
+                                <h3>Shift Options</h3>
+                                <select id = "shiftSelect">
+                                    <option value = "" selected>Select Day</option>
+                                    <option value = "Monday">Monday</option>
+                                    <option value = "Tuesday">Tuesday</option>
+                                    <option value = "Wednesday">Wednesday</option>
+                                    <option value = "Thursday">Thursday</option>
+                                    <option value = "Friday">Friday</option>
+                                    <option value = "Saturday">Saturday</option>
+                                    <option value = "Sunday">Sunday</option>
+                                </select>
+                            </div>
+                            <div id = "shiftOptionsOtherInfo" class = "shift-options-other-info">
+                                <h4>Shifts:</h4>
+                                <div id = "shiftsList">
+
+                                </div>
+                                <h4>Add Shift:</h4>
+                                <div class = "time-container hidden">
+                                    <input type = "time" id = "startTime">
+                                    <input type = "time" id = "endTime">
+                                    <select id = "shiftTypeSelect">
+
+                                    </select>
+                                    <div class = "add-shift-container">
+                                        <button class = "add-shift-button">➕ Add</button>
+                                        <button class = "add-shift-all-button">➕ Add To All Weeks</button>
+                                    </div>
+                                    
+                                </div>
+                            </div>
                         </div>
                     </nav>
                     <div class = "table-container">
-                        <button id = "autofill">Autofill ↻</button>
                         <div class = "next-prev-container">
                             <button id = "prevRota">←Prev</button>
                             <p id = "currentWeek">Week 1</p>
@@ -141,7 +166,7 @@
                             <tbody id = "rota-body"></tbody>
                         </table>
                     </div>
-                    <div id = "currentStats">
+                    <div id = "currentStats" class = "hidden">
                         <table id = "statsTable">
                             <thead>
                                 <tr>
@@ -154,15 +179,11 @@
                             <tbody id = "statsBody"></tbody>
                         </table>
                     </div>
-                    <div id = "totalStats">
-
-                    </div>
+                    <button id = "autofill">Autofill ↻</button>
+                    <button id = "remake">Remake ↻</button>
                 </div>
             </div>
-            
-            
         </main>
-        
 
         <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
         <script type = "module" src = "main.js"></script>

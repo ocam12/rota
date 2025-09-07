@@ -1,5 +1,6 @@
 import { unassignedValue } from "./constants.js";
-import { overlappingShifts, shiftLength, isOnHoliday, orderStaffByPriority, randomiseShifts, reorganiseShifts } from "./rotaUtils.js";
+import { currentGroup } from "./main.js";
+import { overlappingShifts, shiftLength, isOnHoliday, orderStaffByPriority, randomiseShifts, reorganiseShifts, orderStaffByName } from "./rotaUtils.js";
 
 export const assignShifToPerson = (person, shift, week) => {
     shift.assignedTo = person.name;
@@ -14,7 +15,9 @@ export const assignShifts = (shifts, startDate, week) => {
     let randomShifts = randomiseShifts(shifts);
     
     randomShifts.forEach(shift => {
-        for (let person of orderedStaff){
+        for (let orderedPerson of orderedStaff){
+            const person = currentGroup.staff.find(p => p.id === orderedPerson.id);
+
             shift.assignedTo = unassignedValue;
             if (!overlappingShifts(person, shift, week) && !isOnHoliday(person, shift)){
                 assignShifToPerson(person, shift, week);

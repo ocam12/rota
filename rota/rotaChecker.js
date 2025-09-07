@@ -1,4 +1,4 @@
-import { currentGroup, currentStaff } from "./main.js"
+import { currentGroup } from "./main.js"
 import { unassignedValue } from "./constants.js";
 import { addClashMajorError, addClashMinorError, addHolidayError, addNoCoverError } from "./rotaErrorDisplay.js";
 
@@ -12,7 +12,7 @@ const checkHolidays = () => {
     const shifts = currentGroup.rotas[currentGroup.currentRota];
     shifts.forEach(shift => {
         if (shift.assignedTo === unassignedValue){return;}
-        const person = currentStaff.find(s => s.name === shift.assignedTo);
+        const person = currentGroup.staff.find(s => s.name === shift.assignedTo);
         if (!person){return;}
         const shiftDate = new Date(shift.date);
         if (person.holidays.some(h => shiftDate <= new Date(h.end) && shiftDate >= new Date(h.start))){     //found overlap with holiday

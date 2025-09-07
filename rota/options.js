@@ -1,4 +1,4 @@
-import { currentGroup, currentStaff, fillRemainingShifts, updateCurrentStaff } from "./main.js";
+import { currentGroup, fillRemainingShifts } from "./main.js";
 import { addHoliday, addShift, addStaff, changeContract, changeShiftType, deleteHoliday, deleteShift, deleteStaff } from "./data.js";
 import { showElement } from "./groupHandler.js";
 import { convertHolidayText } from "./utils.js";
@@ -9,7 +9,7 @@ export const fillStaffSelect = () => {
     const staffSelect = document.getElementById('staffSelect');
     clearContainer(staffSelect);
     staffSelect.innerHTML = '<option value = "">Select Employee</option>';
-    const options = currentStaff.map(s => s.name);
+    const options = currentGroup.staff.map(s => s.name);
     options.forEach(option => {
         const optionElem = createNewElement('option', {}, []);
         optionElem.value = option;
@@ -27,17 +27,26 @@ const initialiseDropDowns = (selectElement, functionCall) => {
 }
 
 const staffSelected = (staffName) => {
+    const deleteBtn = document.querySelector('.delete-employee-button');
+    if (deleteBtn) {
+        deleteBtn.remove();
+    }
+
     const staffOptions = document.getElementById('staffOptions');
     const holidayList = document.getElementById('holidayList');
     clearContainer(holidayList);
     if (staffName){
-        const selectedPerson = currentStaff.find(s => s.name === staffName);
+        const selectedPerson = currentGroup.staff.find(s => s.name === staffName);
         orderHolidays(selectedPerson.holidays).forEach(h => {
-            const holidayText = createNewElement('p', {classes: [], text: `${convertHolidayText(h.start)} - ${convertHolidayText(h.end)}`}, []);
+            let holidayText = `${convertHolidayText(h.start)} - ${convertHolidayText(h.end)}`;
+            if (convertHolidayText(h.start) === convertHolidayText(h.end)){
+                holidayText = `${convertHolidayText(h.start)}`;
+            }
+            const holidayTextObject = createNewElement('p', {classes: [], text: holidayText}, []);
             const holidayButton = createNewElement('button', {classes: ['delete-holiday-button'], text: 'Delete'}, []);
             addEvent(holidayButton, 'click', deleteHoliday, [currentGroup, selectedPerson, h.id]);
             addEvent(holidayButton, 'click', staffSelected, [selectedPerson.name]);
-            const holidayContainer = createNewElement('div', {classes: ['holiday-container'], text: ''}, [holidayText, holidayButton]);
+            const holidayContainer = createNewElement('div', {classes: ['holiday-container'], text: ''}, [holidayTextObject, holidayButton]);
             holidayList.appendChild(holidayContainer);
         });
 
@@ -46,25 +55,37 @@ const staffSelected = (staffName) => {
         addHolidayButtonTemp.parentNode.replaceChild(addHolidayButton, addHolidayButtonTemp);
         addEvent(addHolidayButton, 'click', addNewHoliday, [selectedPerson]);
         showCalendar();
-
-        const deleteBtn = document.querySelector('.delete-employee-button');
-        if (deleteBtn) {
-            deleteBtn.remove();
-        }
+        showStaffInfo();
         const deleteStaffButton = createNewElement('button', {classes: ['delete-employee-button'], text: 'Delete Employee'}, []);
         addEvent(deleteStaffButton, 'click', deleteOldStaff, [selectedPerson, deleteStaffButton]);
         staffOptions.appendChild(deleteStaffButton);
 
-        const changeInput = document.querySelector('.change-contract-input');
-        if (changeInput) {
-            changeInput.remove();
-        }
-        const changeStaffContract = createNewElement('input', {classes: ['change-contract-input'], text: ''}, [])
-        addEvent(changeStaffContract, 'change', changeContract, [currentGroup, selectedPerson.id, changeStaffContract]);
-        staffOptions.appendChild(changeStaffContract);
+        initialiseContractOptions(selectedPerson);
     }
     else{
         removeCalendar();
+        hideStaffInfo();
+    }
+}
+
+const initialiseContractOptions = (person) => {
+    const contractText = document.getElementById('staffContract');
+    contractText.innerText = person.contractedHours;
+
+    const changeInput = document.querySelector('.change-contract-input');
+    const newChangeInput = createNewElement('input', {classes: ['change-contract-input'], text: ''}, [])
+    changeInput.replaceWith(newChangeInput);
+
+    const changeButton = document.querySelector('.change-contract-button');
+    const newChangeButton = createNewElement('button', {classes: ['change-contract-button'], text: 'Change'}, [])
+    addEvent(newChangeButton, 'click', changeStaffContract, [person, newChangeInput]);
+    changeButton.replaceWith(newChangeButton)
+}
+
+const changeStaffContract = (person, changeStaffContractInput) => {
+    if (changeStaffContractInput.value){
+        changeContract(currentGroup, person.id, changeStaffContractInput);
+        staffSelected(person.name)
     }
 }
 
@@ -75,6 +96,20 @@ const addNewHoliday = (selectedPerson) => {
     if (start.value && end.value && new Date(start.value) <= new Date(end.value)){
         addHoliday(currentGroup, selectedPerson, start.value, end.value);
         staffSelected(selectedPerson.name);
+    }
+}
+
+const showStaffInfo = () => {
+    const staffInfo = document.getElementById('staffOptionsOtherInfo');
+    if (staffInfo !== null){
+        staffInfo.classList.remove('hidden');
+    }
+}
+
+const hideStaffInfo = () => {
+    const staffInfo = document.getElementById('staffOptionsOtherInfo');
+    if (staffInfo !== null){
+        staffInfo.classList.add('hidden');
     }
 }
 
@@ -129,6 +164,7 @@ const shiftSelected = (selectedDay) => {
                 });
             }
         }
+        showShiftInfo();
 
         //add shift button
         const addShiftButtonTemp = document.querySelector('.add-shift-button');
@@ -145,8 +181,23 @@ const shiftSelected = (selectedDay) => {
     }
     else{
         removeTime();
+        hideShiftInfo();
     }
     
+}
+
+const showShiftInfo = () => {
+    const shiftInfo = document.getElementById('shiftOptionsOtherInfo');
+    if (shiftInfo !== null){
+        shiftInfo.classList.remove('hidden');
+    }
+}
+
+const hideShiftInfo = () => {
+    const shiftInfo = document.getElementById('shiftOptionsOtherInfo');
+    if (shiftInfo !== null){
+        shiftInfo.classList.add('hidden');
+    }
 }
 
 const removeTime = () => {
@@ -272,8 +323,8 @@ export const addNewStaff = (nameInput, hoursInput, container) => {
 
 export const deleteOldStaff = (person, button) => {
     button.remove();
+    hideStaffInfo();
     deleteStaff(currentGroup, person.id);
-    updateCurrentStaff(currentGroup.staff);
     resetPage();
 }
 
