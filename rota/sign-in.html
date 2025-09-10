@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rota App + Firebase</title>
+
+        <link rel = "stylesheet" href = "styles.css">
+    </head>
+    <body>
+         <nav id = "mainNav">
+            <a id = "title-signIn" href = "index.html">Rota Generator</a>
+            <div class = "nav-side-content">
+            </div>
+        </nav>
+
+        <div id = "accountMenus">
+            <div id = "backToHomepage">
+                <a href = "index.html">↩ Back To Homepage</a>
+            </div>
+            <div id = "signUpMenu" class = "hidden">
+                <h2>Create Your Account</h2>
+                <div class = "account-div">
+                    <div class = "account-inputs-div">
+                        <input id = "signupEmail" type="email" placeholder="Email">
+                        <input id = "signupPassword" type="password" placeholder="Password">
+                    </div>
+                    <button id = "signupButton">Sign Up</button>
+                </div>
+                <div id = "messageBox">
+                    <p id = "messageP"></p>
+                </div>
+                <button id = "gotAccountButton">Got Account? Login Here</button>
+            </div>
+
+            <div id = "logInMenu" class = "hidden">
+                <h2>Login</h2>
+                <div class = "account-div">
+                    <div class = "account-inputs-div">
+                        <input id="loginEmail" type="email" placeholder="Email">
+                        <input id="loginPassword" type="password" placeholder="Password">
+                    </div>
+                    <button id = "loginButton">Log In</button>
+                </div>
+                <button id = "createAccountButton">Create Account</button>
+            </div>
+
+            <div id = "loggedInMenu" class = "hidden">
+                <h2>You Are Logged In</h2>
+                <button id = "signOutButton">Sign out</button>
+            </div>
+        </div>
+
+        <script type = "module" src = "./account-files/signIn.js"></script>
+    </body>
+</html>

@@ -40,15 +40,15 @@ const getSwitchTableViewButton = () => {
     return document.getElementById('switchTableViewButton');
 }
 
-const menuIsHidden = (menu) => {
+export const menuIsHidden = (menu) => {
     return menu.classList.contains('hidden');
 }
 
-const hideMenu = (menu) => {
+export const hideMenu = (menu) => {
     menu.classList.add('hidden');
 }
 
-const unhideMenu = (menu) => {
+export const unhideMenu = (menu) => {
     menu.classList.remove('hidden');
 }
 

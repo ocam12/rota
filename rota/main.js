@@ -10,11 +10,10 @@ import { addEventToCreateButton, openLoadMenu, openNewMenu, showElement } from "
 import { displayFirstRota } from "./rotaHandler.js";
 import { unassignedValue } from "./constants.js";
 import { initialiseGroupOptionButtons } from "./groupOptions.js";
-
-loadGroups();
+import { logoutUser } from "./account-files/groups.js";
+import { authState } from "./account-files/firebaseAuth.js";
 
 export let currentGroup;
-
 
 export const loadGroup = (id) => {
     currentGroup = groups.find(r => r.id === id);
@@ -22,8 +21,9 @@ export const loadGroup = (id) => {
     resetPage();
     initialiseAddStaff();
     setTitle();
+
     if(currentGroup.rotas.length <= 0){
-        generateRota();
+        generateRota();   
     }
     render(currentGroup.currentRota);
 }
@@ -32,7 +32,6 @@ export const unloadGroup = () => {
     currentGroup = null;
     hideRota();
     resetPage();
-    hideHamburgerMenu();
 }
 
 export const setTitle = () => {
@@ -43,11 +42,41 @@ const getTitleObject = () => {
     return document.getElementById('group-title');
 }
 
-const loadButton = document.getElementById('load');
-addEvent(loadButton, 'click', openLoadMenu, [loadButton])
 
-const newButton = document.getElementById('new');
-addEvent(newButton, 'click', openNewMenu, [newButton])
+export const initMainPage = () => {
+    if (!window.location.pathname.endsWith("index.html")) {
+        return;
+    }
+    
+    const accountButton = document.getElementById('accountButton');
+    if (accountButton){
+        accountButton.innerText = 'Account';
+    }
+    
+    const loadButton = document.getElementById('load');
+    if (loadButton) {
+        addEvent(loadButton, 'click', openLoadMenu, [loadButton]);
+        loadButton.classList.remove('hidden');
+    }
+
+    const newButtons = document.querySelectorAll('.new');
+    newButtons.forEach(nb => {
+        if (nb) {
+            addEvent(nb, 'click', openNewMenu, [nb]);
+            nb.classList.remove('hidden');
+        }
+    });
+
+    const remakeBtn = document.getElementById('remake');
+    if (remakeBtn) remakeBtn.addEventListener('click', generateRota);
+
+    const autofillBtn = document.getElementById('autofill');
+    if (autofillBtn) autofillBtn.addEventListener('click', fillRemainingShifts);
+
+    addEventToCreateButton();
+    initialiseGroupOptionButtons();
+    openLoadMenu();
+}
 
 export let myShifts;
 
@@ -58,7 +87,6 @@ export const generateRota = () => {
     const assignment = assignShifts(myShifts, currentWeek, currentGroup.currentRota);
     currentGroup.rotas[currentGroup.currentRota] = assignment;
 
-    console.log(orderStaffByName(currentGroup.staff));
     render(currentGroup.currentRota);
 }
 
@@ -101,15 +129,6 @@ export const fillRemainingShifts = () => {
     }
     render(currentGroup.currentRota); //re-render rota with new shift
 }
-
-document.getElementById('remake').addEventListener('click', () => {
-    generateRota();
-});
-document.getElementById('autofill').addEventListener('click', () => {
-    fillRemainingShifts();
-});
-
-addEventToCreateButton();
 
 export const swapShifts = (newShift, newStaffName, oldShift, oldStaffName) => {
     const newShiftObject = currentGroup.rotas[currentGroup.currentRota].find(s => s.id === newShift);
@@ -170,5 +189,3 @@ export const printToPDF = () => {
     newWindow.print(); // user can then "Save as PDF"
     newWindow.document.close();
 }
-
-initialiseGroupOptionButtons();

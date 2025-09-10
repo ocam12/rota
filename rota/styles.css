@@ -1,3 +1,5 @@
+@import url('signin.css');
+
 body{
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
@@ -23,34 +25,24 @@ h4{
 #mainNav{
     position: sticky;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     background-color: rgb(255, 255, 255);
     border-bottom: 1px solid rgb(220, 220, 220);
     height: 100px
 }
 
-#mainNav p{
+#mainNav a{
+    position: relative;
+    left: 20px;
     font-size: 35px;
     color: rgb(20, 20, 20);
-}
-
-.hamburger-button{
-    position: absolute;
-    display: none;
-    width: 50px;
-    left: 30px;
-    top: 25%;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-.hamburger-button:hover{
-    scale: 1.04;
+    text-decoration: none;
 }
 
 .nav-side-content{
-    position: absolute;
-    right: 30px;
+    position: relative;
+    margin-right: 30px;
 }
 
 .nav-button{
@@ -73,21 +65,71 @@ h4{
     scale: 98%;
 }
 
-.new-group{
-    position: relative;
+.account-a{
+    padding: 8px 24px;
+    font-size: 20px !important;
+    background-color: rgb(230, 230, 230);
+    color: black;
+    text-decoration: none;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: 0.4s ease;
+}
+
+.account-a:hover{
+    background-color: rgb(220, 220, 220);
+}
+
+#notLoggedInMenu{
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    margin-top: 30vh;
+    gap: 40px;
+}
+
+#notLoggedInMenu h3{
+    font-size: 34px;
+    width: 500px;
+    text-align: center;
+}
+
+#notLoggedInMenu a{
+    text-decoration: none;
+    background-color: rgb(61, 151, 255);
+    color: white;
+    font-size: 30px;
+    border-radius: 50px;
+    padding: 20px 60px;
+    cursor: pointer;
+    transition: 0.4s ease;
+}
+
+#notLoggedInMenu a:hover{
+    background-color: rgba(61, 152, 255, 0.8);
+}
+
+#notLoggedInMenu a:active{
+    scale: 0.95;
+}
+
+.new-group{
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
     gap: 40px;
     font-size: 22px;
     background-color: white;
-    color: rgb(31, 31, 31);
+    color: rgb(20, 20, 20);
     border: none;
-    border-bottom: 3px solid rgb(35, 35, 35);
-    height: 100%;
+    height: calc(100vh - 100px);
     width: 100vw;
     padding: 40px 0px;
-    z-index: 100;
+    z-index: 200;
 }
 
 .new-group-content{
@@ -117,9 +159,8 @@ h4{
 
 .new-group input{
     font-size: 16px;
-    border-radius: 0px;
-    border: none;
-    border-bottom: 1px solid rgb(35, 35, 35);
+    border-radius: 25px;
+    border: 1px solid rgb(180, 180, 180);
     padding: 5px 8px;
     width: 200px;
     background-color: transparent;
@@ -131,19 +172,18 @@ h4{
 }
 
 .new-group button{
-    font-size: 22px;
-    border-radius: 0px;
+    padding: 8px 12px;
+    font-size: 20px;
+    background-color: rgb(61, 151, 255);
+    color: rgb(255, 255, 255);
+    border-radius: 6px;
     border: none;
-    border-bottom: 2px solid transparent;
-    padding: 2px 8px;
-    color: rgb(35, 35, 35);
-    background-color: transparent;
     cursor: pointer;
-    transition: 0.2s ease;
+    transition: 0.4s ease;
 }
 
 .new-group button:hover{
-    border-bottom: 2px solid rgb(35, 35, 35);
+    background-color: rgba(61, 151, 255, 0.8);
 }
 
 .new-group-hidden{display: none;}
@@ -184,7 +224,7 @@ h4{
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-
+/*
 .load-group{
     position: absolute;
     top: 50%;
@@ -204,37 +244,114 @@ h4{
     z-index: 100;
     padding-top: 50px;
     overflow: scroll;
+}*/
+
+.load-group{
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    font-size: 26px;
+    background-color: white;
+    color: rgb(20, 20, 20);
+    height: calc(100vh - 100px);
+    width: 100vw;
+    z-index: 100;
+}
+
+.group-exists{
+    position: relative;
+    top: 20vh;
+}
+
+.group-list{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    height: 500px;
+    margin-top: 20px;
+    overflow: scroll;
+}
+
+.group-list::-webkit-scrollbar {
+    width: 10px;
+}
+
+.group-list::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 6px;
 }
 
 .group-container{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 90%;
-    margin-top: 20px;
+    width: 400px;
+    padding: 8px 12px;
+    border: 2px solid rgb(195, 195, 195);
+    border-radius: 10px;
 }
 
-.group-container p{
-    border-bottom: 2px solid transparent;
+.group-button-container{
+    display: flex;
+    gap: 10px;
+}
+
+.load-group-button{
+    padding: 8px 12px;
+    font-size: 20px;
+    background-color: rgb(61, 151, 255);
+    color: rgb(255, 255, 255);
+    border-radius: 6px;
+    border: none;
     cursor: pointer;
-    transition: 0.2s ease;
+    transition: 0.4s ease;
 }
 
-.group-container p:hover{
-    border-bottom: 2px solid rgb(255, 255, 255);
+.load-group-button:hover{
+    background-color: rgba(61, 152, 255, 0.8);
 }
 
 .delete-group-button{
-    color: red;
-    background-color: transparent;
-    border: none;
-    border-bottom: 2px solid transparent;
+    padding: 8px 12px;
     font-size: 20px;
+    background-color: rgb(255, 61, 61);
+    color: rgb(255, 255, 255);
+    border-radius: 6px;
+    border: none;
     cursor: pointer;
+    transition: 0.4s ease;
 }
 
 .delete-group-button:hover{
     border-bottom: 2px solid rgb(255, 0, 0);
+}
+
+.group-not-exists{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    top: 20vh;
+}
+
+.group-not-exists button{
+    font-size: 30px;
+    width: 220px;
+    height: 75px;
+    background-color: rgb(61, 151, 255);
+    color: rgb(255, 255, 255);
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: 0.4s ease;
+}
+
+.group-not-exists button:hover{
+    background-color: rgba(61, 152, 255, 0.8);
 }
 
 /*Main Section*/
@@ -245,34 +362,6 @@ h4{
     height: calc(100vh - 100px);
 }
 
-/*Options Section
-
-#rotaOptions{
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: center;
-    gap: 40px;
-    width: 400px;
-    height: 100%;
-    overflow: scroll;
-    flex-shrink: 0;
-    padding-top: 60px;
-    background-color: rgb(35, 35, 35);
-    color: white;
-}
-
-#rotaOptions select{
-    appearance: none;
-    padding: 5px;
-    font-size: 20px;
-    height: 50px;
-    width: 200px;
-    border: 1px solid black;
-    background-color: white;
-}
-*/
 /*Staff Options*/
 
 .staff-shift-options{
@@ -283,6 +372,7 @@ h4{
     gap: 30px;
     padding: 20px 50px;
     border: 1px solid rgb(200, 200, 200);
+    margin-top: 20px;
     border-radius: 15px;
 }
 
@@ -336,7 +426,7 @@ h4{
     flex-direction: column;
     align-items: start;
     justify-content: start;
-    gap: 5px;
+    gap: 10px;
     height: 200px;
     border-right: 1px solid rgb(230, 230, 230);
 }
@@ -638,7 +728,7 @@ h4{
     gap: 20px;
     font-size: 26px;
     background-color: white;
-    border: 3px solid rgb(24, 24, 24);
+    border: 1px solid black;
     border-radius: 20px;
     padding: 20px 60px;
     z-index: 100;
@@ -646,53 +736,36 @@ h4{
 
 .new-staff input{
     font-size: 16px;
-    border-radius: 0px;
-    border: none;
-    border-bottom: 1px solid black;
+    border-radius: 15px;
+    border: 1px solid grey;
     padding: 5px 8px;
-    background-color: transparent;
     cursor: pointer;
 }
 
 .new-staff button{
     font-size: 22px;
-    border-radius: 0px;
+    border-radius: 15px;
     border: none;
     border-bottom: 2px solid transparent;
-    padding: 2px 8px;
-    background-color: transparent;
+    padding: 4px 10px;
+    background-color: rgb(61, 151, 255);
+    color: white;
     cursor: pointer;
     transition: 0.2s ease;
 }
 
 .new-staff button:hover{
-    border-bottom: 2px solid rgb(25, 25, 25);
+    background-color: rgba(61, 152, 255, 0.8);
 }
-
-/*
-#generateButton, #generateAllButton, #fillShifts{
-    font-size: 24px;
-    padding: 4px 10px;
-    border: none;
-    border-bottom: 2px solid transparent;
-    border-radius: 0px;
-    background-color: transparent;
-    color: white;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-
-#generateButton:hover, #generateAllButton:hover, #fillShifts:hover{
-    border-bottom: 2px solid white;
-}*/
 
 /*Tables Sections*/
 
 .table-section{
     position: relative;
     display: flex;
+    flex-direction: row-reverse;
     justify-content: center;
-    align-items: flex-start;
+    align-items: start;
     width: 100%;
     overflow: scroll;
     padding: 20px;
@@ -700,7 +773,8 @@ h4{
 }
 
 #groupOptionsNav{
-    /*border-bottom: 1px solid rgb(190, 190, 190);*/
+    display: flex;
+    flex-direction: column;
     padding: 0px 40px;
     margin-bottom: 20px;
 }
@@ -746,6 +820,7 @@ h4{
     color: white;
     cursor: pointer;
     transition: 0.4s ease;
+    z-index: 1;
 }
 
 #remake:hover{
@@ -821,6 +896,8 @@ h4{
     gap: 10px;
     overflow: scroll;
     flex-shrink: 0;
+    border-right: 1px solid black;
+    padding-right: 40px;
 }
 
 table{
@@ -842,6 +919,10 @@ th{
     height: 100px;
 }
 
+.rota-name{
+    font-weight: bold;
+}
+
 .new-staff-select{
     appearance: none;
     display: block;
@@ -856,18 +937,19 @@ th{
     display: flex;
     justify-content: center;
     align-items: start;
-    padding-top: 55px;
+    border-top: 1px solid black;
+    padding-top: 20px;
 }
 
 #statsTable{
-    width: 400px;
+    width: 700px;
 }
 
 #statsTable td{
     padding: 5px;
     border: 1px solid black;
     vertical-align: top;
-    line-height: 20px;
+    line-height: 25px;
     width: 100px;
 }
 
@@ -879,19 +961,9 @@ th{
     display: none !important;
 }
 
-@media (min-width: 1921px) {
-    #rotaOptions{
-        display: flex;
-    }
-}
-
 @media (max-width: 1920px){
     .table-section{
         padding-left: 50px;
-    }
-
-    .hamburger-button{
-        display: block;
     }
 }
 
@@ -903,30 +975,175 @@ th{
         gap: 0px;
     }
 
+    .table-container{
+        border-top: 1px solid black;
+        padding-top: 20px;
+        border-right: none;
+        padding-right: 0px;
+    }
+
     .next-prev-container{
         gap: 10vw;
         margin-bottom: 0px;
     }
 }
 
+@media (max-width: 1100px){
+    #groupOptions button{
+        font-size: 0.9rem;
+    }
+
+    #remake{
+        bottom: 20px;
+        right: 10px;
+        height: 50px;
+        width: 120px;
+        border-radius: 20px;
+        font-size: 20px;
+    }
+
+    #autofill{
+        bottom: 80px;
+        right: 10px;
+        height: 50px;
+        width: 120px;
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 900px){
+    #groupOptions{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    #groupOptions button{
+        width: 70vw;
+        font-size: 20px;
+    }
+
+    .table-section{
+        padding: 20px;
+    }
+
+    .staff-shift-options{
+        align-items: center;
+        gap: 10px;
+        width: 90vw;
+        padding: 10px 10px;
+    }
+
+    .staff-shift-options h3{
+        font-size: 14px;
+    }
+
+    .staff-shift-options h4{
+        font-size: 14px;
+    }
+
+    .staff-shift-options p{
+        font-size: 12px;
+    }
+
+    .staff-shift-options button{
+        font-size: 12px;
+    }
+
+    .staff-shift-options input{
+        font-size: 10px;
+    }
+
+    .staff-options-other-info{
+        flex-direction: column;
+    }
+
+    .staff-options-left{
+        align-items: center;
+        gap: 10px;
+        border-right: none;
+    }
+
+    .staff-options-right{
+        align-items: center;
+        justify-content: center;
+    }
+
+    #holidayList{
+        width: 88vw;
+    }
+
+    .holiday-container{
+        width: 85vw;
+    }
+
+    .shift-options-other-info{
+        align-items: center;
+    }
+
+    #shiftsList{
+        align-items: center;
+        width: 80vw;
+    }
+
+    .shift-container{
+        justify-content: center;
+    }
+
+    .add-shift-container{
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+
 @media (max-width: 750px){
-    nav p{
+    #title{
         display: none;
     }
 
-    table{
-        margin-top: -150px;
-        transform: scale(0.55);
-        z-index: -10;
+    .table-container{
+        align-items: start;
     }
 
-    #currentStats{
-        display: flex;
-        justify-content: center;
-        align-items: start;
-        padding-top: 0px;
-        margin-top: -100px;
-        transform: scale(1.2);
-        z-index: -10;
+    table{
+        width: 80%;
+        table-layout: fixed;
+        font-size: 0.6rem;
+    }
+
+    #rotaTable td{
+        padding: 4px;
+        line-height: 12px;
+        height: 50px;
+    }
+
+    #statsTable{
+        width: 80%;
+        table-layout: fixed;
+        font-size: 1rem;
+    }
+
+    #remake{
+        bottom: 20px;
+        right: 10px;
+        height: 40px;
+        width: 100px;
+        border-radius: 20px;
+        font-size: 16px;
+    }
+
+    #autofill{
+        bottom: 70px;
+        right: 10px;
+        height: 40px;
+        width: 100px;
+        font-size: 16px;
+    }
+
+    .group-container{
+        width: min(400px, 80vw);
+        font-size: 1.35rem;
     }
 }

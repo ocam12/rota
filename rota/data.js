@@ -1,7 +1,8 @@
-import { currentGroup, unloadGroup } from "./main.js";
+import { currentGroup, initMainPage, unloadGroup } from "./main.js";
 import { render } from "./rotaHandler.js";
 import { orderStaffByName, shiftLength } from "./rotaUtils.js";
 import { unassignedValue, groupSaveKey } from "./constants.js";
+import { loadUser, saveUser } from "./account-files/groups.js";
 
 const createStaff = (id, name, contractedHours = 0, holidays = [], assignedHours = [], totalHours = 0, assignedShifts = [], priority = []) => ({
     id,
@@ -138,7 +139,7 @@ export const shiftTemplate = {
 
 export let groups = [
     {id: 'test_1', name: 'COASP', staff: staff, rotas: [], shifts: [structuredClone(shiftPatterns)], startDate: "2025-09-15", duration: 3, currentRota: 0, shiftTypes: ['Early', 'Mid', 'Late']},
-    {id: 'test_2', name: 'COASP - DMs', staff: dmStaff, rotas: [], shifts: [structuredClone(dmShiftPatterns)], startDate: "2025-09-15", duration: 1, currentRota: 0, shiftTypes: ['Early', 'Late']}
+    {id: 'test_2', name: 'COASP - DMs', staff: dmStaff, rotas: [], shifts: [structuredClone(dmShiftPatterns)], startDate: "2025-09-15", duration: 1, currentRota: 0, shiftTypes: ['Early', 'Late']},
 ];
 
 export const addHoliday = (group, person, start, end) => {      //adds new holiday to chosen person of chosen group via start and end dates
@@ -226,7 +227,7 @@ export const createGroup = (groupID, groupName, groupDate, groupDuration, shiftT
 
 export const deleteGroup = (groupID) => {
     groups = groups.filter(g => g.id !== groupID);
-    if(groupID === currentGroup.id){unloadGroup();}
+    if(currentGroup && groupID === currentGroup.id){unloadGroup();}
     saveGroups();
 }
 
@@ -238,15 +239,18 @@ const removeShiftFromStaff = (group, personName, shift) => {
 }
 
 export const saveGroups = () => {
-    const groupJSON = JSON.stringify(groups);
-    localStorage.setItem(groupSaveKey, groupJSON);
+    saveUser(groups);
 }
 
-export const loadGroups = () => {
-    const loadedGroups = localStorage.getItem(groupSaveKey);
-    if (loadedGroups){
-       // groups = JSON.parse(loadedGroups);
+export const loadGroups = async () => {
+    const loadedGroups = await loadUser(); // wait for it
+    if (loadedGroups) {
+        groups = loadedGroups;      //sets groups to loaded group object
     }
+    else{
+        groups = [];
+    }
+    initMainPage();
 }
 
 export const generateID = (prefix) => {

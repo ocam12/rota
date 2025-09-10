@@ -282,6 +282,7 @@ export const clearContainer = (container) => {      //shortcut for clearing inne
 }
 
 export const resetPage = () => {        //resets all options back to original when rotas selected
+    if (!currentGroup){return;}
     fillStaffSelect();
     fillShiftSelect();
     
