@@ -1,0 +1,181 @@
+#backToHomepage{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-top: 20px;
+}
+
+#backToHomepage a{
+    text-decoration: none;
+    background-color: rgb(230, 230, 230);
+    color: rgb(30, 30, 30);
+    border-radius: 40px;
+    border: none;
+    padding: 12px 24px;
+    cursor: pointer;
+    margin-left: 20px;
+    transition: 0.4s ease;
+}
+
+#backToHomepage :hover{
+    background-color: rgb(200, 200, 200);
+}
+
+#backToHomepage :active{
+    scale: 0.96;
+}
+
+#accountMenus h1{
+    margin: 10px auto;
+    font-size: 50px;
+    text-align: center;
+}
+
+#accountMenus h2{
+    font-size: 40px;
+    text-align: center;
+}
+
+#accountMenus button:hover{
+    background-color: rgba(61, 152, 255, 0.8);
+}
+
+.account-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: calc(15vh - 100px);
+}
+
+.input-button-group{
+    display: flex;
+    height: 120px;
+}
+
+.inputs-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 20px;
+    height: 100%;
+}
+
+.account-input{
+    width: 350px;
+    height: 30px;
+    border-radius: 50px;
+    border: 1px solid grey;
+    padding: 6px 14px;
+    font-size: 20px;
+}
+
+.account-input:focus{
+    outline: 3px solid rgb(61, 151, 255);
+    outline-offset: 2px;
+}
+
+.account-input.error:focus{
+    outline: 3px solid rgb(255, 64, 61) !important;
+}
+
+#messageBox{
+    margin-top: 20px;
+    text-align: center;
+}
+
+#messageP{
+    font-size: 20px;
+}
+#messageP.error{
+    color: rgb(255, 64, 61);
+}
+#messageP.success{
+    color: rgb(0, 134, 22);
+}
+
+#accountMenus button{
+    border-radius: 40px;
+    border: none;
+    cursor: pointer;
+    transition: 0.4s ease;
+}
+
+.account-button {
+    margin-left: 20px;
+    width: 140px;
+    height: 100%;
+    font-size: 24px;
+    background-color: rgb(61, 151, 255);
+    color: white;
+}
+
+#createAccountButton, #gotAccountButton, #signOutButton{
+    margin-top: 50px;
+    padding: 0 30px;
+    height: 50px;
+    font-size: 20px;
+    background-color: rgb(230, 230, 230);
+    color: black;
+}
+
+
+#signOutButton{
+    padding: 10px 40px;
+    background-color: rgb(61, 151, 255);
+    color: white;
+}
+
+@media (max-width: 600px){
+
+    #backToHomepage a{
+        width: min(180px, 70vw);
+        margin-right: 20px;
+    }
+
+    #accountMenus h1{
+        margin-top: 50px;
+        font-size: 40px;
+    }
+
+    #accountMenus h2{
+        width: 80vw;
+        font-size: 30px;
+    }
+
+    .input-button-group{
+        flex-direction: column;
+        align-items: center;
+        gap: 3vh;
+        height: 100%;
+    }
+
+    .account-input{
+        width: min(350px, 70vw);
+        height: 30px;
+    }
+
+    .account-button {
+        margin-left: 0px;
+        height: 50px;
+        background-color: rgb(61, 151, 255);
+        color: white;
+    }
+
+    #createAccountButton, #gotAccountButton, #signOutButton{
+        min-width: 100px;
+        height: 60px;
+        font-size: 20px;
+        border-radius: 40px;
+        margin-left: 0px;
+    }
+
+    #signOutButton{
+        font-size: 30px;
+    }
+
+    #loggedInMenu h2{
+        width: min(400px, 80vw);
+    }
+}

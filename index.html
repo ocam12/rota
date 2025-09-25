@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home</title>
+        
+        <link rel = "stylesheet" href = "styles.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    </head>
+
+    <body>
+        <nav id = "mainNav">
+           <!-- <a class = "hamburger-button"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 512 512"><path fill="#141414" d="M32 96v64h448V96H32zm0 128v64h448v-64H32zm0 128v64h448v-64H32z"/></svg></a>
+        --><a id = "title" href = "index.html">Rota Generator</a>
+            <div class = "nav-side-content">
+                <button class = "nav-button hidden" id = "load" tabindex = "0">📄 Load</button>
+                <button class = "nav-button new hidden" tabindex = "0">➕ New</button>
+
+                <a id = "accountButton" class = "account-a" href = "sign-in.html" class = "account-button" tabindex = "0">Login</a>
+            </div>
+        </nav>
+        <main>
+            <div id = "notLoggedInMenu">
+                <h1>Log In Or Create An Account To Start!</h1>
+                <a href = "sign-in.html">Log In</a>
+            </div>
+            <form class = "new-group hidden">
+                <div class = "new-group-content">
+                    <div class = "left-container">
+                        <h3>Add New Group</h3>
+                        <p>Group Name:</p>
+                        <input type = "text" id = "newGroupName">
+                        <p>Start Date:</p>
+                        <input type = "date" id = "newGroupDate">
+                        <p>Duration (Weeks):</p>
+                        <input title = "hello" type = "number" id = "newGroupDuration">
+                    </div>
+                    <div class = "right-container">
+                        <p>Shift Types (Early, Late, etc):</p>
+                        <div class = "shift-type-container">
+                            <input type = "text" id = "shiftTypeInput" maxlength = "10">
+                            <button id = "shiftTypeButton" type = "button" tabindex = "0">Add Shift Type</button>
+                        </div>
+                        <div class = "added-shift-types">
+                            <table id = "exampleTable">
+                                <thead>
+                                    <tr id = "exampleHeaderRow">
+                                        <th>Day</th>
+                                        <th>Early</th>
+                                        <th>Mid</th>
+                                        <th>Late</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Mon</td></tr>
+                                    <tr><td>Tue</td></tr>
+                                    <tr><td>...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <button id = "createGroupButton" tabindex = "0">Create</button>
+            </form>
+            <div class = "load-group hidden">
+                <div class = "group-exists">
+                    <h1>Your Groups</h1>
+                    <div class = group-list>
+
+                    </div>
+                </div>
+
+                <div class = "group-not-exists hidden">
+                    <h1>No Groups Found</h1>
+                    <button class = "new" tabindex = "0">Add Group</button>
+                </div>
+            </div>
+            <!--New Staff Menu-->
+            <section class = "dimmed-background hidden">
+                <form class = "new-staff">
+                    <h3>Add Staff</h3>
+                    <input type = "text" class = "name-input" placeholder = "Employee Name" required>
+                    <input type = "number" min = "0" class = "hours-input" placeholder = "Contracted Hours" required>
+                    <button type = "submit" tabindex = "0">Add Employee</button>
+                </form>
+            </section>
+
+            <!--Main Table Section-->
+            <section class = "table-section hidden">
+                <nav id = "groupOptionsNav">
+                    <div id = "groupOptions">
+                        <h1 id = "group-title"></h1>
+                        <button id = "staffOptionsButton" tabindex = "0">👤 Employees</button>
+                        <button id = "shiftOptionsButton" tabindex = "0">💼 Shifts</button>
+                        <button id = "switchTableViewButton" tabindex = "0">📊 Show Employee Stats</button>
+                        <button id = "printToPDF" tabindex = "0">🖨 Print To PDF</button>
+                    </div>
+                    <div id = "staffOptions" class = "staff-shift-options">
+                        <div id = "staffOptionsMainInfo" class = "staff-options-main-info">
+                            <div class = "staff-options-main-left">
+                                <h2>Staff Options</h2>
+                                <select id = "staffSelect">
+                                    <option value = "">Select Employee</option>
+                                </select>
+                            </div>
+                            <button id = "openStaffButton" tabindex = "0">Add Employee +</button>
+                        </div>
+                        <div id = "staffOptionsOtherInfo" class = "staff-options-other-info hidden">
+                            <div class = "staff-options-left">
+                                <h4>Holidays:</h4>
+                                <div id = "holidayList"></div>
+                                <h4>Add Holiday:</h4>
+                                <div class = "calendar-container">
+                                    <input type = "date" id = "startDate">
+                                    <input type = "date" id = "endDate">
+                                    <button class = "add-holiday-button" tabindex = "0">➕ Add</button>
+                                </div>
+                            </div>
+                            <div class = "staff-options-right">
+                                <h4>Other Info:</h4>
+                                <div class = "other-info-container">
+                                    <div class = "contract-info-container">
+                                        <div class = "current-contract">
+                                            <p>Current Contracted Hours: </p>
+                                            <p id = "staffContract">10</p><br>
+                                        </div>
+                                        <div class = "new-contract">
+                                            <p>Change Contract?: </p>
+                                            <input class = "change-contract-input">
+                                            <button class = "change-contract-button" tabindex = "0">Change</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id = "shiftOptions" class = "staff-shift-options">
+                        <div id = "shiftOptionsMainInfo" class = "shift-options-main-info">
+                            <h3>Shift Options</h3>
+                            <select id = "shiftSelect">
+                                <option value = "" selected>Select Day</option>
+                                <option value = "Monday">Monday</option>
+                                <option value = "Tuesday">Tuesday</option>
+                                <option value = "Wednesday">Wednesday</option>
+                                <option value = "Thursday">Thursday</option>
+                                <option value = "Friday">Friday</option>
+                                <option value = "Saturday">Saturday</option>
+                                <option value = "Sunday">Sunday</option>
+                            </select>
+                        </div>
+                        <div id = "shiftOptionsOtherInfo" class = "shift-options-other-info">
+                            <h4>Shifts:</h4>
+                            <div id = "shiftsList"></div>
+                            <h4>Add Shift:</h4>
+                            <div class = "time-container hidden">
+                                <input type = "time" id = "startTime">
+                                <input type = "time" id = "endTime">
+                                <select id = "shiftTypeSelect"></select>
+                                <div class = "add-shift-container">
+                                    <button class = "add-shift-button" tabindex = "0">➕ Add</button>
+                                    <button class = "add-shift-all-button" tabindex = "0">➕ Add To All Weeks</button>
+                                </div>                
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                <div class = "table-container">
+                    <div class = "next-prev-container">
+                        <button id = "prevRota" tabindex = "0">←Prev</button>
+                        <p id = "currentWeek">Week 1</p>
+                        <button id = "nextRota" tabindex = "0">Next→</button>
+                    </div>
+                    <table id = "rotaTable">
+                        <thead>
+                            <tr id = "rota-header">
+                                <th>Day</th>
+                                <th>Early</th>
+                                <th>Mid</th>
+                                <th>Late</th>
+                            </tr>
+                        </thead>
+                        <tbody id = "rota-body"></tbody>
+                    </table>
+                </div>
+                <div id = "currentStats" class = "hidden">
+                    <table id = "statsTable">
+                        <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>Contracted Hours</th>
+                                <th>Current Week Hours</th>
+                                <th>Total Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody id = "statsBody"></tbody>
+                    </table>
+                </div>
+                <button id = "autofill" tabindex = "0">Autofill ↻</button>
+                <button id = "remake" tabindex = "0">Remake ↻</button>
+            </section>
+                
+        </main>
+
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+        <script type = "module" src = "main.js"></script>
+    </body>
+</html>

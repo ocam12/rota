@@ -1,0 +1,1156 @@
+@import url('signin.css');
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/*Nav*/
+
+#mainNav{
+    position: sticky;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    border-bottom: 1px solid rgb(220, 220, 220);
+    height: 100px
+}
+
+#mainNav a{
+    position: relative;
+    left: 20px;
+    font-size: 35px;
+    color: rgb(20, 20, 20);
+    text-decoration: none;
+}
+
+.nav-side-content{
+    position: relative;
+    margin-right: 30px;
+}
+
+.nav-button{
+    padding: 8px 24px;
+    font-size: 20px;
+    background-color: rgb(61, 151, 255);
+    border-radius: 6px;
+    border: none;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    margin-left: 20px;
+    transition: 0.4s ease;
+}
+
+.nav-button:hover{
+    background-color: rgba(61, 152, 255, 0.8);
+}
+
+.nav-button:active{
+    scale: 98%;
+}
+
+.account-a{
+    padding: 8px 24px;
+    font-size: 20px !important;
+    background-color: rgb(230, 230, 230);
+    color: black;
+    text-decoration: none;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: 0.4s ease;
+}
+
+.account-a:hover{
+    background-color: rgb(220, 220, 220);
+}
+
+#notLoggedInMenu{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30vh;
+    gap: 40px;
+}
+
+#notLoggedInMenu h1{
+    font-size: 34px;
+    width: min(500px, 80vw);
+    text-align: center;
+}
+
+#notLoggedInMenu a{
+    text-decoration: none;
+    background-color: rgb(61, 151, 255);
+    color: white;
+    font-size: 30px;
+    border-radius: 50px;
+    padding: 20px 60px;
+    cursor: pointer;
+    transition: 0.4s ease;
+}
+
+#notLoggedInMenu a:hover{
+    background-color: rgba(61, 152, 255, 0.8);
+}
+
+#notLoggedInMenu a:active{
+    scale: 0.95;
+}
+
+/*New Group Menu*/
+
+.new-group{
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    gap: 40px;
+    font-size: 22px;
+    background-color: white;
+    color: rgb(20, 20, 20);
+    border: none;
+    height: calc(100vh - 100px);
+    width: 100vw;
+    padding: 40px 0px;
+    z-index: 200;
+}
+
+.new-group-content{
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    gap: 00px;
+    width: 100%;
+}
+
+.left-container{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+}
+.right-container{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 30px;
+}
+
+.new-group input{
+    font-size: 16px;
+    border-radius: 25px;
+    border: 1px solid rgb(180, 180, 180);
+    padding: 5px 8px;
+    width: 200px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.new-group input:focus{
+    outline: 2px solid rgb(35, 35, 35);
+}
+
+.new-group button{
+    padding: 8px 12px;
+    font-size: 20px;
+    background-color: rgb(61, 151, 255);
+    color: rgb(255, 255, 255);
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: 0.4s ease;
+}
+
+.new-group button:hover{
+    background-color: rgba(61, 151, 255, 0.8);
+}
+
+.new-group-hidden{display: none;}
+
+#createGroupButton{
+    font-size: 30px;
+    width: 150px;
+}
+
+.shift-type-container{
+    display: flex; 
+    gap: 30px;
+}
+
+.shift-type-container input{
+    width: 200px !important;
+}
+
+.shift-type-container button{
+    font-size: 20px;
+}
+
+#exampleTable{
+    width: 100%;
+    max-width: 600px;
+    font-size: 16px;
+    margin-top: 30px;
+    table-layout: fixed;
+}
+
+#exampleTable td{
+    width: 30px;
+    height: 40px;
+    padding: 5px;
+    border: 1px solid black;
+    vertical-align: top;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/*Load Group Menu*/
+
+.load-group{
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    background-color: white;
+    color: rgb(20, 20, 20);
+    height: calc(100vh - 100px);
+    width: 100vw;
+    z-index: 100;
+}
+
+.load-group h1{
+    font-size: 36px;
+}
+
+.group-exists{
+    position: relative;
+    top: 20vh;
+}
+
+.group-list{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    height: 40vh;
+    margin-top: 20px;
+    overflow: scroll;
+}
+
+.group-list::-webkit-scrollbar {
+    width: 10px;
+}
+
+.group-list::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 6px;
+}
+
+.group-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 400px;
+    padding: 8px 12px;
+    border: 2px solid rgb(195, 195, 195);
+    border-radius: 10px;
+    font-size: 26px;
+}
+
+.group-button-container{
+    display: flex;
+    gap: 10px;
+}
+
+.load-group-button, .delete-group-button{
+    padding: 8px 12px;
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: 0.4s ease;
+}
+
+.load-group-button{
+    background-color: rgb(61, 151, 255);
+}
+
+.load-group-button:hover{
+    background-color: rgba(61, 152, 255, 0.8);
+}
+
+.delete-group-button{
+    background-color: rgb(255, 61, 61);
+}
+
+.delete-group-button:hover{
+    background-color: rgba(254, 61, 61, 0.8);
+}
+
+.delete-group-button:focus{
+    outline: 3px solid rgb(255, 61, 61);
+    outline-offset: 2px;
+}
+
+.group-not-exists{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    top: 20vh;
+}
+
+.group-not-exists button{
+    font-size: 30px;
+    width: 220px;
+    height: 75px;
+    background-color: rgb(61, 151, 255);
+    color: rgb(255, 255, 255);
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: 0.4s ease;
+}
+
+.group-not-exists button:hover{
+    background-color: rgba(61, 152, 255, 0.8);
+}
+
+/*Main Section*/
+
+#rotaSection{
+    position: relative;
+    display: flex;
+}
+
+/*Staff Options*/
+
+.staff-shift-options{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px 50px;
+    border: 1px solid rgb(200, 200, 200);
+    margin-top: 20px;
+    border-radius: 15px;
+}
+
+#shiftSelect{
+    font-size: 20px;
+}
+
+#openStaffButton{
+    font-size: 16px;
+    padding: 5px 10px;
+    background-color: rgb(61, 151, 255);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.4s ease;
+}
+
+#openStaffButton:hover{
+    background-color: rgba(61, 151, 255, 0.8);
+}
+
+.staff-options-main-left{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.staff-options-main-info{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+}
+
+.staff-options-other-info{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    height: 100%;
+    padding-top: 20px;
+    border-top: 1px solid rgb(230, 230, 230);
+    border-bottom: 1px solid rgb(230, 230, 230);
+}
+
+.staff-options-left{
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    gap: 10px;
+    height: 200px;
+    border-right: 1px solid rgb(230, 230, 230);
+}
+
+.staff-options-right{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    height: 200px;
+}
+
+.other-info-container{
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+.contract-info-container{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap: 10px;
+}
+
+.contract-info-container button{
+    background-color: rgb(61, 151, 255);
+    color: white;
+    width: 60px;
+    height: 26px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.4s ease;
+}
+
+.contract-info-container button:hover{
+    background-color: rgba(61, 152, 255, 0.8);
+}
+
+.current-contract{
+    display: flex;
+    gap: 5px;
+}
+
+.new-contract{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.change-contract-input{
+    width: 50px;
+    height: 20px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid grey;
+    padding: 2px 4px;
+}
+
+#holidayList{
+    gap: 10px;
+    padding-left: 20px;
+    padding-top: 10px;
+    font-size: 16px;
+    height: 100px;
+    width: 90%;
+    background-color: rgb(245, 245, 245);
+    border-radius: 10px;
+    overflow-y: scroll;
+}
+
+#holidayList::-webkit-scrollbar {
+    width: 6px;
+}
+
+#holidayList::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 6px;
+}
+
+.holiday-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.delete-holiday-button{
+    font-weight: bold;
+    font-size: 16px;
+    background-color: transparent;
+    color: rgb(255, 65, 65);
+    border: 1px solid transparent;
+    border-radius: 0px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.delete-holiday-button:hover{
+    border-bottom: 1px solid rgb(255, 65, 65);
+}
+
+.delete-holiday-button:focus{
+    outline: 3px solid rgb(255, 61, 61);
+    outline-offset: 2px;
+}
+
+.calendar-container{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+}
+
+.calendar-container input{
+    padding: 2px 5px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(245, 245, 245);
+    color: rgb(20, 20, 20);
+    cursor: pointer;
+}
+
+.calendar-container button{
+    font-size: 16px;
+    border-radius: 0px;
+    border: none;
+    border-bottom: 1px solid transparent;
+    padding: 5px 2px;
+    background-color: rgba(255, 255, 255, 0);
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.calendar-container button:hover{
+    border-bottom: 1px solid rgb(20, 20, 20);
+}
+
+.delete-employee-button{
+    font-size: 20px;
+    font-weight: bold;
+    background-color: transparent;
+    color: rgb(255, 65, 65);
+    border: 1px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.delete-employee-button:hover{
+    border: 1px solid rgb(255, 65, 65);
+}
+
+.delete-employee-button:focus{
+    outline: 3px solid rgb(255, 61, 61);
+    outline-offset: 2px;
+}
+
+/*Shift Options*/
+
+#shiftOptions{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap: 30px;
+    padding-bottom: 20px;
+}
+
+.shift-options-main-info{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 20px;
+    width: 100%;
+    padding: 3px 0px;
+}
+
+#shiftSelect{
+    font-size: 20px;
+}
+
+.shift-options-other-info{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    gap: 20px;
+    height: 100%;
+    width: 100%;
+    padding-top: 20px;
+    border-top: 1px solid rgb(230, 230, 230);
+}
+
+.shift-container{
+    display: flex;
+    gap: 20px;
+}
+
+#shiftsList{
+    gap: 10px;
+    padding-left: 20px;
+    padding-top: 10px;
+    font-size: 16px;
+    height: 100px;
+    width: 100%;
+    background-color: rgb(245, 245, 245);
+    border-radius: 10px;
+    overflow-y: scroll;
+}
+
+#shiftsList::-webkit-scrollbar {
+    width: 6px;
+}
+
+#shiftsList::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 6px;
+}
+
+.delete-shift-button{
+    position: relative;
+    top: -4px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: transparent;
+    color: rgb(255, 65, 65);
+    border: 1px solid transparent;
+    border-radius: 0px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.delete-shift-button:hover{
+    border-bottom: 1px solid rgb(255, 65, 65);
+}
+
+.delete-shift-button:focus{
+    outline: 3px solid rgb(255, 61, 61);
+    outline-offset: 2px;
+}
+
+.shift-type-select{
+    position: relative;
+    top: -4px;
+    font-size: 16px !important;
+    width: 80px !important;
+    height: 25px !important;
+    padding: 0px !important;
+    padding-left: 4px !important;
+}
+
+.time-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.time-container input{
+    padding: 2px 5px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(245, 245, 245);
+    color: rgb(20, 20, 20);
+    cursor: pointer;
+}
+
+.time-container button{
+    font-size: 16px;
+    border-radius: 0px;
+    border: none;
+    border-bottom: 1px solid transparent;
+    padding: 5px 2px;
+    background-color: transparent;
+    color: rgb(20, 20, 20);
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.time-container button:hover{
+    border-bottom: 1px solid rgb(20, 20, 20);
+}
+
+.add-shift-container{
+    display: flex;
+    gap: 20px;
+}
+
+#shiftTypeSelect{
+    font-size: 14px !important;
+    height: 30px !important;
+    width: 80px !important;
+}
+
+/*New Staff Menu*/
+
+.dimmed-background{
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 10;
+}
+
+.new-staff{
+    position: absolute;
+    margin-top: 30vh;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    font-size: 26px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 20px;
+    padding: 20px 60px;
+    z-index: 100;
+}
+
+.new-staff input{
+    font-size: 16px;
+    border-radius: 15px;
+    border: 1px solid grey;
+    padding: 5px 8px;
+    cursor: pointer;
+}
+
+.new-staff button{
+    font-size: 22px;
+    border-radius: 15px;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 4px 10px;
+    background-color: rgb(61, 151, 255);
+    color: white;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.new-staff button:hover{
+    background-color: rgba(61, 152, 255, 0.8);
+}
+
+/*Tables Sections*/
+
+.table-section{
+    position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: start;
+    width: 100%;
+    overflow: scroll;
+    padding: 20px;
+    gap: min(3vw, 100px);
+}
+
+#groupOptionsNav{
+    display: flex;
+    flex-direction: column;
+    padding: 0px 40px;
+    margin-bottom: 20px;
+}
+
+#groupOptionsNav h1{
+    padding-left: 4px;
+}
+
+#groupOptions{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+#groupOptions button{
+    height: 50px;
+    padding: 8px 12px;
+    font-size: 20px;
+    background-color: rgb(245, 245, 245);
+    border: none;
+    border-radius: 8px;
+    transition: 0.4s ease;
+    cursor: pointer;
+}
+
+#groupOptions button:hover{
+    position: sticky;
+    background-color: rgb(61, 151, 255) !important;
+    color: white !important;
+}
+
+#remake{
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    height: 140px;
+    width: 140px;
+    border: none;
+    border-radius: 50%;
+    font-size: 32px;
+    background-color: rgb(61, 151, 255);
+    color: white;
+    cursor: pointer;
+    transition: 0.4s ease;
+    z-index: 1;
+}
+
+#remake:hover{
+    background-color: rgba(61, 152, 255, 0.8);
+    scale: 0.98;
+}
+
+#remake:active{
+    scale: 0.95;
+}
+
+#autofill{
+    position: fixed;
+    bottom: 220px;
+    right: 50px;
+    height: 60px;
+    width: 140px;
+    border: none;
+    border-radius: 20px;
+    font-size: 24px;
+    background-color: rgb(225, 225, 225);
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    transition: 0.4s ease;
+}
+
+#autofill:hover{
+    background-color: rgb(235, 235, 235);
+    scale: 0.98;
+}
+
+#autofill:active{
+    scale: 0.95;
+}
+
+.next-prev-container{
+    display: flex;
+    align-items: center;
+    gap: 150px;
+}
+
+.next-prev-container p{
+    font-size: 30px;
+}
+
+#nextRota, #prevRota{
+    font-size: 26px;
+    border-radius: 0px;
+    border: none;
+    border-bottom: 2px solid rgba(24, 24, 24, 0);
+    padding: 2px 2px;
+    background-color: rgba(255, 255, 255, 0);
+    color: rgb(24, 24, 24);
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+#nextRota:hover{
+    border-bottom: 2px solid rgb(24, 24, 24);
+}
+
+#prevRota:hover{
+    border-bottom: 2px solid rgb(24, 24, 24);
+}
+
+/*Rota Table*/
+
+.table-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    overflow: scroll;
+    flex-shrink: 0;
+    border-right: 1px solid black;
+    padding-right: 40px;
+}
+
+table{
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 700px;
+}
+
+th{
+    padding: 10px 0px;
+    border: 1px solid black;
+}
+
+#rotaTable td{
+    padding: 5px;
+    border: 1px solid black;
+    vertical-align: top;
+    line-height: 20px;
+    height: 100px;
+}
+
+.rota-name{
+    font-weight: bold;
+}
+
+.new-staff-select{
+    appearance: none;
+    display: block;
+    font-size: 16px;
+    padding: 10px 10px;
+}
+
+
+/*Stats Table*/
+
+#currentStats{
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    border-top: 1px solid black;
+    padding-top: 20px;
+}
+
+#statsTable{
+    width: 700px;
+}
+
+#statsTable td{
+    padding: 5px;
+    border: 1px solid black;
+    vertical-align: top;
+    line-height: 25px;
+    width: 100px;
+}
+
+#statsTable td:first-child{
+    width: 200px;
+}
+
+.hidden{
+    display: none !important;
+}
+
+@media (max-width: 1920px){
+    .table-section{
+        padding-left: 50px;
+    }
+}
+
+@media (max-width: 1600px){
+    .table-section{
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 0px;
+    }
+
+    .table-container{
+        border-top: 1px solid black;
+        padding-top: 20px;
+        border-right: none;
+        padding-right: 0px;
+    }
+
+    .next-prev-container{
+        gap: 10vw;
+        margin-bottom: 0px;
+    }
+}
+
+@media (max-width: 1100px){
+    #groupOptions button{
+        font-size: 0.9rem;
+    }
+
+    #remake{
+        bottom: 20px;
+        right: 10px;
+        height: 50px;
+        width: 120px;
+        border-radius: 20px;
+        font-size: 20px;
+    }
+
+    #autofill{
+        bottom: 80px;
+        right: 10px;
+        height: 50px;
+        width: 120px;
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 900px){
+    #groupOptions{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    #groupOptions button{
+        width: 70vw;
+        font-size: 20px;
+    }
+
+    .table-section{
+        padding: 20px;
+    }
+
+    .staff-shift-options{
+        align-items: center;
+        gap: 10px;
+        width: 90vw;
+        padding: 10px 10px;
+    }
+
+    .staff-shift-options h3{
+        font-size: 14px;
+    }
+
+    .staff-shift-options h4{
+        font-size: 14px;
+    }
+
+    .staff-shift-options p{
+        font-size: 12px;
+    }
+
+    .staff-shift-options button{
+        font-size: 12px;
+    }
+
+    .staff-shift-options input{
+        font-size: 10px;
+    }
+
+    .staff-options-other-info{
+        flex-direction: column;
+    }
+
+    .staff-options-left{
+        align-items: center;
+        gap: 10px;
+        border-right: none;
+    }
+
+    .staff-options-right{
+        align-items: center;
+        justify-content: center;
+    }
+
+    #holidayList{
+        width: 88vw;
+    }
+
+    .holiday-container{
+        width: 85vw;
+    }
+
+    .shift-options-other-info{
+        align-items: center;
+    }
+
+    #shiftsList{
+        align-items: center;
+        width: 80vw;
+    }
+
+    .shift-container{
+        justify-content: center;
+    }
+
+    .add-shift-container{
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+
+@media (max-width: 750px){
+    #notLoggedInMenu{
+        margin-top: 15vh;
+    }
+
+    #notLoggedInMenu h3{
+        width: min(400px, 80vw);
+    }
+
+    #title{
+        display: none;
+    }
+
+    .table-container{
+        align-items: start;
+    }
+
+    table{
+        width: 80%;
+        table-layout: fixed;
+        font-size: 0.6rem;
+    }
+
+    #rotaTable td{
+        padding: 4px;
+        line-height: 12px;
+        height: 50px;
+    }
+
+    #statsTable{
+        width: 80%;
+        table-layout: fixed;
+        font-size: 1rem;
+    }
+
+    #remake{
+        bottom: 20px;
+        right: 10px;
+        height: 40px;
+        width: 100px;
+        border-radius: 20px;
+        font-size: 16px;
+    }
+
+    #autofill{
+        bottom: 70px;
+        right: 10px;
+        height: 40px;
+        width: 100px;
+        font-size: 16px;
+    }
+
+    .group-container{
+        width: min(400px, 80vw);
+        font-size: 1.35rem;
+    }
+}
