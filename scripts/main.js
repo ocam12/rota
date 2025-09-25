@@ -3,15 +3,12 @@ import { clearRotas, generateShifts, orderStaffByName, shiftLength, orderStaffBy
 import { groups, loadGroups } from "./data.js";
 import { assignShifts } from "./assignment.js";
 import { hideRota, renderRota } from "./visualGenerator.js";
-import { render } from "./rotaHandler.js";
-import { addNewStaff, fillStaffSelect, initialiseAddStaff, resetPage } from "./options.js";
-import { addEvent } from "./options.js";
-import { addEventToCreateButton, openLoadMenu, openNewMenu, showElement } from "./groupHandler.js";
-import { displayFirstRota } from "./rotaHandler.js";
+import { render, displayFirstRota } from "./rotaHandler.js";
+import { addNewStaff, addEvent, initialiseAddStaff, resetPage } from "./options.js";
+import { addEventToCreateButton, openLoadMenu, openNewMenu } from "./groupHandler.js";
+import { showElement } from "./utils.js";
 import { unassignedValue } from "./constants.js";
 import { initialiseGroupOptionButtons } from "./groupOptions.js";
-import { logoutUser } from "./account-files/groups.js";
-import { authState } from "./account-files/firebaseAuth.js";
 
 export let currentGroup;
 
@@ -56,14 +53,14 @@ export const initMainPage = () => {
     const loadButton = document.getElementById('load');
     if (loadButton) {
         addEvent(loadButton, 'click', openLoadMenu, [loadButton]);
-        loadButton.classList.remove('hidden');
+        showElement(loadButton);
     }
 
     const newButtons = document.querySelectorAll('.new');
     newButtons.forEach(nb => {
         if (nb) {
             addEvent(nb, 'click', openNewMenu, [nb]);
-            nb.classList.remove('hidden');
+            showElement(nb);
         }
     });
 

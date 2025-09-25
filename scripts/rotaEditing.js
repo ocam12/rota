@@ -1,6 +1,5 @@
 import { changeShifts, currentGroup } from "./main.js"
 import { unassignedValue } from "./constants.js";
-import { addEvent } from "./options.js";
 import { createNewElement } from "./options.js";
 import { render } from "./rotaHandler.js";
 

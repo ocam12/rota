@@ -14,56 +14,56 @@
            <!-- <a class = "hamburger-button"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 512 512"><path fill="#141414" d="M32 96v64h448V96H32zm0 128v64h448v-64H32zm0 128v64h448v-64H32z"/></svg></a>
         --><a id = "title" href = "index.html">Rota Generator</a>
             <div class = "nav-side-content">
-                <button class = "nav-button hidden" id = "load" tabindex = "0">📄 Load</button>
-                <button class = "nav-button new hidden" tabindex = "0">➕ New</button>
+                <button class = "nav-button hidden" id = "load" tabindex = "0" aria-hidden = "true">📄 Load</button>
+                <button class = "nav-button new hidden" tabindex = "0" aria-hidden = "true">➕ New</button>
 
                 <a id = "accountButton" class = "account-a" href = "sign-in.html" class = "account-button" tabindex = "0">Login</a>
             </div>
         </nav>
         <main>
-            <div id = "notLoggedInMenu">
+            <div id = "notLoggedInMenu" aria-hidden = "true">
                 <h1>Log In Or Create An Account To Start!</h1>
                 <a href = "sign-in.html">Log In</a>
             </div>
-            <form class = "new-group hidden">
-                <div class = "new-group-content">
-                    <div class = "left-container">
+            <div class = "new-group hidden" aria-hidden = "true">
+                <form class = "new-group-content">
+                    <fieldset class = "left-container">
                         <h3>Add New Group</h3>
-                        <p>Group Name:</p>
-                        <input type = "text" id = "newGroupName">
-                        <p>Start Date:</p>
-                        <input type = "date" id = "newGroupDate">
-                        <p>Duration (Weeks):</p>
-                        <input title = "hello" type = "number" id = "newGroupDuration">
-                    </div>
-                    <div class = "right-container">
-                        <p>Shift Types (Early, Late, etc):</p>
+                        <label for = "newGroupName">Group Name:</label>
+                        <input type = "text" id = "newGroupName" placeholder = "Your Group Name">
+                        <label for = "newGroupDate">Start Date:</label>
+                        <input type = "date" id = "newGroupDate" value = "2025-09-25">
+                        <label for = "newGroupDuration">Duration (Weeks):</label>
+                        <input type = "number" id = "newGroupDuration" placeholder = "10">
+                    </fieldset>
+                    <fieldset class = "right-container">
+                        <label for = "shiftTypeInput">Shift Types (Early, Late, etc):</label>
                         <div class = "shift-type-container">
-                            <input type = "text" id = "shiftTypeInput" maxlength = "10">
+                            <input type = "text" id = "shiftTypeInput" maxlength = "10" placeholder = "Early, Mid, etc...">
                             <button id = "shiftTypeButton" type = "button" tabindex = "0">Add Shift Type</button>
                         </div>
                         <div class = "added-shift-types">
                             <table id = "exampleTable">
                                 <thead>
                                     <tr id = "exampleHeaderRow">
-                                        <th>Day</th>
-                                        <th>Early</th>
-                                        <th>Mid</th>
-                                        <th>Late</th>
+                                        <th scope = "col">Day</th>
+                                        <th scope = "col">Early</th>
+                                        <th scope = "col">Mid</th>
+                                        <th scope = "col">Late</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td>Mon</td></tr>
-                                    <tr><td>Tue</td></tr>
-                                    <tr><td>...</td></tr>
+                                    <tr><th scope = "col">Mon</th></tr>
+                                    <tr><th scope = "col">Tue</th></tr>
+                                    <tr><th scope = "col">...</th></tr>
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                </div>
+                    </fieldset>
+                </form>
                 <button id = "createGroupButton" tabindex = "0">Create</button>
-            </form>
-            <div class = "load-group hidden">
+            </div>
+            <div class = "load-group hidden" aria-hidden = "true">
                 <div class = "group-exists">
                     <h1>Your Groups</h1>
                     <div class = group-list>
@@ -71,32 +71,34 @@
                     </div>
                 </div>
 
-                <div class = "group-not-exists hidden">
+                <div class = "group-not-exists hidden" aria-hidden = "true">
                     <h1>No Groups Found</h1>
                     <button class = "new" tabindex = "0">Add Group</button>
                 </div>
             </div>
             <!--New Staff Menu-->
-            <section class = "dimmed-background hidden">
+            <section class = "dimmed-background hidden" role = "dialog" aria-modal = "true" aria-labelledby = "addStaffTitle" aria-hidden = "true">
                 <form class = "new-staff">
-                    <h3>Add Staff</h3>
-                    <input type = "text" class = "name-input" placeholder = "Employee Name" required>
-                    <input type = "number" min = "0" class = "hours-input" placeholder = "Contracted Hours" required>
+                    <h3 id = "addStaffTitle">Add Staff</h3>
+                    <label for = "nameInput">Employee Name</label>
+                    <input type = "text" id = "nameInput" class = "name-input" placeholder = "Employee Name" required>
+                    <label for = "hoursInput">Employee Contracted Hours</label>
+                    <input type = "number" id = "hoursInput" min = "0" class = "hours-input" placeholder = "Contracted Hours" required>
                     <button type = "submit" tabindex = "0">Add Employee</button>
                 </form>
             </section>
 
             <!--Main Table Section-->
-            <section class = "table-section hidden">
+            <section class = "table-section hidden" aria-hidden = "true">
                 <nav id = "groupOptionsNav">
                     <div id = "groupOptions">
                         <h1 id = "group-title"></h1>
-                        <button id = "staffOptionsButton" tabindex = "0">👤 Employees</button>
-                        <button id = "shiftOptionsButton" tabindex = "0">💼 Shifts</button>
-                        <button id = "switchTableViewButton" tabindex = "0">📊 Show Employee Stats</button>
+                        <button id = "staffOptionsButton" tabindex = "0" aria-expanded = "false">👤 Employees</button>
+                        <button id = "shiftOptionsButton" tabindex = "0" aria-expanded = "false">💼 Shifts</button>
+                        <button id = "switchTableViewButton" tabindex = "0" aria-expanded = "false">📊 Show Employee Stats</button>
                         <button id = "printToPDF" tabindex = "0">🖨 Print To PDF</button>
                     </div>
-                    <div id = "staffOptions" class = "staff-shift-options">
+                    <div id = "staffOptions" class = "staff-shift-options" aria-hidden = "true">
                         <div id = "staffOptionsMainInfo" class = "staff-options-main-info">
                             <div class = "staff-options-main-left">
                                 <h2>Staff Options</h2>
@@ -106,13 +108,15 @@
                             </div>
                             <button id = "openStaffButton" tabindex = "0">Add Employee +</button>
                         </div>
-                        <div id = "staffOptionsOtherInfo" class = "staff-options-other-info hidden">
+                        <div id = "staffOptionsOtherInfo" class = "staff-options-other-info hidden" aria-hidden = "true">
                             <div class = "staff-options-left">
                                 <h4>Holidays:</h4>
                                 <div id = "holidayList"></div>
                                 <h4>Add Holiday:</h4>
                                 <div class = "calendar-container">
+                                    <label for = "startDate">Start:</label>
                                     <input type = "date" id = "startDate">
+                                    <label for = "endDate">End:</label>
                                     <input type = "date" id = "endDate">
                                     <button class = "add-holiday-button" tabindex = "0">➕ Add</button>
                                 </div>
@@ -126,8 +130,8 @@
                                             <p id = "staffContract">10</p><br>
                                         </div>
                                         <div class = "new-contract">
-                                            <p>Change Contract?: </p>
-                                            <input class = "change-contract-input">
+                                            <label for = "contractInput">Change Contract?: </label>
+                                            <input id = "contractInput" class = "change-contract-input">
                                             <button class = "change-contract-button" tabindex = "0">Change</button>
                                         </div>
                                     </div>
@@ -154,8 +158,10 @@
                             <h4>Shifts:</h4>
                             <div id = "shiftsList"></div>
                             <h4>Add Shift:</h4>
-                            <div class = "time-container hidden">
+                            <div class = "time-container">
+                                <label for = "startTime">Start:</label>
                                 <input type = "time" id = "startTime">
+                                <label for = "endTime">End:</label>
                                 <input type = "time" id = "endTime">
                                 <select id = "shiftTypeSelect"></select>
                                 <div class = "add-shift-container">
@@ -175,16 +181,16 @@
                     <table id = "rotaTable">
                         <thead>
                             <tr id = "rota-header">
-                                <th>Day</th>
-                                <th>Early</th>
-                                <th>Mid</th>
-                                <th>Late</th>
+                                <th scope = "col">Day</th>
+                                <th scope = "col">Early</th>
+                                <th scope = "col">Mid</th>
+                                <th scope = "col">Late</th>
                             </tr>
                         </thead>
-                        <tbody id = "rota-body"></tbody>
+                        <tbody id = "rota-body" aria-live = "polite" aria-relevant = "all"></tbody>
                     </table>
                 </div>
-                <div id = "currentStats" class = "hidden">
+                <div id = "currentStats" class = "hidden" aria-hidden = "true">
                     <table id = "statsTable">
                         <thead>
                             <tr>
@@ -203,7 +209,7 @@
                 
         </main>
 
+        <script type = "module" src = "./scripts/main.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-        <script type = "module" src = "main.js"></script>
     </body>
 </html>

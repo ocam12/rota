@@ -1,10 +1,11 @@
 import { selectedButtonColour, selectedButtonTextColour, unselectedButtonColour, unselectedButtonTextColour } from "./constants.js";
 import { printToPDF } from "./main.js";
 import { addEvent } from "./options.js";
+import { hideElement, showElement } from "./utils.js";
 
 const hideAllMenus = () => {
-    hideMenu(getStaffOptions());
-    hideMenu(getShiftOptions());
+    hideElement(getStaffOptions());
+    hideElement(getShiftOptions());
     deselectButton(getStaffOptionsButton());
     deselectButton(getShiftOptionsButton());
 }
@@ -12,7 +13,7 @@ const hideAllMenus = () => {
 const openMenu = (getFunction, button) => {
     if (menuIsHidden(getFunction())){
         hideAllMenus();
-        unhideMenu(getFunction());
+        showElement(getFunction());
         selectButton(button);
     }
     else {    
@@ -44,14 +45,6 @@ export const menuIsHidden = (menu) => {
     return menu.classList.contains('hidden');
 }
 
-export const hideMenu = (menu) => {
-    menu.classList.add('hidden');
-}
-
-export const unhideMenu = (menu) => {
-    menu.classList.remove('hidden');
-}
-
 const selectButton = (button) => {
     button.style.backgroundColor = selectedButtonColour;
     button.style.color = selectedButtonTextColour;
@@ -70,15 +63,15 @@ const switchTableView = (button) => {
         button.innerText = '📊 Hide Employee Stats';
         selectButton(button);
 
-        rotaTable.classList.add('hidden')
-        statsTable.classList.remove('hidden')
+        showElement(statsTable);
+        hideElement(rotaTable);
     }
     else{
         button.innerText = '📊 Show Employee Stats';
         deselectButton(button);
 
-        rotaTable.classList.remove('hidden')
-        statsTable.classList.add('hidden')
+        showElement(rotaTable);
+        hideElement(statsTable);
     }
 }
 

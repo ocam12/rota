@@ -9,6 +9,14 @@ body{
     font-family: Arial, Helvetica, sans-serif;
 }
 
+fieldset{
+    border: none;
+}
+
+label{
+    font-size: 1.3rem;
+}
+
 /*Nav*/
 
 #mainNav{
@@ -456,6 +464,10 @@ body{
     gap: 5px;
 }
 
+.new-contract label{
+    font-size: 0.8rem;
+}
+
 .change-contract-input{
     width: 50px;
     height: 20px;
@@ -520,6 +532,10 @@ body{
     gap: 10px;
     padding-left: 20px;
     padding-bottom: 20px;
+}
+
+.calendar-container label{
+    font-size: 0.9rem;
 }
 
 .calendar-container input{
@@ -698,6 +714,7 @@ body{
 .add-shift-container{
     display: flex;
     gap: 20px;
+    margin-left: 40px;
 }
 
 #shiftTypeSelect{
@@ -710,7 +727,7 @@ body{
 
 .dimmed-background{
     position: absolute;
-    height: 100vh;
+    height: 100%;
     width: 100vw;
     background-color: rgba(0, 0, 0, 0.7);
     z-index: 10;
@@ -910,10 +927,11 @@ th{
     border: 1px solid black;
 }
 
-#rotaTable td{
+#rotaTable td, tbody th{
     padding: 5px;
     border: 1px solid black;
     vertical-align: top;
+    text-align: start;
     line-height: 20px;
     height: 100px;
 }

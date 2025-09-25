@@ -23,3 +23,13 @@ export const convertHolidayText = (holidayText) => {
 
     return `${dayName} ${day} / ${month} / ${year}`;
 }
+
+export const hideElement = (element) => {
+    element.classList.add('hidden');
+    element.setAttribute('aria-hidden', 'true');
+}
+
+export const showElement = (element) => {
+    element.classList.remove('hidden');
+    element.setAttribute('aria-hidden', 'false');
+}

@@ -222,6 +222,7 @@ export const changeContract = (group, personID, newHoursInput) => {
 
 export const createGroup = (groupID, groupName, groupDate, groupDuration, shiftTypes) => {
     groups.push({id: groupID, name: groupName, staff: [], rotas: [], shifts: Array.from({ length: groupDuration }, () => structuredClone(shiftTemplate)), startDate: groupDate, duration: groupDuration, currentRota: 0, shiftTypes: shiftTypes});
+    console.log(groups);
     saveGroups();
 }
 

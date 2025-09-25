@@ -1,8 +1,8 @@
 import { currentGroup, fillRemainingShifts } from "./main.js";
-import { addHoliday, addShift, addStaff, changeContract, changeShiftType, deleteHoliday, deleteShift, deleteStaff } from "./data.js";
-import { showElement } from "./groupHandler.js";
-import { convertHolidayText } from "./utils.js";
+import { addHoliday, addShift, addStaff, changeContract, changeShiftType, deleteHoliday, deleteShift, deleteStaff, staff } from "./data.js";
+import { showElement, convertHolidayText, hideElement } from "./utils.js";
 import { orderHolidays } from "./rotaUtils.js";
+import { addHideOnClickOutside, toggle } from "./clickOutside.js";
 
 //---Staff Options---
 export const fillStaffSelect = () => {
@@ -105,28 +105,28 @@ const addNewHoliday = (selectedPerson) => {
 const showStaffInfo = () => {
     const staffInfo = document.getElementById('staffOptionsOtherInfo');
     if (staffInfo !== null){
-        staffInfo.classList.remove('hidden');
+        showElement(staffInfo);
     }
 }
 
 const hideStaffInfo = () => {
     const staffInfo = document.getElementById('staffOptionsOtherInfo');
     if (staffInfo !== null){
-        staffInfo.classList.add('hidden');
+        hideElement(staffInfo);
     }
 }
 
 const removeCalendar = () => {
     const calendar = document.querySelector('.calendar-container');
     if (calendar !== null){
-        calendar.classList.add('hidden');
+        hideElement(calendar);
     }
 }
 
 const showCalendar = () => {
     const calendar = document.querySelector('.calendar-container');
     if (calendar !== null){
-        calendar.classList.remove('hidden');
+        showElement(calendar);
         calendar.childNodes.forEach(child => child.value = new Date());     //resets dates back to today's date
     }
 }
@@ -193,28 +193,28 @@ const shiftSelected = (selectedDay) => {
 const showShiftInfo = () => {
     const shiftInfo = document.getElementById('shiftOptionsOtherInfo');
     if (shiftInfo !== null){
-        shiftInfo.classList.remove('hidden');
+        showElement(shiftInfo);
     }
 }
 
 const hideShiftInfo = () => {
     const shiftInfo = document.getElementById('shiftOptionsOtherInfo');
     if (shiftInfo !== null){
-        shiftInfo.classList.add('hidden');
+        hideElement(shiftInfo);
     }
 }
 
 const removeTime = () => {
     const timeContainer = document.querySelector('.time-container');
     if (timeContainer !== null){
-        timeContainer.classList.add('hidden');
+        hideElement(timeContainer);
     }
 }
 
 const showTime = () => {
     const timeContainer = document.querySelector('.time-container');
     if (timeContainer !== null){
-        timeContainer.classList.remove('hidden');
+        showElement(timeContainer);
         timeContainer.childNodes.forEach(child => child.value = child.defaultValue);     //resets times back to default values
     }
 
@@ -304,7 +304,6 @@ export const initialiseAddStaff = () => {
     const openNewStaffButton = document.getElementById('openStaffButton');
     const cloneOfNewButton = openNewStaffButton.cloneNode(true);
     openNewStaffButton.replaceWith(cloneOfNewButton);
-    addEvent(cloneOfNewButton, 'click', () => { showElement(newStaffContainer.parentElement); });
 
     const nameInput = newStaffContainer.querySelector('.name-input');
     const hoursInput = newStaffContainer.querySelector('.hours-input');
@@ -312,6 +311,13 @@ export const initialiseAddStaff = () => {
     const cloneOfAddButton = addEmployeeButton.cloneNode(true);
     addEmployeeButton.replaceWith(cloneOfAddButton);
     addEvent(cloneOfAddButton, 'click', addNewStaff, [nameInput, hoursInput, newStaffContainer.parentElement]);
+    addEvent(cloneOfNewButton, 'click', () => { 
+        toggle(newStaffContainer.parentElement);
+        nameInput.focus(); 
+    });
+    addEvent(newStaffContainer.parentElement, 'click', () => { 
+        hideElement(newStaffContainer.parentElement);
+    });
 }
 
 export const addNewStaff = (nameInput, hoursInput, container) => {
@@ -322,7 +328,7 @@ export const addNewStaff = (nameInput, hoursInput, container) => {
         resetPage();
         nameInput.value = '';
         hoursInput.value = '';
-        container.classList.add('hidden');
+        hideElement(container);
     }
 }
 

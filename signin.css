@@ -27,12 +27,12 @@
 
 #accountMenus h1{
     margin: 10px auto;
-    font-size: 50px;
+    font-size: 3.1rem;
     text-align: center;
 }
 
 #accountMenus h2{
-    font-size: 40px;
+    font-size: 2.3rem;
     text-align: center;
 }
 
@@ -51,7 +51,10 @@
 
 .input-button-group{
     display: flex;
-    height: 120px;
+    flex-direction: column;
+    align-items: center;
+    gap: 3vh;
+    margin-top: 20px;
 }
 
 .inputs-container{
@@ -68,7 +71,7 @@
     border-radius: 50px;
     border: 1px solid grey;
     padding: 6px 14px;
-    font-size: 20px;
+    font-size: 1.1rem;
 }
 
 .account-input:focus{
@@ -82,11 +85,12 @@
 
 #messageBox{
     margin-top: 20px;
+    max-width: 90vw;
     text-align: center;
 }
 
 #messageP{
-    font-size: 20px;
+    font-size: 1.4rem;
 }
 #messageP.error{
     color: rgb(255, 64, 61);
@@ -103,10 +107,9 @@
 }
 
 .account-button {
-    margin-left: 20px;
     width: 140px;
-    height: 100%;
-    font-size: 24px;
+    height: 50px;
+    font-size: 1.5rem;
     background-color: rgb(61, 151, 255);
     color: white;
 }
@@ -115,7 +118,7 @@
     margin-top: 50px;
     padding: 0 30px;
     height: 50px;
-    font-size: 20px;
+    font-size: 1.2rem;
     background-color: rgb(230, 230, 230);
     color: black;
 }
@@ -136,18 +139,15 @@
 
     #accountMenus h1{
         margin-top: 50px;
-        font-size: 40px;
+        font-size: 2.4rem;
     }
 
     #accountMenus h2{
         width: 80vw;
-        font-size: 30px;
+        font-size: 1.6rem;
     }
 
     .input-button-group{
-        flex-direction: column;
-        align-items: center;
-        gap: 3vh;
         height: 100%;
     }
 
@@ -157,7 +157,6 @@
     }
 
     .account-button {
-        margin-left: 0px;
         height: 50px;
         background-color: rgb(61, 151, 255);
         color: white;
@@ -166,13 +165,13 @@
     #createAccountButton, #gotAccountButton, #signOutButton{
         min-width: 100px;
         height: 60px;
-        font-size: 20px;
+        font-size: 1.1rem;
         border-radius: 40px;
         margin-left: 0px;
     }
 
     #signOutButton{
-        font-size: 30px;
+        font-size: 1.4rem;
     }
 
     #loggedInMenu h2{

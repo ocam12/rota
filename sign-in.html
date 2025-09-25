@@ -23,10 +23,12 @@
             <form id = "signUpMenu" class = "account-form hidden">
                 <h2>Create Your Account</h2>
                 <div class = "input-button-group">
-                    <div class = "inputs-container">
-                        <input id = "signupEmail" class = "account-input" type = "email" placeholder="Email">
-                        <input id = "signupPassword" class = "account-input" type = "password" placeholder="Password">
-                    </div>
+                    <fieldset class = "inputs-container">
+                        <label for = "signupEmail">New Email: </label>
+                        <input id = "signupEmail" class = "account-input" type = "email" placeholder="Email" required>
+                        <label for = "signupPassword">New Password: </label>
+                        <input id = "signupPassword" class = "account-input" type = "password" placeholder="Password" required>
+                    </fieldset>
                     <button id = "signupButton" class = "account-button" tabindex = "0">Log In</button>
                 </div>
                 <div id = "messageBox">
@@ -38,10 +40,12 @@
             <form id = "logInMenu" class = "account-form hidden">
                 <h2>Login</h2>
                 <div class = "input-button-group">
-                    <div class = "inputs-container">
-                        <input id = "loginEmail" class = "account-input" type = "email" placeholder="Email">
-                        <input id = "loginPassword" class = "account-input" type = "password" placeholder="Password">
-                    </div>
+                    <fieldset class = "inputs-container">
+                        <label for = "loginEmail">Your Email: </label>
+                        <input id = "loginEmail" class = "account-input" type = "email" placeholder="Email" required>
+                        <label for = "loginPassword">Your Password: </label>
+                        <input id = "loginPassword" class = "account-input" type = "password" placeholder="Password" required>
+                    </fieldset>
                     <button id = "loginButton" class = "account-button" tabindex = "0">Log In</button>
                 </div>
                 <button id = "createAccountButton" type = "submit" tabindex = "0">Create Account</button>
@@ -53,6 +57,6 @@
             </form>
         </main>
 
-        <script type = "module" src = "./account-files/signIn.js"></script>
+        <script type = "module" src = "./scripts/account-files/signIn.js"></script>
     </body>
 </html>

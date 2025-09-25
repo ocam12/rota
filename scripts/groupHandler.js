@@ -1,9 +1,10 @@
 import { authState } from "./account-files/firebaseAuth.js";
 import { addHideOnClickOutside, hideOnClickOutside, toggle } from "./clickOutside.js";
 import { groups, staff, shiftPatterns, createGroup, deleteGroup, generateID } from "./data.js";
-import { hideMenu, menuIsHidden, unhideMenu } from "./groupOptions.js";
+import { menuIsHidden } from "./groupOptions.js";
 import { currentGroup, loadGroup } from "./main.js";
 import { addEvent, clearContainer, createNewElement } from "./options.js";
+import { hideElement, showElement } from "./utils.js";
 
 let shiftTypesArray = [];
 
@@ -39,32 +40,33 @@ const groupExistsOpen = () => {
     const groupExists = document.querySelector('.group-exists');
     const groupNotExists = document.querySelector('.group-not-exists');
 
-    groupExists.classList.remove('hidden');
-    groupNotExists.classList.add('hidden');
+    showElement(groupExists);
+    hideElement(groupNotExists);
 }
 
 const groupNotExistsOpen = () => {
     const groupExists = document.querySelector('.group-exists');
     const groupNotExists = document.querySelector('.group-not-exists');
 
-    groupExists.classList.add('hidden');
-    groupNotExists.classList.remove('hidden');
+    showElement(groupNotExists);
+    hideElement(groupExists);
 }
 
 export const openLoadMenu = () => {
     const loadGroupMenu = getLoadMenu();
     if (!menuIsHidden(loadGroupMenu) && currentGroup){
-        hideMenu(loadGroupMenu); 
+        console.log('hide');
+        hideElement(loadGroupMenu); 
         return;
     }
-    unhideMenu(loadGroupMenu);
+    showElement(loadGroupMenu);
     displayGroupList();
     closeNewMenu();
 }
 
 const closeLoadMenu = () => {
     const loadGroupList = getLoadMenu();
-    loadGroupList.classList.add('hidden');
+    hideElement(loadGroupList);
 }
 
 const getLoadMenu = () => {
@@ -77,16 +79,18 @@ const getGroupList = () => {
 
 export const openNewMenu = () => {
     const newGroupMenu = getNewMenu();
+    const loadGroupMenu = getLoadMenu();
     if (!menuIsHidden(newGroupMenu) ){
-        hideMenu(newGroupMenu); 
+        hideElement(newGroupMenu); 
         return;
     }
-    unhideMenu(newGroupMenu);
+    showElement(newGroupMenu);
+    hideElement(loadGroupMenu); 
 }
 
 const closeNewMenu = () => {
     const newGroup = getNewMenu();
-    newGroup.classList.add('hidden');
+    hideElement(newGroup);
 }
 
 const getNewMenu = () => {
@@ -136,14 +140,11 @@ const updateExampleTable = (type, table) => {
     }
 }
 
-export const showElement = (element) => {
-    element.classList.remove('hidden');
-}
-
 export const createNewGroup = (groupName, groupDate, groupDuration) => {
     if (groupName.value && groupDate.value && groupDuration.value && shiftTypesArray.length > 0){
         const groupID = generateID(groupName.value);
         createGroup(groupID, groupName.value, groupDate.value, groupDuration.value, shiftTypesArray);
+        console.log(groupDate);
         resetNewGroup();
         closeNewMenu();
         closeLoadMenu();
@@ -158,7 +159,7 @@ const resetNewGroup = () => {
     const groupDate = document.getElementById('newGroupDate');
     const groupDuration = document.getElementById('newGroupDuration');
     groupName.value = '';
-    groupDate.value = '';
+    groupDate.value = '2025-09-25';
     groupDuration.value = '';
 
     const exampleTable = document.getElementById('exampleTable');
@@ -167,12 +168,12 @@ const resetNewGroup = () => {
 
 const openNotLoggedInMenu = () => {
     const notLoggedInMenu = document.getElementById('notLoggedInMenu');
-    notLoggedInMenu.classList.remove('hidden');
+    showElement(notLoggedInMenu);
     closeLoadMenu();
     closeNewMenu();
 }
 
 const closeNotLoggedInMenu = () => {
     const notLoggedInMenu = document.getElementById('notLoggedInMenu');
-    notLoggedInMenu.classList.add('hidden');
+    hideElement(notLoggedInMenu);
 }

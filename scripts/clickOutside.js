@@ -1,7 +1,9 @@
+import { hideElement, showElement } from "./utils.js";
+
 export const hideOnClickOutside = (element) => {
     const outsideClickListener = (event) => {
         if(!element.contains(event.target)){
-            element.classList.add('hidden');
+            hideElement(element);
             removeClickListener();
         }
     }
@@ -22,9 +24,9 @@ export const addHideOnClickOutside = (element) => {
 
 export const toggle = (element) => {
     if (element.classList.contains('hidden')) {
-        element.classList.remove('hidden');
+        showElement(element);
         addHideOnClickOutside(element);
     } else {
-        element.classList.add('hidden');
+        hideElement(element);
     }
 }

@@ -1,6 +1,6 @@
 import { currentGroup} from "./main.js";
 import { unassignedValue } from "./constants.js";
-import { timeToHours, addNumberOfWeeks, addNumberOfDays, convertHolidayText } from "./utils.js";
+import { timeToHours } from "./utils.js";
 
 export const shiftLength = (shift) => {
     return (timeToHours(shift.end) - timeToHours(shift.start));     //converts shift end and shift start to numbers and finds difference to get shift length

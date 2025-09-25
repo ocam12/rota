@@ -1,16 +1,16 @@
 import { currentGroup, swapShifts } from "./main.js";
 import { unassignedValue } from "./constants.js";
 import { initialiseSelects } from "./rotaEditing.js";
-import { addNumberOfDays, addNumberOfWeeks } from "./utils.js";
+import { addNumberOfDays, addNumberOfWeeks, hideElement, showElement } from "./utils.js";
 
 export const hideRota = () => {
     const tableSection = document.querySelector('.table-section');
-    tableSection.classList.add('hidden');        //hide tables
+    hideElement(tableSection);        //hide tables
 }
 
 export const renderRota = (shifts, currentRota) => {
     const tableSection = document.querySelector('.table-section');
-    tableSection.classList.remove('hidden');        //show tables
+    showElement(tableSection);        //show tables
     const firstDate = addNumberOfWeeks(currentGroup.startDate, currentRota);
     const firstDay = getDay(firstDate);
     const shiftsByDay = [
@@ -29,19 +29,19 @@ export const renderRota = (shifts, currentRota) => {
     tbody.innerHTML = '';
 
     const shiftTypes = currentGroup.shiftTypes;
-    let headerHTML = '<th>Day</th>';
+    let headerHTML = '<th scope="col">Day</th>';
     shiftTypes.forEach(st => {
-        headerHTML = headerHTML + `<th>${st}</th>`;
+        headerHTML = headerHTML + `<th scope="col">${st}</th>`;
     });
     thead.innerHTML = headerHTML;
     shiftsByDay.forEach(shift => {
-        let rowHTML = `<td><strong>${shift.day + ' ' + shift.date.slice(8, 10) + '/' + shift.date.slice(5, 7)}</strong></td>`;
+        let rowHTML = `<th scope="row"><strong>${shift.day + ' ' + shift.date.slice(8, 10) + '/' + shift.date.slice(5, 7)}</strong></th>`;
 
         for(let i = 0; i < shiftTypes.length; i++){
             let newColumnHTML = `<td>`;
             shift.daysShifts.forEach(s => {
                 if (s.shiftType === shiftTypes[i]){
-                    newColumnHTML = newColumnHTML + `${'<div id = "' + s.id + '">&nbsp;' + s.start + ' - ' + s.end + `: <span class = "sortable-container"><p class = "${s.assignedTo === 'unassigned' ? 'unassigned' : ''} draggable selectable rota-name"  tabindex = "0">&nbsp;` + s.assignedTo + '</p></span></div><br>'}`;
+                    newColumnHTML = newColumnHTML + `${'<div id = "' + s.id + '">&nbsp;' + s.start + ' - ' + s.end + `: <span class = "sortable-container"><p class = "${s.assignedTo === 'unassigned' ? 'unassigned' : ''} draggable selectable rota-name"  tabindex = "0" role = "button" aria-label = "shift assigned to ${s.assignedTo}">&nbsp;` + s.assignedTo + '</p></span></div><br>'}`;
                 }
             });
             rowHTML = rowHTML + newColumnHTML + '</td>';

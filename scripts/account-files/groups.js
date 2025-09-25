@@ -1,7 +1,6 @@
 import { authState } from "./firebaseAuth.js";
 import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 import { auth, db } from "./firebaseConfig.js";
-import { groups } from "../data.js";
 import { signOut } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
 
