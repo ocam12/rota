@@ -20,10 +20,12 @@ const signupPressed = () => {       //signup button pressed
     signup(email, password)
 }
 
-const loginPressed = () => {       //login button pressed
+const loginPressed = async () => {       //login button pressed
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
-    login(email, password);
+    if(!await login(email, password)){
+        displayMessage('Either your email or password is incorrect', 'error');
+    }
 }
 
 const emailErrors = (emailInput) => {

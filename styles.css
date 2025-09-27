@@ -7,6 +7,7 @@
 
 body{
     font-family: Arial, Helvetica, sans-serif;
+    position: relative;
 }
 
 fieldset{
@@ -20,13 +21,15 @@ label{
 /*Nav*/
 
 #mainNav{
+    top: 0;
     position: sticky;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: rgb(255, 255, 255);
     border-bottom: 1px solid rgb(220, 220, 220);
-    height: 100px
+    height: 100px;
+    z-index: 1000;
 }
 
 #mainNav a{
@@ -39,7 +42,6 @@ label{
 
 .nav-side-content{
     position: relative;
-    margin-right: 30px;
 }
 
 .nav-button{
@@ -63,6 +65,7 @@ label{
 }
 
 .account-a{
+    margin-right: 30px;
     padding: 8px 24px;
     font-size: 20px !important;
     background-color: rgb(230, 230, 230);
@@ -78,13 +81,17 @@ label{
     background-color: rgb(220, 220, 220);
 }
 
+.account-a:active{
+    scale: 0.96;
+}
+
 #notLoggedInMenu{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 30vh;
     gap: 40px;
+    height: calc(100vh - 200px);
 }
 
 #notLoggedInMenu h1{
@@ -779,10 +786,10 @@ label{
 .table-section{
     position: relative;
     display: flex;
-    flex-direction: row-reverse;
-    justify-content: center;
-    align-items: start;
-    width: 100%;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0px;
     overflow: scroll;
     padding: 20px;
     gap: min(3vw, 100px);
@@ -978,6 +985,12 @@ th{
     display: none !important;
 }
 
+footer{
+    position: relative;
+    z-index: 1000;
+    margin: 20px 20px;
+}
+
 @media (max-width: 1920px){
     .table-section{
         padding-left: 50px;
@@ -1126,6 +1139,23 @@ th{
 
     #title{
         display: none;
+    }
+
+    .nav-side-content{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-right: 0px;
+    }
+
+    .nav-button{
+        height: 70px;
+        width: 90px;
+    }
+
+    .account-a{
+        padding: 0px 10px;
+        align-content: center;
     }
 
     .table-container{

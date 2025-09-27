@@ -16,6 +16,6 @@ export async function login(email, password) {
         authState.currentUser = userCred.user;      //sets user to this newly logged in one
         window.location.href = '../index.html';     //opens up maiun page
     } catch (err) {
-
+        return null;
     }
 }

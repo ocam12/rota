@@ -3,13 +3,17 @@ import { unassignedValue } from "./constants.js";
 import { initialiseSelects } from "./rotaEditing.js";
 import { addNumberOfDays, addNumberOfWeeks, hideElement, showElement } from "./utils.js";
 
+const tableSection = document.querySelector('.table-section');
+
+export const rotaIsHidden = () => {
+    return tableSection.classList.contains('hidden');
+}
+
 export const hideRota = () => {
-    const tableSection = document.querySelector('.table-section');
     hideElement(tableSection);        //hide tables
 }
 
 export const renderRota = (shifts, currentRota) => {
-    const tableSection = document.querySelector('.table-section');
     showElement(tableSection);        //show tables
     const firstDate = addNumberOfWeeks(currentGroup.startDate, currentRota);
     const firstDay = getDay(firstDate);

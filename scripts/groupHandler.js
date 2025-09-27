@@ -5,6 +5,7 @@ import { menuIsHidden } from "./groupOptions.js";
 import { currentGroup, loadGroup } from "./main.js";
 import { addEvent, clearContainer, createNewElement } from "./options.js";
 import { hideElement, showElement } from "./utils.js";
+import { rotaIsHidden } from "./visualGenerator.js";
 
 let shiftTypesArray = [];
 
@@ -85,7 +86,7 @@ export const openNewMenu = () => {
         return;
     }
     showElement(newGroupMenu);
-    hideElement(loadGroupMenu); 
+    if (!rotaIsHidden())hideElement(loadGroupMenu); 
 }
 
 const closeNewMenu = () => {

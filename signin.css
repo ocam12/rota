@@ -25,6 +25,10 @@
     scale: 0.96;
 }
 
+#accountMenus{
+    height: calc(100vh - 200px);
+}
+
 #accountMenus h1{
     margin: 10px auto;
     font-size: 3.1rem;
@@ -46,7 +50,7 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin-top: calc(15vh - 100px);
+    margin-top: max(calc(15vh - 100px), 30px);
 }
 
 .input-button-group{
@@ -84,7 +88,7 @@
 }
 
 #messageBox{
-    margin-top: 20px;
+    margin: 20px auto;
     max-width: 90vw;
     text-align: center;
 }
@@ -123,7 +127,6 @@
     color: black;
 }
 
-
 #signOutButton{
     padding: 10px 40px;
     background-color: rgb(61, 151, 255);
@@ -138,7 +141,7 @@
     }
 
     #accountMenus h1{
-        margin-top: 50px;
+        margin-top: 20px;
         font-size: 2.4rem;
     }
 
@@ -157,7 +160,6 @@
     }
 
     .account-button {
-        height: 50px;
         background-color: rgb(61, 151, 255);
         color: white;
     }

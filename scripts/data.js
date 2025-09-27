@@ -249,7 +249,7 @@ export const loadGroups = async () => {
         groups = loadedGroups;      //sets groups to loaded group object
     }
     else{
-        groups = [];
+        groups = [];        //creates empty group list when none exist
     }
     initMainPage();
 }
